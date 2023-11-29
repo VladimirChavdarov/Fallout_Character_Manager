@@ -1,0 +1,25 @@
+Name	Cost	Load
+0.308	72c (4c)	Pack of 18. 
+0.5	24c (6c)	Pack of 4.
+.357 Magnum	56c (2c)	Pack of 28. 
+.44 Magnum	69c (3c)	Pack of 23. 
+.45 Auto	45c (3c)	Pack of 15.
+.45-70 Gov't.	60c (4c)	Pack of 15.
+10mm.	60c (2c)	Pack of 30.
+12 gauge.	24c (2c)	Pack of 12.
+12.7mm	45c (3c)	Pack of 15.
+20 gauge.	15c (1c)	Pack of 15.
+2mm EC.	70c (10c)	Pack of 7.
+5.56mm.	76c (2c)	Pack of 38.
+5mm.	58c (1c)	Pack of 58.
+9mm.	34c (1c)	Pack of 34.
+Cryo Cell.	72c (6c)	Pack of 12.
+Energy Cell.	24c (2c)	Pack of 12.
+Fuel.	50c	15 load.
+Flares.	12c (1c)	Pack of 12.
+Fusion Core.	200c	5 load.
+Microfusion Cell.	30c (3c)	Pack of 10.
+Mini Nuke.	(250c)	12 load.
+Missile.	(50c)	8 load.
+Nails.	20c (1c)	Pack of 100.
+Railway Spike.	5c (1c)	Pack of 5.

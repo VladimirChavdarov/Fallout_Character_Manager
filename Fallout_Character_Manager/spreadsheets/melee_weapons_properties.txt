@@ -1,0 +1,94 @@
+Ammo and Depleted	"Weapons with these properties require certain types of ammunition or fuel to operate at full capacity, each listed next to the property name. You can deal the damage listed in the Damage section of the weapon so long as you have rounds available in the weapon. If you attack with a weapon that has this property and has no rounds left, you deal the damage listed next to the Depleted property. To load rounds into the weapon, you must have the required ammunition and you must spend 6 AP to reload."
+Breakable	The weapon gains a level of decay when you roll a 3 or lower on an attack roll.
+Cleave	"You can spend 3 additional AP when you attack with a weapon that has this property to also target two additional areas with the attack roll. These areas are as long as the weapons range and must be within 5 feet of the previously targeted area. Each creature or object in the area is attacked with the attack roll and takes damage if the attack beats their AC. If a single creature occupies both or all the areas, they are targeted by each attack; taking damage from all the attack rolls.  If the weapon specifies it “always cleaves”, you do not have to spend the additional AP to make this special attack."
+Debilitating	"When you deal damage to a creature's hit points from a targeted attack with a weapon that has this property, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack."
+Defensive	"If you block while holding this weapon, your DT increases by 2. "
+Dismember	"When you deal damage to a target creature’s hit points with a weapon that has this property, they gain a random arm or leg condition. If you deal enough damage to bring the target creature to 0 hit points, you may choose to sever their head or a limb."
+Durable	Weapon will not decay for 3 crit fails.
+Fragile	"When this weapon gains a level of decay, it breaks and ceases function."
+Mangle	"When you deal damage to a target creature’s hit points with a weapon that has this property, they gain the Bleeding condition."
+Reach	The range of the weapon is increased by 5 feet.
+Revitalizing	"You can spend 6 AP to target a dying creature with a weapon that has this property and grant them one successful death save, if this successful save stabilizes the creature; they also gain 1 hit point."
+Slow	"When you attack with this weapon, you do not hit your target until the start of your next turn. If your target is no longer in range, you miss your attack and deal no damage."
+Sturdy	"The weapon does not decay if you throw it, and ignores the negative effects of the first 2 levels of decay."
+Thrown	"When you attack with a weapon that has this property, you can throw the weapon a number of feet equal to your Strength score multiplied by the numbers listed in the table. The first number is the base range you can throw the weapon, the second number is the long range you can throw the weapon. If your target is within the second range increment, you have disadvantage on the attack roll."
+Two Handed	"If you attack with a weapon that has this property with only one hand, you have disadvantage on the attack roll. Alternatively, if your Strength ability score is greater than strength requirement by at least 3, you can wield a melee weapon with the two handed property with one hand without having disadvantage on the attack roll."
+Unarmed	"When you make an attack roll with a weapon that has this property, you add your unarmed skill bonus to the d20 roll instead of your melee weapons skill bonus."
+Weighted	"When you roll a 1 on the damage dice with a weapon that has this property, it is a 2 instead."
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

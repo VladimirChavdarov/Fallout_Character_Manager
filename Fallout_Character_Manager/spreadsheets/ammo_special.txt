@@ -1,0 +1,22 @@
+Round Type	Effect	Bullet Type
+Armor Piercing 	"If the weapon’s damage is dealt to a creature’s hit points, it ignores up to 8 points of DT and the creature's armor gains a level of decay."	".308, .50, 5.56mm, 5mm."
+Bean Bag	"The damage is reduced to a total of 1 point, but the target takes two levels of temporary exhaustion."	12 gauge.
+Buck	The weapon's range modifiers are both increased by 4 and it loses its spread property.	"12 gauge, 20 gauge."
+Buck Magnum	"The weapon’s damage is increased by 3, ignores 3 points of DT, and its range modifiers are each increased by 4. However, the weapon loses its Spread property and after every second attack; the weapon gains a level of decay. "	"12 gauge, 20 gauge."
+Cap shot	The weapon gains the Destructive and Mangle properties. The weapon’s damage ignores 2 points of DT.	12 gauge.
+Dragon’s Breath	The weapon deals half as much damage but gains Incendiary.	12 gauge.
+Explosive 	Each creature and object within 5 feet of the target takes 3d6 explosive damage. The target falls prone unless their Strength ability score is greater than 10.	.308 .50
+Flechette	The weapon’s damage total is reduced by 1 but ignores up to 6 points of DT.	12 gauge.
+"FMJ, piercing"	"The weapon’s damage is increased by 2. If this damage brings a creature to 0 HP, the attack also targets the next creature behind them in a line."	.308 .357 5mm 9mm 10mm 12.7mm
+Hollow Point 	+5 damage to the weapon but multiply by 3 the DT of the target.	.308 .357 .44 .45 .45-70 5mm 5.56mm 9mm 10mm 12.7mm
+JFP	The weapon gains Destructive.	0.357
+JSP	The weapon gains Breakable and it’s damage is increased by 3. 	.308 5mm
+Incendiary 	The weapon gains Incendiary.	.50 Missile
+Match	"The weapon’s damage is increased by 3, the short range modifier is reduced by 2."	.50 5.56mm
+Magnum	"The weapon’s damage is increased by 3, ignores 3 points of DT, and its range modifiers are each increased by 2. However, after every second attack; the weapon gains a level of decay. "	"12 gauge, 20 gauge."
+Slug	"The weapon’s range modifiers are each tripled and it gains the Accurate and Destructive properties. However, it loses its Spread and Powerful properties."	"12 gauge, 20 gauge."
+Pulse Slug	"The weapon gains the same effects as the Slug ammunition type. Additionally, when dealing damage to a Robot or a creature in Power Armor; the damage is doubled. "	"12 gauge, 20 gauge."
+Bulk	The weapon’s damage is reduced by 3. The weapon gains Durable.	"Energy Cell, Microfusion Cell"
+Optimized	The weapon’s damage is increased by 1 and ignores 1 point of DT.	"Energy Cell, Microfusion Cell"
+Overcharged	The weapon’s damage is increased by 2 and ignores 2 points of DT. The weapon gains Breakable.	"Energy Cell, Microfusion Cell"
+Max Charge	The weapon’s damage is increased by 4 and ignores 4 points of DT. The weapon gains Breakable and after every third attack; the weapon gains a level of decay. 	"Energy Cell, Microfusion Cell"

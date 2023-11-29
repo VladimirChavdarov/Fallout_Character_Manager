@@ -1,0 +1,7 @@
+Level	Description	Event
+Level 1 	Headache 	No immediate effect
+Level 2 	Fatigued 	-2 Healing Rate
+Level 3 	Nauseous 	"-4 Healing Rate, -1 END"
+Level 4 	Cell Degradation 	"-6 Healing Rate, -3 END, -1 AGI & STR"
+Level 5 	Skin is falling off 	"-6 Healing Rate, -5 END, -3 AGI & STR. Roll a d20, on a 10 to 20 the character turns into a ghoul over the course of 1d10 days."
+Level 6 	Intense agony 	"If not cured within 24 hours, the character dies. If the character dies, roll a d20, on a 10 to 20 the character turns into a feral ghoul."

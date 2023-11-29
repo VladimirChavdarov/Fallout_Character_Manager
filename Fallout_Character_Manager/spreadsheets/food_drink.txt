@@ -1,0 +1,54 @@
+Name	Cost	Properties.	Load
+BlamCo Mac & Cheese	10c	Filling. Tasty. Irradiated. 	1
+Canned Dog Food	10c	Filling. Tasty. Irradiated. 	1
+Cram	10c	Filling. Bland. Irradiated. 	1
+Dandy Boy Apples	5c	Bland. Irradiated. 	1
+Fancy Lads Snack Cakes	10c	Tasty. Irradiated. 	1
+InstaMash	10c	Filling. Bland. Irradiated. 	1
+Noodle cup	10c	Filling. Tasty.	1
+Pork n' Beans	10c	Filling. Tasty. Irradiated. 	1
+Potato Crisps	10c	Tasty. Irradiated. 	1
+Salisbury Steak	10c	Filling. Tasty. Irradiated. 	1
+Sugar Bombs	10c	Tasty. Irradiated. 	1
+Yum Yum Deviled Eggs	10c	Filling. Tasty. Irradiated. 	1
+Baked Bloatfly	15c	Tasty. Fortifying.	1
+Bighorner steak	20c	Filling. Flavorsome. 	2
+Bloodbug Steak	20c	Bland. Regenerating.	1
+Deathclaw Egg Omelette	40c	Delicacy. Empowering. Regenerating. 	2
+Deathclaw Steak	40c	Delicacy. Empowering Filling.	3
+Desert Salad	15c	Flavorsome.	1
+Fire ant fricassée	15c	Delicacy. Spicy. 	2
+Gecko steak	20c	Filling. Tasty. 	2
+Grilled Radroach	15c	Fortifying. Tasty.	1
+Grilled Radstag	30c	Filling. Tasty. Hearty.	2
+Iguana on a Stick	10c	Tasty.	1
+Mole rat chunks	15c	Energizing. Tasty.	1
+Mole rat stew	10c	Flavorsome. 	1
+Mutt chops	15c	Filling. Tasty.	1
+Radscorpion egg omelette	40c	Cleansing. Flavorsome. 	2
+Radscorpion steak	35c	Filling. Flavorsome. Pungent. 	2
+Radstag stew	20c	Filling. Tasty. Pungent. 	2
+Ribeye steak	25c	Filling. Delicacy. 	2
+Roasted ant	15c	Filling. Bland. 	1
+Roasted mirelurk meat	20c	Filling. Tasty. Energizing. 	1
+Vegetable soup	20c	Tasty. Fortifying.	1
+Wasteland omelet	40c	Filling. Flavorsome. Hearty. Regenerating. 	2
+Yao guai roast	35c	Filling. Flavorsome. Strengthening	2
+Absinthe	5c	High-Proof. Addictive.	1
+Atomic Cocktail	10c	Caffeinated. Energizing. Irradiated. 	1
+Beer	3c	Alcoholic. Addictive.	1
+Coffee	2c	Caffeinated. Tasty. 	1
+Dirty Wastelander	5c	High-Proof. Addictive.	1
+Dirty water (8oz)	2c	Irradiated. 	1
+Moonshine	10c	High-Proof. Addictive. Strengthening.	1
+Nuka-Cola	15c	Caffeinated. Irradiated. Tasty. Lucky.  	1
+Nuka-Cola Cherry	30c	Caffeinated. Irradiated. Flavorsome. 	1
+Nuka-Cola Quantum	50c	Caffeinated. Charged. Irradiated. Tasty. 	1
+Purified water (8oz)	15c	Hydrating. 	1
+Rum	10c	High-Proof. Addictive. Tasty.	1
+Scotch	10c	High-Proof. Addictive. Tasty.	1
+Sunset Sarsaparilla	10c	Flavorsome. Irradiated.	1
+Vodka	10c	High-Proof. Addictive. Strengthening.	1
+Wasteland Tequila	15c	High-Proof. Addictive. Lucky.	1
+Whiskey	15c	High-Proof. Addictive. Lucky.	1
+Wine	10c	Alcoholic. Addictive. Tasty.	1

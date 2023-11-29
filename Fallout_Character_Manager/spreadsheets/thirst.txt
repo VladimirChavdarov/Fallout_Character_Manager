@@ -1,0 +1,8 @@
+Level	Description	Effect
+0	Hydrated	None
+1	Parched	Disadvantage on Intelligence and Perception checks and skills
+2	Thirsty	Cannot regain Stamina Points
+3	Mildly Dehydrated	Stamina Point maximum reduced by half
+4	Dehydrated	Hit Point maximum reduced by half
+5	Severly Dehydrated	All ability scores become equal to 2
+6	Death	You die of dehydration

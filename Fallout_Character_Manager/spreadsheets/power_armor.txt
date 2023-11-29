@@ -1,0 +1,6 @@
+Name	Cost	AC	DP	Slots	Repair	Allotted Time
+T-45	4050c	14	10	8	DC 16	4 hours.
+T-51	20250c	15	15	6	DC 23	6 hours.
+T-60	95000c	16	20	4	DC 20	4 hours.
+X-01	133500c	15	30	2	DC 25	3 hours.
+X-02	155000c	16	25	3	DC 25	3 hours.

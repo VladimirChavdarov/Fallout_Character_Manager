@@ -1,0 +1,8 @@
+Level	Description	Event
+0	Satisfied	None
+1	Peckish	Disadvantage on Endurance checks and skills
+2	Hungry	Disadvantage on Charisma and Strength checks and skills
+3	Famished	Carry load maximum reduced by half
+4	Ravenous	"Charisma, Strength and Endurance are equal to 2"
+5	Starving	Cannot regain Health or Stamina points
+6	Death	You die of hunger

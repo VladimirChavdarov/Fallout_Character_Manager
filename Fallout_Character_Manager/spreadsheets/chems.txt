@@ -1,0 +1,35 @@
+Name	Cost	Properties.	Load
+Buffout	40c	Gain advantage on all Strength and Endurance checks. Gain temporary SP equal to x2 your END score.	1
+Buffjet	100c	Gain advantage on all Strength and Endurance checks. Gain temporary SP equal to x3 your END score. Regain Stamina Points equal to half healing rate each turn.	1
+Bufftats	100c	"Gain advantage on all Strength, Intelligence, and Endurance checks. Gain temporary SP equal to x2 your END score. Gain a +5 to passive perception."	1
+Calmex	150c	Gain a +5 to passive perception and damage from sneak attack crits are doubled.	1
+Cigarette	5c	" +1 to all Charisma checks against creatures who also smoke, but -1 to all Charisma checks against creatures who don't."	1
+Coyote tobacco chew	20c	"Gain advantage on combat sequence checks and remove one level of exhaustion. If you had removed a level of exhaustion, you gain two more after the effects of this chem end."	1
+Daddy-O	80c	"Gain advantage on all Perception and Intelligence checks, +5 to passive perception and combat sequence."	1
+Day Tripper	80c	You gain advantage on all Luck checks and you may flip your Karma Cap.	1
+Fury	120c	"Gain disadvantage on all attacks, but +8 damage with melee weapons. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
+Hydra	110c	"If you use a chem with this property, your DT increases by 3."	1
+Jet	50c	You gain extra 3 action points (to a maximum of 18) to use on your turn.	1
+Jet Fuel	70c	You gain an extra action point. You can recycle all of your actions points at the end of your turn.	1
+Rocket	100c	Your total action points are equal to 15.	1
+Ultrajet	160c	You gain extra 5 action points (to a maximum of 20) to use on your turn. You regain SP equal to your healing rate.	1
+Med-X	100c	Gain resistance to all damage dealt to you HP.	1
+Mentats	80c	"Gain advantage on all Intelligence checks. All Crafting DC’s are lowered by 2 and whenever you heal yourself or another creature of their hit points, you heal a bonus equal to their level."	1
+Berry Mentats	120c	??? 	1
+Grape Mentats	120c	You gain advantage on Charisma checks. You can sell items for 15% more and buy items for 15% less.	1
+Orange Mentats	120c	Targeted attack rolls cost 1 less AP	1
+Overdrive	110c	"You gain +2 crit chance with any weapon. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
+Psycho	80c	You gain +3 to damage with all weapons and a +1 to DT.	1
+Psycho buff	160c	"You gain a +5 damage with all 
+weapons and temporary SP equal to x2 your END score. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
+Psycho jet	160c	"You gain an extra 3 action points (to a maximum of 18) to use on your turn and a +3 damage with all weapons. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
+Cache Clearer	5c	Anxiolytic. Stimulant.	1 (10)
+Coolant Rerouter	100c	Sedative.	1 (10)
+Data Scrubber	50c	Extrapolating.	1 (10)
+EISENHOWER PROTOCOL	60c	Painkilling. Psychosis.  Super Stimulant.	1 (10)
+Incoming Projectile Predictor	20c	Anesthetic. 	1 (10)
+Military Auto-Tank AI Upload	50c	Psychosis. Painkilling.	1 (10)
+Military Turret Operating System	55c	Invigorating. Psychosis. 	1 (10)
+Overclock Hardware	20c	Stimulant.	1 (10)
+Overclock Hardware v2.0	30c	Stimulant. Invigorating.	1 (10)
+Servo Override	20c	Anabolic. 	1 (10)

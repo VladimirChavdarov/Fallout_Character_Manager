@@ -1,0 +1,8 @@
+Mod Name	Description
+Strengthen.	The weapon gains Durable. 
+Double Sided	The weapon gains Defensive and Two Handed. Its load is doubled and its strength requirement increases by 1.
+Heavy	"The weapon’s AP increases by 1 to a maximum of 6, its load increases by half, and its strength requirement increases by 1. The weapon gains Weighted. Additionally, the weapon’s critical hit modifier or damage dice increases by 1."
+Upgraded	"Whenever you deal damage with the weapon and roll a 1 or a 2 on the damage dice, the damage is increased by 2."
+Light Build	"The weapon’s AP decreases by 1 to a minimum of 3, its load decreases by half, and its strength requirement decreases by 1. The weapon gains Breakable."
+"Sharpened, Serrated, or Barbed. "	The weapon gains Mangle.
+Ergonomic	The weapons critical chance decreases by 1. 

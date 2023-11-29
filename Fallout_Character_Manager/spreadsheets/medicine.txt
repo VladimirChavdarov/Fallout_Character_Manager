@@ -1,0 +1,14 @@
+Name	Description	Cost	Load
+Addictol	"You must spend an hour using this medicine. If you do, you are cured of all chem addictions."	125c	1
+Antivenom	You can consume this bottled medicine with 5 AP. If you do; you are resistant to poison damage for 6 hours.	25c	3
+Cateye	You can consume this small pill with 3 AP. If you do; you have night vision for the next 3 hours.	20c	1
+Doctor’s Bag	"You can use these specialized tools, bandages, gauze, and healing serums to cure wounds over the course of an hour. One creature of your choice heals a number of hit points equal to double their healing rate + your medicine skill bonus. Alternatively, you can remove up to three conditions affecting the creature. Once you use this medicinal item, it can no longer be used."	150c	8
+Fixer	"You must spend a minute using this medicine. If you do, you are cured of one chem addiction."	50c	1
+First Aid Kit	"You can spend 5 AP to use this medicinal item on yourself or a creature within 5 feet of you to remove two levels of bleeding. Or you can use it on a dying creature to bring them to 1 hit point. Alternatively, you can spend 10 minutes to use this medicinal item on yourself or a creature within 5 feet of you to heal a number of hit points equal to double their healing rate + your medicine skill bonus."	80c	4
+Healing Powder	"You can spend 5 AP to use this medicinal item on yourself or a creature within 5 feet of you. At the start of each of the affected creatures turns, they heal a number of hit points equal to half their healing rate (rounded down). After healing for three rounds, the effects cease. During these rounds, the creature has a -3 to Perception."	5c	3
+RadAway	"You can spend 1 hour to use this medicinal item on yourself or a creature within 5 feet of you. At the end of the hour, the affected creature removes one level of rads but gains one level of thirst."	80c	2
+Rad-X	"You can consume this small pill with 3 AP. If you do; your radiation DC decreases by 2 for the next 3 hours. You can consume a total of three Rad-X at one time to gain their benefits, if you consume more than three you do not gain any additional benefits."	40c	1
+Stimpak	You can spend 4 AP to use this medicinal item on yourself or a creature within 5 feet of you. That creature heals a number of hit points equal to their healing rate.	75c	2
+Super Stimpak	You can spend 4 AP to use this medicinal item on yourself or a creature within 5 feet of you. That creature heals a number of hit points equal to double their healing rate.	150c	2
+Auto-Inject Stimpak	When your hit points are equal to or lower than half their maximum (rounded down) for the first time on a turn; you heal a number of hit points equal to your healing rate.	150c	2
+Auto-Inject Super Stimpak	When your hit points are equal to or lower than half their maximum (rounded down) for the first time on a turn; you heal a number of hit points equal to double your healing rate.	300c	2

@@ -1,0 +1,9 @@
+Name	Cost	AP	Damage	Arm DC	Area of Effect	Special Properties	Load
+Long Fuse Dynamite	100c	6 AP	3d6 explosive	1	5ft. / 15ft. radius	Deafening: 10ft. Destructive. Slow: 3 rounds (18 seconds)	Load: 2.
+Frag Mine	140c	6 AP	6d6 explosive	4	2.5ft. / 10ft. radius	Proximity. Deafening: 10ft. Destructive. Dismember. 	Load: 5.
+Plasma Mine	180c	6 AP	4d8 plasma	6	10ft radius	Proximity.	Load: 5.
+Pulse Mine	80c	6 AP	3d8 electricity	6	20ft radius	Electromagnetic.  Proximity. 	Load: 4.
+Bottlecap Mine	250c	6 AP	4d6 explosive and 6d6 slashing.	2	5ft. / 20ft radius	Proximity. Deafening: 10ft. Destructive. Mangle.	Load: 8.
+Cryo Mine	140c	6 AP	4d6 cold.	8	10ft radius	Freezing. Proximity.	Load: 6.
+C-4 Plastic Explosive	350c	6 AP	15d6 explosive	10	5ft. / 25ft. radius	Deafening: 10ft. Destructive. Detonator. Dismember. 	Load: 8.
+Nuke Mine	600c	6 AP	12d10 explosive and two levels of rads.	10	45ft radius	Destructive. Proximity.	Load: 18.

@@ -1,0 +1,7 @@
+Type	Cost	AC	DT	Slots	Load. and STR Req.
+Cloth	10c	10	0	8	"Load: 5, STR req: 1"
+Leather	70c	10	1	6	"Load: 15, STR req: 1"
+Scrap Metal	100c	12	0	4	"Load: 20, STR req: 5"
+Multilayered	200c	10	2	5	"Load: 40, STR req: 3"
+Ballistic Weave	350c	12	2	2	"Load: 10, STR req: 3"
+Steel	220c	13	2	2	"Load: 50, STR req: 6"

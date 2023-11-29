@@ -1,0 +1,8 @@
+Level	Description	Event
+0	Refreshed	None
+1	Tired	Disadvantage on Combat Sequence checks
+2	Worn Out	AP reduced by 2 (min. 6)
+3	Exhausted	Disadvantage on all skill checks and attack rolls
+4	Weary	AP reduced to 6
+5	Debilitated	AP reduced to 0
+6	Death	You die of exhaustion

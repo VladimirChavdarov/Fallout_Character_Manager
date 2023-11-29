@@ -1,0 +1,9 @@
+Name	Cost	AP	Damage	Range	Area of Effect	Special Properties	Load
+Dynamite	50c	6 AP	3d6 explosive	STR x 6	5ft. / 20ft. radius	Deafening: 10ft. Destructive.	Load: 2.
+Molotov Cocktail	20c	6 AP	3d10 fire.	STR x 6	5ft. radius	Incendiary. Shattering.	Load: 3.
+Frag Grenade	150c	5 AP	4d6 explosive	STR x 10	5ft. / 20ft. radius	Deafening: 10ft. Destructive. Dismember.	Load: 2.
+Plasma Grenade	250c	4 AP	4d8 plasma	STR x 10	10ft. radius	-	Load: 3.
+Pulse Grenade	150c	4 AP	2d8 electricity	STR x 10	15ft. radius	Electromagnetic.	Load: 3.
+Incendiary Grenade	125c	5 AP	2d6 explosive and 3d6 fire.	STR x 10	5ft. / 15ft. radius	Deafening: 5ft. Incendiary.	Load: 2.
+Cryogenic Grenade	125c	4 AP	2d6 explosive and 3d6 cold.	STR x 10	5ft. / 10ft. radius	Deafening: 5ft. Freezing.	Load: 3.
+Flash Bang	25c	5 AP	1 explosive	STR x 10	20ft. radius	"Blinding: 20ft, Deafening: 20ft."	Load: 2.

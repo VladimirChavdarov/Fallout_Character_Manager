@@ -1,0 +1,10 @@
+Level 	Description 	Weapon Effect 	Armor Effect 	Cost  Reduction
+0 	Pristine 	None 	None 	0%
+1 	Scuffed up 	-1 to Damage 	-1 AC (min. 10) 	5%
+2 	Worn 	-1 to Damage  -1 to Attack	-1 AC (min. 10)  -1 DT	15%
+3 	Worse for Wear 	-2 to Damage  -1 to Attack	-2 AC (min. 10)  -1 DT	30%
+4 	Dilapidated 	-3 to Damage  -2 to Attack  +1 AP (max. 6)	-2 AC (min. 10)  -2 DT	50%
+5 	Wrecked 	-3 to Damage  -3 to Attack  +1 AP (max. 6)	-2 AC (min. 10)  -2 DT	75%
+6 	Falling Apart 	-3 to damage  -3 to attack  +1 AP (max. 6)  Disadvantage on all Attack Rolls	-3 AC (min. 10)  -3 DT	80%
+7 	Broken 	Ceases function. 	Ceases function. 	90%
+8 	Destroyed 	Ceases function.  Cannot be repaired.	Ceases function.  Cannot be repaired.	100%
