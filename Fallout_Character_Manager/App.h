@@ -44,6 +44,7 @@ private:
 	void SurvivalParamsWindow();
 	void SkillWindow();
 	void ConditionsWindow();
+	void PerkWindow();
 
 	void Render();
 

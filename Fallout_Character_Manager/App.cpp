@@ -22,6 +22,7 @@ void App::Run()
     SurvivalParamsWindow();
     SkillWindow();
     ConditionsWindow();
+    PerkWindow();
 
 	// Render All Windows
 	Render();
@@ -375,7 +376,7 @@ void App::SkillWindow()
     int y_offset = 35;
     int mul = 0;
     // Skill Window
-    ImGui::SetNextWindowPos(ImVec2(1550, 10), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1140, 10), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(350, 600), ImGuiCond_Once);
     ImGui::Begin("Skills");
     ImGui::SetWindowFontScale(1.5f);
@@ -594,7 +595,8 @@ void App::SkillWindow()
 
 void App::ConditionsWindow()
 {
-    ImGui::SetNextWindowPos(ImVec2(320, 420), ImGuiCond_Once);
+    // Conditions Window
+    ImGui::SetNextWindowPos(ImVec2(1500, 10), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
     ImGui::Begin("Conditions");
     ImGui::SetCursorPos(ImVec2(140, 120));
@@ -627,8 +629,8 @@ void App::ConditionsWindow()
     }
     ImGui::End();
 
-    ImGui::SetNextWindowPos(ImVec2(720, 420), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(200, 250), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1500, 410), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(400, 200), ImGuiCond_Once);
     ImGui::Begin("Condition Description");
     ImGui::TextWrapped(selected_cond.c_str());
     auto it = tbl::limb_conditions.find(selected_cond);
@@ -652,6 +654,42 @@ void App::ConditionsWindow()
                 character_body_part->erase(it_remove);
             }
             selected_cond = "";
+        }
+    }
+    ImGui::End();
+}
+
+void App::PerkWindow()
+{
+    // Perk Window
+    ImGui::SetNextWindowPos(ImVec2(1500, 630), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(400, 340), ImGuiCond_Once);
+    ImGui::Begin("Traits and Perks");
+    if (ImGui::Button("Add", ImVec2(50, 25)))
+    {
+        pair<string, string> new_perk = { "My new perk", "My new perk's description" };
+        m_character.traits_perks.push_back(new_perk);
+    }
+    ImGui::SameLine();
+    ImGui::SetWindowFontScale(0.9f);
+    ImGui::TextWrapped("Hit Enter to save a perk's title (description works fine). Tab or clicking sth else will reset.");
+    ImGui::SetWindowFontScale(1.0f);
+    // it's a bit annoying to fill many perks
+    for (int i = 0; i < m_character.traits_perks.size(); i++)
+    {
+        auto& perk = m_character.traits_perks[i];
+        string tagH = perk.first;
+        if(ImGui::CollapsingHeader(tagH.c_str()))
+        {
+            string old_title = perk.first;
+            string tagT = "##PerkTitle" + to_string(i);
+            if (ImGui::InputText(tagT.c_str(), &old_title, ImGuiInputTextFlags_EnterReturnsTrue))
+            {
+                perk.first = old_title;
+            }
+            ImGui::IsItemDeactivatedAfterEdit();
+            string tagD = "##PerkDescription" + to_string(i);
+            if(ImGui::InputTextMultiline(tagD.c_str(), &perk.second)) {}
         }
     }
     ImGui::End();

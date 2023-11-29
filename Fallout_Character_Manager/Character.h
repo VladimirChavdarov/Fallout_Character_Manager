@@ -84,13 +84,16 @@ public:
 	// resources
 	int caps = 0;
 
-	// stuff for testing
-	const vector<string> arr_str = { "Condition 1", "Condition 2", "Condition 3", "Condition 4", "Severe Injury" };
+	// gameplay
 	map<string, tbl::limb_condition> head_conditions;
 	map<string, tbl::limb_condition> eye_conditions;
 	map<string, tbl::limb_condition> arms_conditions;
 	map<string, tbl::limb_condition> torso_conditions;
 	map<string, tbl::limb_condition> groin_conditions;
 	map<string, tbl::limb_condition> legs_conditions;
+	vector<pair<string, string>> traits_perks;
+
+	// stuff for testing
+	const vector<string> arr_str = { "Condition 1", "Condition 2", "Condition 3", "Condition 4", "Severe Injury" };
 };
 
