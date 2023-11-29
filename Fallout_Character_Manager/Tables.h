@@ -15,7 +15,6 @@ namespace tbl
 		int agi_mul;
 	};
 
-
 	struct armor
 	{
 		int cost;
