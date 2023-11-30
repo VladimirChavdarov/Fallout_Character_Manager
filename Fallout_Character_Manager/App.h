@@ -35,6 +35,8 @@ public:
 
 private:
 	// Init functions
+	void ExtractArmors();
+	void ExtractWeapons();
 	void ExtractConditions();
 
 	// Run functions
@@ -45,16 +47,20 @@ private:
 	void SkillWindow();
 	void ConditionsWindow();
 	void PerkWindow();
+	void EquippedWindow();
 
 	void Render();
 
 	// helper functions
+	// chatGPT sa izkora sa taq templatenata funkciq
+	//template <template <typename, typename...> class Container, typename T>
+	template <typename Container>
 	bool DisplayComboBox(
 		const ImVec2& pos,
 		const int width,
 		const string& name,
-		const map<string, tbl::limb_condition>& condition_list, 
-		string& selected_cond
+		const Container& list, 
+		string& selected_item
 	);
 
 private:

@@ -7,6 +7,8 @@
 
 void App::Init()
 {
+    ExtractArmors();
+    ExtractWeapons();
     ExtractConditions();
 }
 
@@ -23,6 +25,7 @@ void App::Run()
     SkillWindow();
     ConditionsWindow();
     PerkWindow();
+    EquippedWindow();
 
 	// Render All Windows
 	Render();
@@ -689,9 +692,103 @@ void App::PerkWindow()
             }
             ImGui::IsItemDeactivatedAfterEdit();
             string tagD = "##PerkDescription" + to_string(i);
-            if(ImGui::InputTextMultiline(tagD.c_str(), &perk.second)) {}
+            if(ImGui::InputText(tagD.c_str(), &perk.second)) {}
+            ImGui::TextWrapped(perk.second.c_str());
         }
     }
+    ImGui::End();
+}
+
+void App::EquippedWindow()
+{
+    // Invetory for equippable items
+    ImGui::SetNextWindowPos(ImVec2(320, 420), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(800, 340), ImGuiCond_Once);
+    ImGui::Begin("Equippable Items Inventory");
+    ImGui::SetWindowFontScale(1.5f);
+    // armor
+    {
+        ImGui::SeparatorText("Armor");
+        if (DisplayComboBox(ImVec2(600, 60), 160, "Add Armor", tbl::armors, m_character.selected_armor))
+        {
+            cout << "added armor: " << m_character.selected_armor << endl;
+            auto the_armor = tbl::armors.find(m_character.selected_armor);
+            m_character.armors.push_back({ the_armor->first, the_armor->second });
+        }
+        static int armor_index = -1; // index of the selected armor
+        if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
+        {
+            for (int i = 0; i < m_character.armors.size(); i++)
+                if (m_character.selected_armor == m_character.armors[i].first)
+                    armor_index = i;
+        }
+        if (armor_index != -1)
+        {
+            // name
+            ImGui::SetCursorPos(ImVec2(10, 100));
+            ImGui::Text("Name:");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(250);
+            ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
+            // equipped
+            ImGui::SetCursorPos(ImVec2(10, 130));
+            ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
+            // ac, dt
+            m_character.ac = m_character.armors[armor_index].second.ac;
+            m_character.dt = m_character.armors[armor_index].second.dt;
+            // cost
+            ImGui::SetCursorPos(ImVec2(350, 100));
+            ImGui::Text("Cost:");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(40);
+            ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+            // decay
+            ImGui::SetCursorPos(ImVec2(350, 135));
+            ImGui::Text("Decay:");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(90);
+            ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
+            // upgrades
+            // TODO: do the upgrades section
+        }
+    }
+
+    // weapons
+    ImGui::SeparatorText("Weapons");
+    if (DisplayComboBox(ImVec2(600, 200), 160, "Add Weapon", tbl::weapons, m_character.selected_weapon))
+    {
+        cout << "added weapon: " << m_character.selected_weapon << endl;
+        auto the_weapon = tbl::weapons.find(m_character.selected_weapon);
+        m_character.weapons.push_back({ the_weapon->first, the_weapon->second });
+    }
+    static int weapon_index = -1; // index of the selected armor
+    if (DisplayComboBox(ImVec2(10, 200), 300, m_character.selected_weapon, m_character.weapons, m_character.selected_weapon))
+    {
+        for (int i = 0; i < m_character.weapons.size(); i++)
+            if (m_character.selected_weapon == m_character.weapons[i].first)
+                weapon_index = i;
+    }
+    if (weapon_index != -1)
+    {
+        // name
+        ImGui::SetCursorPos(ImVec2(10, 240));
+        ImGui::Text("Name:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(250);
+        ImGui::InputText("##WeaponName", &m_character.weapons[weapon_index].first);
+        // equipped
+        ImGui::SetCursorPos(ImVec2(10, 270));
+        ImGui::Checkbox("Equipped##W", &m_character.weapons[weapon_index].second.equipped);
+        // cost
+        ImGui::SetCursorPos(ImVec2(350, 240));
+        ImGui::Text("Cost:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(40);
+        ImGui::InputInt("##WeaponCost", &m_character.weapons[weapon_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        // upgrades
+        // TODO: do the upgrades section
+    }
+    ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
 }
 
@@ -709,6 +806,169 @@ void App::Render()
 }
 
 // ---- INIT FUNCTIONS ----
+
+void App::ExtractArmors()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/armor.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::armor value;
+        key = row[0];
+        row[1].pop_back();
+        value.cost = stoi(row[1]);
+        value.ac = stoi(row[2]);
+        value.dt = stoi(row[3]);
+        value.upg_slots = stoi(row[4]);
+        size_t load_start = row[5].find("Load: ");
+        size_t load_end = row[5].find(",");
+        string load_str = row[5].substr(load_start + 6, load_end - (load_start + 6));
+        value.load = stoi(load_str);
+        size_t strreq_start = row[5].find("STR req: ");
+        string strreq_str = row[5].substr(strreq_start + 9, (row[5].size() - 1) - (strreq_start + 9));
+        value.str_req = stoi(strreq_str);
+
+        tbl::armors.emplace(key, value);
+    }
+}
+
+void App::ExtractWeapons()
+{
+    string files[2] = {
+        "../Fallout_character_Manager/spreadsheets/ranged_weapons.txt",
+        "../Fallout_character_Manager/spreadsheets/melee_weapons.txt" };
+
+    for (auto& path : files)
+    {
+        ifstream tsv_file(path);
+        if (!tsv_file.is_open())
+        {
+            cout << "Can't open file" << endl;
+            return;
+        }
+
+        string line;
+        bool skip_first = true;
+        while (getline(tsv_file, line))
+        {
+            if (skip_first)
+            {
+                skip_first = false;
+                continue;
+            }
+            istringstream iss(line);
+            vector<string> row;
+            string substr;
+            while (getline(iss, substr, '\t'))
+            {
+                row.push_back(substr);
+            }
+            string key;
+            tbl::weapon value;
+            if (path.find("ranged_weapons") != string::npos)
+            {
+                key = row[0];
+                row[1].pop_back();
+                value.cost = stoi(row[1]);
+                value.ap = row[2].at(0) - '0';
+                value.dmg = row[3];
+                value.range = row[4];
+                value.crit = row[5];
+                size_t ammo_start = 1;
+                size_t ammo_end = row[6].find(",");
+                string ammo_str = row[6].substr(ammo_start, ammo_end - (ammo_start - 1));
+                value.ammo = ammo_str;
+                size_t clip_start = row[6].find(", ") + 2;
+                size_t clip_end = row[6].find(" round");
+                string clip_str = row[6].substr(clip_start, clip_end - clip_start);
+                value.clip_size = stoi(clip_str);
+                istringstream iss_prop(row[7]);
+                string prop;
+                while (getline(iss_prop, prop, '.'))
+                {
+                    size_t start = prop.find_first_not_of(" \t\n\r");
+                    size_t end = prop.find_last_not_of(" \t\n\r");
+                    if (start != string::npos && end != string::npos)
+                    {
+                        string item = prop.substr(start, end - (start - 1));
+                        value.props_keywords.push_back(item);
+                    }
+                }
+                size_t load_start = row[8].find("Load: ");
+                size_t load_end = row[8].find(",");
+                string load_str = row[8].substr(load_start + 6, load_end - (load_start + 6));
+                value.load = stoi(load_str);
+                size_t strreq_start = row[8].find("STR req: ");
+                string strreq_str = row[8].substr(strreq_start + 9, (row[8].size() - 1) - (strreq_start + 9));
+                value.str_req = stoi(strreq_str);
+            }
+            else if (path.find("melee_weapons") != string::npos)
+            {
+                key = row[0];
+                row[1].pop_back();
+                value.cost = stoi(row[1]);
+                value.ap = row[2].at(0) - '0';
+                value.dmg = row[3];
+                value.range = "melee";
+                value.crit = row[4];
+                value.ammo = "NONE";
+                value.clip_size = 0;
+                istringstream iss_prop(row[5]);
+                string prop;
+                while (getline(iss_prop, prop, '.'))
+                {
+                    size_t start = prop.find_first_not_of(" \t\n\r");
+                    size_t end = prop.find_last_not_of(" \t\n\r");
+                    if (start != string::npos && end != string::npos)
+                    {
+                        string item = prop.substr(start, end - (start - 1));
+                        value.props_keywords.push_back(item);
+                    }
+                }
+                size_t load_start = row[6].find("Load: ");
+                size_t load_end = row[6].find(",");
+                string load_str = row[6].substr(load_start + 6, load_end - (load_start + 6));
+                value.load = stoi(load_str);
+                size_t strreq_start = row[6].find("STR req: ");
+                string strreq_str = row[6].substr(strreq_start + 9, (row[6].size() - 1) - (strreq_start + 9));
+                value.str_req = stoi(strreq_str);
+            }
+
+            tbl::weapons.emplace(key, value);
+        }
+    }
+    /*for (auto weapon : tbl::weapons)
+    {
+        cout << weapon.first << endl;
+        cout << weapon.second.ammo << endl;
+        cout << weapon.second.clip_size << endl;
+        for (auto& prop : weapon.second.props_keywords)
+            cout << prop << endl;
+        cout << weapon.second.load << endl;
+        cout << weapon.second.str_req << endl;
+        cout << "-------------------------" << endl;
+    }*/
+}
 
 void App::ExtractConditions()
 {
@@ -763,29 +1023,30 @@ void App::ExtractConditions()
 
 // ---- HELPER FUNCTIONS ---
 
+//template <template <typename, typename...> class Container, typename T>
+template <typename Container>
 bool App::DisplayComboBox(
     const ImVec2& pos,
     const int width,
     const string& name,
-    const map<string,
-    tbl::limb_condition>& condition_list,
-    string& selected_cond
+    const Container& list,
+    string& selected_item
 )
 {
     ImGui::SetCursorPos(pos);
     ImGui::SetNextItemWidth(width);
     bool new_select = false;
     string tag = "##" + name;
-    //string combo_preview_value = m_character.arr_str[selected_cond];
+    //string combo_preview_value = m_character.arr_str[selected_item];
     if (ImGui::BeginCombo(tag.c_str(), name.c_str()))
     {
-        for (auto& cond : condition_list)
+        for (auto& item : list)
         {
-            const bool is_selected = (selected_cond == cond.first);
-            if (ImGui::Selectable(cond.first.c_str(), is_selected))
+            const bool is_selected = (selected_item == item.first);
+            if (ImGui::Selectable(item.first.c_str(), is_selected))
             {
                 new_select = true;
-                selected_cond = cond.first;
+                selected_item = item.first;
             }
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)

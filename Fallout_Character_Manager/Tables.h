@@ -15,25 +15,37 @@ namespace tbl
 		int agi_mul;
 	};
 
-	struct armor
-	{
-		int cost;
-		int ac;
-		int dt;
-		int upg_slots;
-		int load;
-		int str_req;
-	};
-
 	struct armor_upg
 	{
 		int cost;
 		string ranks[3] = { "" };
 	};
 
+	struct armor
+	{
+		int cost = 0;
+		int ac = 0;
+		int dt = 0;
+		int upg_slots = 0;
+		int load = 0;
+		int str_req = 0;
+
+		int decay_level = 0;
+		bool equipped = false;
+		vector<armor_upg> upgrades;
+	};
+	static map<string, tbl::armor> armors;
+
+
 	struct weapon_props
 	{
 		string description;
+	};
+
+	struct weapon_upg
+	{
+		string description;
+		string req; //which weapons can have this mod
 	};
 
 	struct weapon
@@ -45,16 +57,17 @@ namespace tbl
 		string crit;
 		string ammo;
 		int clip_size;
-		string props;
+		vector<string> props_keywords;
+		vector<weapon_props> props; //TODO
 		float load;
 		int str_req;
-	};
 
-	struct weapon_upg
-	{
-		string description;
-		string req; //which weapons can have this mod
+		int decay_level = 0;
+		bool equipped = false;
+		vector<weapon_upg> upgrades;
 	};
+	static map<string, tbl::weapon> weapons;
+
 
 	struct explosive_props
 	{
@@ -68,7 +81,8 @@ namespace tbl
 		string dmg;
 		string range_or_arm_dc;
 		string aoe;
-		string props;
+		//string props;
+		vector<explosive_props> props;
 		float load;
 	};
 

@@ -83,6 +83,10 @@ public:
 
 	// resources
 	int caps = 0;
+	vector<pair<string, tbl::armor>> armors; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
+	string selected_armor = "";
+	vector<pair<string, tbl::weapon>> weapons; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
+	string selected_weapon = "";
 
 	// gameplay
 	map<string, tbl::limb_condition> head_conditions;
