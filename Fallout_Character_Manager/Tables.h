@@ -18,8 +18,9 @@ namespace tbl
 	struct armor_upg
 	{
 		int cost;
-		string ranks[3] = { "" };
+		string description;
 	};
+	static map<string, tbl::armor_upg> armors_upgrades;
 
 	struct armor
 	{
@@ -32,7 +33,7 @@ namespace tbl
 
 		int decay_level = 0;
 		bool equipped = false;
-		vector<armor_upg> upgrades;
+		map<string, tbl::armor_upg> upgrades;
 	};
 	static map<string, tbl::armor> armors;
 
@@ -50,21 +51,22 @@ namespace tbl
 
 	struct weapon
 	{
-		int cost;
-		int ap;
-		string dmg;
-		string range;
-		string crit;
-		string ammo;
-		int clip_size;
-		vector<string> props_keywords;
-		vector<weapon_props> props; //TODO
-		float load;
-		int str_req;
+		int cost = 0;
+		int ap = 0;
+		string dmg = "";
+		string range = "";
+		string crit = "";
+		string ammo = "";
+		int clip_size = 0;
+		map<string, weapon_props> props;
+		//vector<string> props_keywords;
+		//vector<weapon_props> props; //TODO
+		float load = 0.0f;
+		int str_req = 0;
 
 		int decay_level = 0;
 		bool equipped = false;
-		vector<weapon_upg> upgrades;
+		map<string, weapon_upg> upgrades;
 	};
 	static map<string, tbl::weapon> weapons;
 
@@ -81,12 +83,23 @@ namespace tbl
 		string dmg;
 		string range_or_arm_dc;
 		string aoe;
-		//string props;
-		vector<explosive_props> props;
+		map<string, explosive_props> props;
 		float load;
 	};
 
-	struct misc // gear, food/drinks, medicine, chems
+	struct food_drinks_props
+	{
+		string description;
+	};
+
+	struct food_drinks
+	{
+		int cost;
+		map<string, food_drinks_props> props;
+		float load;
+	};
+
+	struct misc // gear, medicine, chems
 	{
 		int cost;
 		string props;

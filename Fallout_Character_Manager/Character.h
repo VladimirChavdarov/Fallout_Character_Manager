@@ -98,6 +98,6 @@ public:
 	vector<pair<string, string>> traits_perks;
 
 	// stuff for testing
-	const vector<string> arr_str = { "Condition 1", "Condition 2", "Condition 3", "Condition 4", "Severe Injury" };
+	
 };
 

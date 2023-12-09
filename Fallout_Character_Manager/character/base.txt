@@ -1,0 +1,17 @@
+name: ...
+race: ...
+background: ...
+level: 0
+hp: 10
+sp: 10
+SPECIAL: 0	0	0	0	0	0	0	
+tags: 0	0	1	0	0	0	1	0	0	1	0	0	0	1	0	0	
+passive_sense:0
+party_nerve: 0
+party_luck: 0
+party_sneak: 0
+hunger: 0
+thirst: 0
+exhaustion: 0
+fatigue: 0
+rads: 0

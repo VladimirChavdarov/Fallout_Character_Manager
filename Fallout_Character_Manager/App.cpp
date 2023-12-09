@@ -18,6 +18,7 @@ void App::Run()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    MenuBar();
     BioWindow();
     MainParamsWindow();
     PassiveParamsWindow();
@@ -28,15 +29,37 @@ void App::Run()
     EquippedWindow();
 
 	// Render All Windows
-	Render();
+	//Render();
 }
 
 // ---- RUN FUNCTIONS ----
 
+void App::MenuBar()
+{
+    string character_path = "../Fallout_Character_Manager/character/";
+
+    ImGui::BeginMainMenuBar();
+    if (ImGui::BeginMenu("File"))
+    {
+        if (ImGui::Button("Save", ImVec2(40, 20)))
+        {
+            SaveToTSV();
+        }
+        if (ImGui::Button("Load", ImVec2(40, 20)))
+        {
+            LoadFromTSV();
+        }
+        ImGui::EndMenu();
+    }
+
+    ImGui::InputText("##Path", &character_path, ImGuiInputTextFlags_ReadOnly);
+    ImGui::EndMainMenuBar();
+}
+
 void App::BioWindow()
 {
     // Bio Window
-    ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(10, 30), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(300, 160), ImGuiCond_Once);
     ImGui::Begin("Character Bio");
     ImGui::SetWindowFontScale(1.5f);
@@ -59,7 +82,7 @@ void App::BioWindow()
 
 void App::MainParamsWindow()
 {
-    ImGui::SetNextWindowPos(ImVec2(320, 10), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(320, 30), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(800, 400), ImGuiCond_Once);
     ImGui::Begin("S.P.E.C.I.A.L.");
     ImGui::SetWindowFontScale(4.0f);
@@ -379,7 +402,7 @@ void App::SkillWindow()
     int y_offset = 35;
     int mul = 0;
     // Skill Window
-    ImGui::SetNextWindowPos(ImVec2(1140, 10), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1140, 30), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(350, 600), ImGuiCond_Once);
     ImGui::Begin("Skills");
     ImGui::SetWindowFontScale(1.5f);
@@ -599,7 +622,7 @@ void App::SkillWindow()
 void App::ConditionsWindow()
 {
     // Conditions Window
-    ImGui::SetNextWindowPos(ImVec2(1500, 10), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1500, 30), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
     ImGui::Begin("Conditions");
     ImGui::SetCursorPos(ImVec2(140, 120));
@@ -632,7 +655,7 @@ void App::ConditionsWindow()
     }
     ImGui::End();
 
-    ImGui::SetNextWindowPos(ImVec2(1500, 410), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1500, 430), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(400, 200), ImGuiCond_Once);
     ImGui::Begin("Condition Description");
     ImGui::TextWrapped(selected_cond.c_str());
@@ -665,8 +688,8 @@ void App::ConditionsWindow()
 void App::PerkWindow()
 {
     // Perk Window
-    ImGui::SetNextWindowPos(ImVec2(1500, 630), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(400, 340), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1500, 650), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(400, 320), ImGuiCond_Once);
     ImGui::Begin("Traits and Perks");
     if (ImGui::Button("Add", ImVec2(50, 25)))
     {
@@ -702,7 +725,7 @@ void App::PerkWindow()
 void App::EquippedWindow()
 {
     // Invetory for equippable items
-    ImGui::SetNextWindowPos(ImVec2(320, 420), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(320, 440), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(800, 340), ImGuiCond_Once);
     ImGui::Begin("Equippable Items Inventory");
     ImGui::SetWindowFontScale(1.5f);
@@ -785,6 +808,24 @@ void App::EquippedWindow()
         ImGui::SameLine();
         ImGui::SetNextItemWidth(40);
         ImGui::InputInt("##WeaponCost", &m_character.weapons[weapon_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        // decay
+        ImGui::SetCursorPos(ImVec2(350, 275));
+        ImGui::Text("Decay:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(90);
+        ImGui::InputInt("##WeaponDecay", &m_character.weapons[weapon_index].second.decay_level);
+        // dmg
+        ImGui::SetCursorPos(ImVec2(10, 310));
+        ImGui::Text("Damage:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(200);
+        ImGui::InputText("##WeaponDamage", &m_character.weapons[weapon_index].second.dmg);
+        // dmg
+        ImGui::SetCursorPos(ImVec2(350, 310));
+        ImGui::Text("Crit:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(200);
+        ImGui::InputText("##WeaponCrit", &m_character.weapons[weapon_index].second.crit);
         // upgrades
         // TODO: do the upgrades section
     }
@@ -910,8 +951,9 @@ void App::ExtractWeapons()
                     size_t end = prop.find_last_not_of(" \t\n\r");
                     if (start != string::npos && end != string::npos)
                     {
-                        string item = prop.substr(start, end - (start - 1));
-                        value.props_keywords.push_back(item);
+                        string name = prop.substr(start, end - (start - 1));
+                        tbl::weapon_props prop = { "" };
+                        value.props.emplace(name, prop);
                     }
                 }
                 size_t load_start = row[8].find("Load: ");
@@ -941,8 +983,9 @@ void App::ExtractWeapons()
                     size_t end = prop.find_last_not_of(" \t\n\r");
                     if (start != string::npos && end != string::npos)
                     {
-                        string item = prop.substr(start, end - (start - 1));
-                        value.props_keywords.push_back(item);
+                        string name = prop.substr(start, end - (start - 1));
+                        tbl::weapon_props prop = { "" };
+                        value.props.emplace(name, prop);
                     }
                 }
                 size_t load_start = row[6].find("Load: ");
@@ -1021,6 +1064,159 @@ void App::ExtractConditions()
     }*/
 }
 
+// ---- SAVE/LOAD FUNCTIONS ----
+
+void App::SaveToTSV()
+{
+    ofstream f_base("../Fallout_Character_Manager/character/base.txt");
+    if (!f_base.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    string output = "";
+    // bio
+    output += "name: " + m_character.name + "\n";
+    output += "race: " + m_character.race + "\n";
+    output += "background: " + m_character.background + "\n";
+    output += "level: " + to_string(m_character.level) + "\n";
+    // base stats
+    output += "hp: " + to_string(m_character.hp) + "\n";
+    output += "sp: " + to_string(m_character.sp) + "\n";
+    // special
+    output += "SPECIAL: ";
+    for (int i = 0; i < 7; i++)
+    {
+        output += to_string(m_character.special[i]) + "\t";
+    }
+    output += "\n";
+    // skill tags
+    output += "tags: ";
+    for (int i = 0; i < 16; i++)
+    {
+        output += to_string(m_character.tags[i]) + "\t";
+    }
+    output += "\n";
+    // passives
+    output += "passive_sense:" + to_string(m_character.passive_sense) + "\n";
+    output += "party_nerve: " + to_string(m_character.party_nerve) + "\n";
+    output += "party_luck: " + to_string(m_character.party_luck) + "\n";
+    output += "party_sneak: " + to_string(m_character.party_sneak) + "\n";
+    // survival
+    output += "hunger: " + to_string(m_character.hunger) + "\n";
+    output += "thirst: " + to_string(m_character.thirst) + "\n";
+    output += "exhaustion: " + to_string(m_character.exhaustion) + "\n";
+    output += "fatigue: " + to_string(m_character.fatigue) + "\n";
+    output += "rads: " + to_string(m_character.rads) + "\n";
+    f_base.write(output.c_str(), output.size());
+    f_base.close();
+
+    ofstream f_perks("../Fallout_Character_Manager/character/perks.txt");
+    if (!f_perks.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // perks
+    for (int i = 0; i < m_character.traits_perks.size(); i++)
+    {
+        output += m_character.traits_perks[i].first + "\t" + m_character.traits_perks[i].second + "\n";
+    }
+    f_perks.write(output.c_str(), output.size());
+    f_perks.close();
+
+    ofstream f_conditions("../Fallout_Character_Manager/character/conditions.txt");
+    if (!f_conditions.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // conditions
+    for (auto& c : m_character.head_conditions) { output += c.first + "\n"; }
+    for (auto& c : m_character.eye_conditions) { output += c.first + "\n"; }
+    for (auto& c : m_character.arms_conditions) { output += c.first + "\n"; }
+    for (auto& c : m_character.torso_conditions) { output += c.first + "\n"; }
+    for (auto& c : m_character.groin_conditions) { output += c.first + "\n"; }
+    for (auto& c : m_character.legs_conditions) { output += c.first + "\n"; }
+    f_conditions.write(output.c_str(), output.size());
+    f_conditions.close();
+
+    ofstream f_armors("../Fallout_Character_Manager/character/armors.txt");
+    if (!f_armors.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // armors
+    for (auto& a : m_character.armors)
+    {
+        output += "name: " + a.first + "\t";
+        output += "cost: " + to_string(a.second.cost) + "\t";
+        output += "ac: " + to_string(a.second.ac) + "\t";
+        output += "dt: " + to_string(a.second.dt) + "\t";
+        output += "upg_slots: " + to_string(a.second.upg_slots) + "\t";
+        output += "load: " + to_string(a.second.load) + "\t";
+        output += "str_req: " + to_string(a.second.str_req) +"\t";
+        output += "equipped: " + to_string(a.second.equipped) + "\t";
+        output += "decay_level: " + to_string(a.second.decay_level) + "\t";
+        output += "current_upg: " + to_string(a.second.upgrades.size()) + "\t";
+        for (auto& a_u : a.second.upgrades)
+        {
+            output += a_u.first + "|";
+        }
+        output += "\n";
+    }
+    f_armors.write(output.c_str(), output.size());
+    f_armors.close();
+
+    ofstream f_weapons("../Fallout_Character_Manager/character/weapons.txt");
+    if (!f_weapons.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // weapons
+    for (auto& w : m_character.weapons)
+    {
+        output += "name: " + w.first + "\t";
+        output += "cost: " + to_string(w.second.cost) + "\t";
+        output += "ap: " + to_string(w.second.ap) + "\t";
+        output += "dmg: " + w.second.dmg + "\t";
+        output += "range: " + w.second.range + "\t";
+        output += "crit: " + w.second.crit + "\t";
+        output += "ammo: " + w.second.ammo + "\t";
+        output += "clip_size: " + to_string(w.second.clip_size) + "\t";
+        output += "props: " + to_string(w.second.props.size()) + "\t";
+        for (auto& w_p : w.second.props)
+        {
+            output += w_p.first + "|";
+        }
+        output += "\t";
+        output += "load: " + to_string(w.second.load) + "\t";
+        output += "str_req: " + to_string(w.second.str_req) + "\t";
+        output += "decay_level: " + to_string(w.second.decay_level) + "\t";
+        output += "equipped: " + to_string(w.second.equipped) + "\t";
+        output += "current_upg: " + to_string(w.second.upgrades.size()) + "\t";
+        for (auto& w_u : w.second.upgrades)
+        {
+            output += w_u.first + "|";
+        }
+        output += "\n";
+    }
+    f_weapons.write(output.c_str(), output.size());
+    f_weapons.close();
+}
+
+void App::LoadFromTSV()
+{
+    ifstream f_base("../Fallout_Character_Manager/characters/base.txt");
+    if (!f_base.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+
+    f_base.close();
+}
+
 // ---- HELPER FUNCTIONS ---
 
 //template <template <typename, typename...> class Container, typename T>
@@ -1057,4 +1253,9 @@ bool App::DisplayComboBox(
     }
 
     return new_select;
+}
+
+void App::ReloadCharacterFromBaseStats()
+{
+
 }

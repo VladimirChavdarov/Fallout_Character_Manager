@@ -24,6 +24,7 @@ public:
 	void Init();
 	void Run();
 	void Shutdown();
+	void Render();
 
 	void SetTexture(GLuint* img_tex, int* w, int* h)
 	{
@@ -40,6 +41,7 @@ private:
 	void ExtractConditions();
 
 	// Run functions
+	void MenuBar();
 	void BioWindow();
 	void MainParamsWindow();
 	void PassiveParamsWindow();
@@ -48,10 +50,14 @@ private:
 	void ConditionsWindow();
 	void PerkWindow();
 	void EquippedWindow();
+	
+	// Save/Load
+	void LoadFromTSV();
+	void SaveToTSV();
 
-	void Render();
 
 	// helper functions
+	
 	// chatGPT sa izkora sa taq templatenata funkciq
 	//template <template <typename, typename...> class Container, typename T>
 	template <typename Container>
@@ -62,6 +68,8 @@ private:
 		const Container& list, 
 		string& selected_item
 	);
+
+	void ReloadCharacterFromBaseStats();
 
 private:
 	Character m_character;

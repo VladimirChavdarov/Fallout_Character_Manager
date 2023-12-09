@@ -48,6 +48,31 @@ bool LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_wid
     return true;
 }
 
+void update(App app)
+{
+    // run app
+    // -------
+    app.Run();
+}
+
+void input(GLFWwindow* window)
+{
+    glfwPollEvents();
+    processInput(window);
+}
+
+void render(GLFWwindow* window, App app)
+{
+    // clear back buffer
+    // -----------------
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    app.Render();
+
+    glfwSwapBuffers(window);
+}
+
 int main()
 {
     App app;
@@ -98,13 +123,9 @@ int main()
 
     // render loop
     // -----------
+    glfwSwapInterval(3); // reduce to 48 fps
     while (!glfwWindowShouldClose(window))
     {
-        // clear back buffer
-        // -----------------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
         // input
         // -----
         processInput(window);
@@ -113,6 +134,14 @@ int main()
         // -------
         app.Run();
 
+        // clear back buffer
+        // -----------------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // render UI
+        // ---------
+        app.Render();
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
