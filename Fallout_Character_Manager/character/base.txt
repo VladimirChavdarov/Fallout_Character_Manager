@@ -1,19 +1,19 @@
 autosave: 1
-autoload: 1
+autoload: 0
 name: Svetlyo Cherniq
 race: Synth
 background: Farmer
 level: 8
 hp: 25
 sp: 33
-ac: 10
-dt: 0
-ap: 10
+ac: 12
+dt: 2
+ap: 11
 healing_rate: 4
-combat_seq: 4
+combat_seq: 6
 SPECIAL: 10	9	8	7	6	5	4	
-tags: 0	1	1	0	1	0	0	0	0	0	0	0	0	0	0	0	
-skills: 0	6	7	5	4	4	4	1	1	1	0	1	2	2	2	2	
+tags: 0	0	0	0	0	0	0	1	1	1	0	0	0	0	0	0	
+skills: 0	4	5	5	4	1	4	3	3	3	0	1	2	2	2	2	
 passive_sense: 16
 party_nerve: 2
 party_luck: 3
@@ -21,5 +21,5 @@ party_sneak: 1
 hunger: 2
 thirst: 1
 exhaustion: 3
-fatigue: 4
+fatigue: 5
 rads: 2

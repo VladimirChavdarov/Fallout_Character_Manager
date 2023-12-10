@@ -770,13 +770,13 @@ void App::EquippedWindow()
             m_character.ac = m_character.armors[armor_index].second.ac;
             m_character.dt = m_character.armors[armor_index].second.dt;
             // cost
-            ImGui::SetCursorPos(ImVec2(350, 100));
+            ImGui::SetCursorPos(ImVec2(450, 100));
             ImGui::Text("Cost:");
             ImGui::SameLine();
             ImGui::SetNextItemWidth(40);
             ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
             // decay
-            ImGui::SetCursorPos(ImVec2(350, 135));
+            ImGui::SetCursorPos(ImVec2(450, 135));
             ImGui::Text("Decay:");
             ImGui::SameLine();
             ImGui::SetNextItemWidth(90);
@@ -1388,8 +1388,6 @@ void App::LoadFromTSV()
             for (int i = 0; i < 16; i++)
             {
                 m_character.tags[i] = stoi(tags[i]);
-                if (m_character.tags[i])
-                    m_character.skill[i] += 2;
             }
             break;
         }
@@ -1399,9 +1397,8 @@ void App::LoadFromTSV()
             vector<string> skills = util::SplitString(skill, '\t');
             for (int i = 0; i < 16; i++)
             {
+                m_character.skill[i] = 0;
                 m_character.skill[i] += stoi(skills[i]);
-                if (m_character.tags[i])
-                    m_character.skill[i] -= 2;
             }
             break;
         }
@@ -1483,6 +1480,7 @@ void App::LoadFromTSV()
     }
     line = "";
     line_count = 0;
+    m_character.traits_perks.clear();
     while (getline(f_perks, line))
     {
         vector<string> perks = util::SplitString(line, '\t');
@@ -1534,6 +1532,7 @@ void App::LoadFromTSV()
     }
     line = "";
     line_count = 0;
+    m_character.armors.clear();
     while (getline(f_armors, line))
     {
         vector<string> armor_string = util::SplitString(line, '\t');
@@ -1570,6 +1569,7 @@ void App::LoadFromTSV()
     }
     line = "";
     line_count = 0;
+    m_character.weapons.clear();
     while (getline(f_weapons, line))
     {
         vector<string> weapon_string = util::SplitString(line, '\t');
