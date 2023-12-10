@@ -1,0 +1,4 @@
+name: .357 Magnum revolver	cost: 250	ap: 5	dmg: 1d8 ballistic	range: x6/x18	crit: "20, x3"	ammo: .357,	clip_size: 6	props: 3	Accurate|Manual Reload| |	load: 3.000000	str_req: 4	decay_level: 0	equipped: 0	current_upg: 2	Bayonet|Ergonomic|	
+name: 10mm SMG	cost: 350	ap: 6	dmg: 1d6 ballistic	range: x4/x8	crit: "20, 1d6."	ammo: 10mm,	clip_size: 10	props: 3	Automatic: 2|Two Handed|Unstable|	load: 12.000000	str_req: 5	decay_level: 0	equipped: 1	current_upg: 3	Hardened|Scope|Stock|	
+name: 12.7mm SMG	cost: 930	ap: 6	dmg: 1d10 ballistic	range: x5/x8	crit: "20, 1d10."	ammo: 12.7mm,	clip_size: 21	props: 3	Automatic: 5|Two Handed|Unstable|	load: 10.000000	str_req: 6	decay_level: 0	equipped: 0	current_upg: 0		
+name: 10mm pistol	cost: 250	ap: 5	dmg: 2d4 ballistic	range: x8/x16	crit: "19, 1d4."	ammo: 10mm,	clip_size: 10	props: 2	Kickback|Sturdy|	load: 4.000000	str_req: 4	decay_level: 0	equipped: 0	current_upg: 0		

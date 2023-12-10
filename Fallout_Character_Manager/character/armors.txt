@@ -1,0 +1,4 @@
+name: Ballistic Weave	cost: 350	ac: 12	dt: 2	upg_slots: 2	load: 10	str_req: 3	equipped: 0	decay_level: 0	current_upg: 3	Fitted|Light|Sturdy|	
+name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 1	Camouflage|	
+name: Leather	cost: 70	ac: 10	dt: 1	upg_slots: 6	load: 15	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
+name: Steel	cost: 220	ac: 13	dt: 2	upg_slots: 2	load: 50	str_req: 6	equipped: 0	decay_level: 0	current_upg: 0		

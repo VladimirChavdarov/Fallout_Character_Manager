@@ -39,20 +39,21 @@ void App::MenuBar()
     m_character.filename = "../Fallout_Character_Manager/character/";
 
     ImGui::BeginMainMenuBar();
-    if (ImGui::BeginMenu("File"))
+    if (ImGui::Button("Save", ImVec2(40, 20)))
     {
-        if (ImGui::Button("Save", ImVec2(40, 20)))
-        {
-            SaveToTSV();
-        }
-        if (ImGui::Button("Load", ImVec2(40, 20)))
-        {
-            LoadFromTSV();
-        }
-        ImGui::EndMenu();
+        SaveToTSV();
+        cout << "File saved!" << endl;
     }
-
-    ImGui::InputText("##Path", &m_character.filename, ImGuiInputTextFlags_ReadOnly);
+    if (ImGui::Button("Load", ImVec2(40, 20)))
+    {
+        LoadFromTSV();
+        cout << "File loaded" << endl;
+    }
+    if (ImGui::Checkbox("Autosave on Exit", &m_autosave))
+    {
+        
+    }
+    ImGui::InputText("Path", &m_character.filename, ImGuiInputTextFlags_ReadOnly);
     ImGui::EndMainMenuBar();
 }
 
@@ -726,7 +727,7 @@ void App::EquippedWindow()
 {
     // Invetory for equippable items
     ImGui::SetNextWindowPos(ImVec2(320, 440), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(800, 340), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(800, 350), ImGuiCond_Once);
     ImGui::Begin("Equippable Items Inventory");
     ImGui::SetWindowFontScale(1.5f);
     // armor
@@ -1168,7 +1169,7 @@ void App::SaveToTSV()
         {
             output += a_u.first + "|";
         }
-        output += "\n";
+        output += "\t\n";
     }
     f_armors.write(output.c_str(), output.size());
     f_armors.close();
@@ -1205,7 +1206,7 @@ void App::SaveToTSV()
         {
             output += w_u.first + "|";
         }
-        output += "\n";
+        output += "\t\n";
     }
     f_weapons.write(output.c_str(), output.size());
     f_weapons.close();
@@ -1213,6 +1214,10 @@ void App::SaveToTSV()
 
 void App::LoadFromTSV()
 {
+    string line = "";
+    int line_count = 0;
+
+    // base
     enum base
     {
         name,
@@ -1243,8 +1248,8 @@ void App::LoadFromTSV()
     {
         cout << "Can't open file" << endl;
     }
-    string line;
-    int line_count = 0;
+    line = "";
+    line_count = 0;
     while (getline(f_base, line))
     {
         switch (line_count)
@@ -1415,6 +1420,142 @@ void App::LoadFromTSV()
         line_count++;
     }
     f_base.close();
+
+    // perks
+    ifstream f_perks(m_character.filename + "perks.txt");
+    if (!f_perks.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    while (getline(f_perks, line))
+    {
+        vector<string> perks = util::SplitString(line, '\t');
+        if (perks.size() > 2)
+            cout << "corrupted perk!" << endl;
+        else
+        {
+            m_character.traits_perks.push_back({ perks[0], perks[1] });
+        }
+    }
+    f_perks.close();
+
+    // conditions
+    ifstream f_conditions(m_character.filename + "conditions.txt");
+    if (!f_conditions.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    map<string, tbl::limb_condition>* character_body_part = nullptr;
+    while (getline(f_conditions, line))
+    {
+        cout << line << endl;
+        string selected_cond = line;
+        m_character.FindLimbMap(selected_cond, character_body_part);
+        if (character_body_part != nullptr)
+        {
+            auto it = tbl::limb_conditions.find(selected_cond);
+            if (it != tbl::limb_conditions.end())
+            {
+                string key = it->first;
+                tbl::limb_condition value = it->second;
+                character_body_part->emplace(key, value);
+                cout << selected_cond << " added." << endl;
+                cout << "New size of body part map: " << character_body_part->size() << endl;
+            }
+            else
+                cout << "da mu eba maikata" << endl;
+        }
+    }
+    f_conditions.close();
+
+    // armors
+    ifstream f_armors(m_character.filename + "armors.txt");
+    if (!f_armors.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    while (getline(f_armors, line))
+    {
+        vector<string> armor_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(armor_string[0], "name: ", "");
+        tbl::armor armor;
+        armor.cost = stoi(util::GetSubstringBetween(armor_string[1], "cost: ", ""));
+        armor.ac = stoi(util::GetSubstringBetween(armor_string[2], "ac: ", ""));
+        armor.dt = stoi(util::GetSubstringBetween(armor_string[3], "dt: ", ""));
+        armor.upg_slots = stoi(util::GetSubstringBetween(armor_string[4], "upg_slots: ", ""));
+        armor.load = stof(util::GetSubstringBetween(armor_string[5], "load: ", ""));
+        armor.str_req = stoi(util::GetSubstringBetween(armor_string[6], "str_req: ", ""));
+        armor.equipped = stoi(util::GetSubstringBetween(armor_string[7], "equipped: ", ""));
+        armor.decay_level = stoi(util::GetSubstringBetween(armor_string[8], "decay_level: ", ""));
+        int upg_num = stoi(util::GetSubstringBetween(armor_string[9], "current_upg: ", ""));
+        cout << upg_num << endl;
+        if (upg_num != 0)
+        {
+            vector<string> upgrades = util::SplitString(armor_string[10], '|');
+            for (auto& name : upgrades)
+            {
+                tbl::armor_upg upgrade = { 0, "" };
+                armor.upgrades.emplace(name, upgrade);
+            }
+        }
+        m_character.armors.push_back({ name, armor });
+    }
+    f_armors.close();
+
+    // weapons
+    ifstream f_weapons(m_character.filename + "weapons.txt");
+    if (!f_weapons.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    while (getline(f_weapons, line))
+    {
+        vector<string> weapon_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(weapon_string[0], "name: ", "");
+        tbl::weapon weapon;
+        weapon.cost = stoi(util::GetSubstringBetween(weapon_string[1], "cost: ", ""));
+        weapon.ap = stoi(util::GetSubstringBetween(weapon_string[2], "ap: ", ""));
+        weapon.dmg = util::GetSubstringBetween(weapon_string[3], "dmg: ", "");
+        weapon.range = util::GetSubstringBetween(weapon_string[4], "range: ", "");
+        weapon.crit = util::GetSubstringBetween(weapon_string[5], "crit: ", "");
+        weapon.ammo = util::GetSubstringBetween(weapon_string[6], "ammo: ", "");
+        weapon.clip_size = stoi(util::GetSubstringBetween(weapon_string[7], "clip_size: ", ""));
+        int props_num = stoi(util::GetSubstringBetween(weapon_string[8], "props: ", ""));
+        if (props_num != 0)
+        {
+            vector<string> props = util::SplitString(weapon_string[9], '|');
+            for (auto& name : props)
+            {
+                tbl::weapon_props prop = { "" };
+                weapon.props.emplace(name, prop);
+            }
+        }
+        weapon.load = stof(util::GetSubstringBetween(weapon_string[10], "load: ", ""));
+        weapon.str_req = stoi(util::GetSubstringBetween(weapon_string[11], "str_req: ", ""));
+        weapon.decay_level = stoi(util::GetSubstringBetween(weapon_string[12], "decay_level: ", ""));
+        weapon.equipped = stoi(util::GetSubstringBetween(weapon_string[13], "equipped: ", ""));
+        int upg_num = stoi(util::GetSubstringBetween(weapon_string[14], "current_upg: ", ""));
+        if (upg_num != 0)
+        {
+            vector<string> upgrades = util::SplitString(weapon_string[15], '|');
+            for (auto& name : upgrades)
+            {
+                tbl::weapon_upg upgrade = { "", "" };
+                weapon.upgrades.emplace(name, upgrade);
+            }
+        }
+        m_character.weapons.push_back({ name, weapon });
+    }
+    f_weapons.close();
+
 }
 
 // ---- HELPER FUNCTIONS ---
