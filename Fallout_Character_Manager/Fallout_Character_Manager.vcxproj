@@ -173,6 +173,7 @@
     <ClInclude Include="external\include\KHR\khrplatform.h" />
     <ClInclude Include="external\include\stb\stb_image.h" />
     <ClInclude Include="Tables.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\glfw3.lib" />

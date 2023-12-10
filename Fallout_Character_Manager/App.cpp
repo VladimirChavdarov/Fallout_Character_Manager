@@ -36,7 +36,7 @@ void App::Run()
 
 void App::MenuBar()
 {
-    string character_path = "../Fallout_Character_Manager/character/";
+    m_character.filename = "../Fallout_Character_Manager/character/";
 
     ImGui::BeginMainMenuBar();
     if (ImGui::BeginMenu("File"))
@@ -52,7 +52,7 @@ void App::MenuBar()
         ImGui::EndMenu();
     }
 
-    ImGui::InputText("##Path", &character_path, ImGuiInputTextFlags_ReadOnly);
+    ImGui::InputText("##Path", &m_character.filename, ImGuiInputTextFlags_ReadOnly);
     ImGui::EndMainMenuBar();
 }
 
@@ -1068,7 +1068,7 @@ void App::ExtractConditions()
 
 void App::SaveToTSV()
 {
-    ofstream f_base("../Fallout_Character_Manager/character/base.txt");
+    ofstream f_base(m_character.filename + "base.txt");
     if (!f_base.is_open())
     {
         cout << "Can't open file" << endl;
@@ -1082,6 +1082,11 @@ void App::SaveToTSV()
     // base stats
     output += "hp: " + to_string(m_character.hp) + "\n";
     output += "sp: " + to_string(m_character.sp) + "\n";
+    output += "ac: " + to_string(m_character.ac) + "\n";
+    output += "dt: " + to_string(m_character.dt) + "\n";
+    output += "ap: " + to_string(m_character.ap) + "\n";
+    output += "healing_rate: " + to_string(m_character.healing_rate) + "\n";
+    output += "combat_seq: " + to_string(m_character.combat_seq) + "\n";
     // special
     output += "SPECIAL: ";
     for (int i = 0; i < 7; i++)
@@ -1093,11 +1098,11 @@ void App::SaveToTSV()
     output += "tags: ";
     for (int i = 0; i < 16; i++)
     {
-        output += to_string(m_character.tags[i]) + "\t";
+        output += to_string(m_character.tags[i]) + '\t';
     }
     output += "\n";
     // passives
-    output += "passive_sense:" + to_string(m_character.passive_sense) + "\n";
+    output += "passive_sense: " + to_string(m_character.passive_sense) + "\n";
     output += "party_nerve: " + to_string(m_character.party_nerve) + "\n";
     output += "party_luck: " + to_string(m_character.party_luck) + "\n";
     output += "party_sneak: " + to_string(m_character.party_sneak) + "\n";
@@ -1110,7 +1115,7 @@ void App::SaveToTSV()
     f_base.write(output.c_str(), output.size());
     f_base.close();
 
-    ofstream f_perks("../Fallout_Character_Manager/character/perks.txt");
+    ofstream f_perks(m_character.filename + "perks.txt");
     if (!f_perks.is_open())
     {
         cout << "Can't open file" << endl;
@@ -1124,7 +1129,7 @@ void App::SaveToTSV()
     f_perks.write(output.c_str(), output.size());
     f_perks.close();
 
-    ofstream f_conditions("../Fallout_Character_Manager/character/conditions.txt");
+    ofstream f_conditions(m_character.filename + "conditions.txt");
     if (!f_conditions.is_open())
     {
         cout << "Can't open file" << endl;
@@ -1140,7 +1145,7 @@ void App::SaveToTSV()
     f_conditions.write(output.c_str(), output.size());
     f_conditions.close();
 
-    ofstream f_armors("../Fallout_Character_Manager/character/armors.txt");
+    ofstream f_armors(m_character.filename + "armors.txt");
     if (!f_armors.is_open())
     {
         cout << "Can't open file" << endl;
@@ -1168,7 +1173,7 @@ void App::SaveToTSV()
     f_armors.write(output.c_str(), output.size());
     f_armors.close();
 
-    ofstream f_weapons("../Fallout_Character_Manager/character/weapons.txt");
+    ofstream f_weapons(m_character.filename + "weapons.txt");
     if (!f_weapons.is_open())
     {
         cout << "Can't open file" << endl;
@@ -1208,12 +1213,207 @@ void App::SaveToTSV()
 
 void App::LoadFromTSV()
 {
-    ifstream f_base("../Fallout_Character_Manager/characters/base.txt");
+    enum base
+    {
+        name,
+        race,
+        background,
+        level,
+        hp,
+        sp,
+        ac,
+        dt,
+        ap,
+        healing_rate,
+        combat_seq,
+        special,
+        tags,
+        passive_sense,
+        party_nerve,
+        party_luck,
+        party_sneak,
+        hunger,
+        thirst,
+        exhaustion,
+        fatigue,
+        rads
+    };
+    ifstream f_base(m_character.filename + "base.txt");
     if (!f_base.is_open())
     {
         cout << "Can't open file" << endl;
     }
-
+    string line;
+    int line_count = 0;
+    while (getline(f_base, line))
+    {
+        switch (line_count)
+        {
+        case name:
+        {
+            string name = util::GetSubstringBetween(line, "name: ", "");
+            if (name != "")
+                m_character.name = name;
+            break;
+        }
+        case race:
+        {
+            string race = util::GetSubstringBetween(line, "race: ", "");
+            if (race != "")
+                m_character.race = race;
+            break;
+        }
+        case background:
+        {
+            string background = util::GetSubstringBetween(line, "background: ", "");
+            if (background != "")
+                m_character.background = background;
+            break;
+        }
+        case level:
+        {
+            string level = util::GetSubstringBetween(line, "level: ", "");
+            if (level != "")               
+                m_character.level = stoi(level);
+            break;
+        }
+        case hp:
+        {
+            string hp = util::GetSubstringBetween(line, "hp: ", "");
+            if (hp != "")
+                m_character.hp = stoi(hp);
+            break;
+        }
+        case sp:
+        {
+            string sp = util::GetSubstringBetween(line, "sp: ", "");
+            if (sp != "")
+                m_character.sp = stoi(sp);
+            break;
+        }
+        case ac:
+        {
+            string ac = util::GetSubstringBetween(line, "ac: ", "");
+            if (ac != "")
+                m_character.ac = stoi(ac);
+            break;
+        }
+        case dt:
+        {
+            string dt = util::GetSubstringBetween(line, "dt: ", "");
+            if (dt != "")
+                m_character.dt = stoi(dt);
+            break;
+        }
+        case ap:
+        {
+            string ap = util::GetSubstringBetween(line, "ap: ", "");
+            if (ap != "")
+                m_character.ap = stoi(ap);
+            break;
+        }
+        case healing_rate:
+        {
+            string healing_rate = util::GetSubstringBetween(line, "healing_rate: ", "");
+            if (healing_rate != "")
+                m_character.healing_rate = stoi(healing_rate);
+            break;
+        }
+        case combat_seq:
+        {
+            string combat_seq = util::GetSubstringBetween(line, "combat_seq: ", "");
+            if (combat_seq != "")
+                m_character.combat_seq = stoi(combat_seq);
+            break;
+        }
+        case special:
+        {
+            string special = util::GetSubstringBetween(line, "SPECIAL: ", "");
+            vector<string> specials = util::SplitString(special, '\t');
+            for (int i = 0; i < 7; i++)
+            {
+                m_character.special[i] = stoi(specials[i]);
+            }
+            break;
+        }
+        case tags:
+        {
+            string tag = util::GetSubstringBetween(line, "tags: ", "");
+            vector<string> tags = util::SplitString(tag, '\t');
+            for (int i = 0; i < 7; i++)
+            {
+                m_character.tags[i] = stoi(tags[i]);
+            }
+            break;
+        }
+        case passive_sense:
+        {
+            string passive_sense = util::GetSubstringBetween(line, "passive_sense: ", "");
+            if (passive_sense != "")
+                m_character.passive_sense = stoi(passive_sense);
+            break;
+        }
+        case party_nerve:
+        {
+            string party_nerve = util::GetSubstringBetween(line, "party_nerve: ", "");
+            if (party_nerve != "")
+                m_character.party_nerve = stoi(party_nerve);
+            break;
+        }
+        case party_luck:
+        {
+            string party_luck = util::GetSubstringBetween(line, "party_luck: ", "");
+            if (party_luck != "")
+                m_character.party_luck = stoi(party_luck);
+            break;
+        }
+        case party_sneak:
+        {
+            string party_sneak = util::GetSubstringBetween(line, "party_sneak: ", "");
+            if (party_sneak != "")
+                m_character.party_sneak = stoi(party_sneak);
+            break;
+        }
+        case hunger:
+        {
+            string hunger = util::GetSubstringBetween(line, "hunger: ", "");
+            if (hunger != "")
+                m_character.hunger = stoi(hunger);
+            break;
+        }
+        case thirst:
+        {
+            string thirst = util::GetSubstringBetween(line, "thirst: ", "");
+            if (thirst != "")
+                m_character.thirst = stoi(thirst);
+            break;
+        }
+        case exhaustion:
+        {
+            string exhaustion = util::GetSubstringBetween(line, "exhaustion: ", "");
+            if (exhaustion != "")
+                m_character.exhaustion = stoi(exhaustion);
+            break;
+        }
+        case fatigue:
+        {
+            string fatigue = util::GetSubstringBetween(line, "fatigue: ", "");
+            if (fatigue != "")
+                m_character.fatigue = stoi(fatigue);
+            break;
+        }
+        case rads:
+        {
+            string rads = util::GetSubstringBetween(line, "rads: ", "");
+            if (rads != "")
+                m_character.rads = stoi(rads);
+            break;
+        }
+        default:
+            break;
+        }
+        line_count++;
+    }
     f_base.close();
 }
 
