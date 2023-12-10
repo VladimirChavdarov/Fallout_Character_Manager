@@ -75,7 +75,5 @@ private:
 private:
 	Character m_character;
 	texture m_tex;
-
-	bool m_autosave = true;
 };
 

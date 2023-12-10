@@ -10,6 +10,9 @@ void App::Init()
     ExtractArmors();
     ExtractWeapons();
     ExtractConditions();
+
+    if (m_character.autoload)
+        LoadFromTSV();
 }
 
 void App::Run()
@@ -36,8 +39,6 @@ void App::Run()
 
 void App::MenuBar()
 {
-    m_character.filename = "../Fallout_Character_Manager/character/";
-
     ImGui::BeginMainMenuBar();
     if (ImGui::Button("Save", ImVec2(40, 20)))
     {
@@ -49,11 +50,17 @@ void App::MenuBar()
         LoadFromTSV();
         cout << "File loaded" << endl;
     }
-    if (ImGui::Checkbox("Autosave on Exit", &m_autosave))
+    if (ImGui::Checkbox("Autosave", &m_character.autosave))
     {
         
     }
-    ImGui::InputText("Path", &m_character.filename, ImGuiInputTextFlags_ReadOnly);
+    if (ImGui::Checkbox("Autoload", &m_character.autoload))
+    {
+
+    }
+    float width = ImGui::CalcTextSize(m_character.filename.c_str()).x;
+    ImGui::SetNextItemWidth(width + 30.0f);
+    ImGui::InputText("Path", &m_character.filename);
     ImGui::EndMainMenuBar();
 }
 
@@ -221,6 +228,8 @@ void App::MainParamsWindow()
                 m_character.skill[unarmed] = m_character.special_mods[agi];
             else
                 m_character.skill[unarmed] = m_character.special_mods[str];
+            // sneak
+            m_character.skill[sneak] = m_character.special_mods[agi];
         }
         ImGui::SetCursorPos(ImVec2(640, 110));
         ImGui::SetNextItemWidth(50);
@@ -261,7 +270,7 @@ void App::MainParamsWindow()
         ImGui::SetCursorPos(ImVec2(650, 170));
         ImGui::SetNextItemWidth(30);
         ImGui::InputInt("##LckMod", &m_character.special_mods[lck], 0, 100, ImGuiInputTextFlags_ReadOnly);
-}
+    }
 
     // sp and hp
     {
@@ -836,6 +845,9 @@ void App::EquippedWindow()
 
 void App::Shutdown()
 {
+    if (m_character.autosave)
+        SaveToTSV();
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
@@ -1075,6 +1087,9 @@ void App::SaveToTSV()
         cout << "Can't open file" << endl;
     }
     string output = "";
+    // auto save/load
+    output += "autosave: " + to_string(m_character.autosave) + "\n";
+    output += "autoload: " + to_string(m_character.autoload) + "\n";
     // bio
     output += "name: " + m_character.name + "\n";
     output += "race: " + m_character.race + "\n";
@@ -1100,6 +1115,13 @@ void App::SaveToTSV()
     for (int i = 0; i < 16; i++)
     {
         output += to_string(m_character.tags[i]) + '\t';
+    }
+    output += "\n";
+    // skills
+    output += "skills: ";
+    for (int i = 0; i < 16; i++)
+    {
+        output += to_string(m_character.skill[i]) + '\t';
     }
     output += "\n";
     // passives
@@ -1220,6 +1242,8 @@ void App::LoadFromTSV()
     // base
     enum base
     {
+        autosave,
+        autoload,
         name,
         race,
         background,
@@ -1233,6 +1257,7 @@ void App::LoadFromTSV()
         combat_seq,
         special,
         tags,
+        skills,
         passive_sense,
         party_nerve,
         party_luck,
@@ -1254,6 +1279,20 @@ void App::LoadFromTSV()
     {
         switch (line_count)
         {
+        case autosave:
+        {
+            string autosave = util::GetSubstringBetween(line, "autosave: ", "");
+            if (autosave != "")
+                m_character.autosave = stoi(autosave);
+            break;
+        }
+        case autoload:
+        {
+            string autoload = util::GetSubstringBetween(line, "autoload: ", "");
+            if (autoload != "")
+                m_character.autoload = stoi(autoload);
+            break;
+        }
         case name:
         {
             string name = util::GetSubstringBetween(line, "name: ", "");
@@ -1338,6 +1377,7 @@ void App::LoadFromTSV()
             for (int i = 0; i < 7; i++)
             {
                 m_character.special[i] = stoi(specials[i]);
+                m_character.special_mods[i] = m_character.special[i] - 5;
             }
             break;
         }
@@ -1345,9 +1385,23 @@ void App::LoadFromTSV()
         {
             string tag = util::GetSubstringBetween(line, "tags: ", "");
             vector<string> tags = util::SplitString(tag, '\t');
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 16; i++)
             {
                 m_character.tags[i] = stoi(tags[i]);
+                if (m_character.tags[i])
+                    m_character.skill[i] += 2;
+            }
+            break;
+        }
+        case skills:
+        {
+            string skill = util::GetSubstringBetween(line, "skills: ", "");
+            vector<string> skills = util::SplitString(skill, '\t');
+            for (int i = 0; i < 16; i++)
+            {
+                m_character.skill[i] += stoi(skills[i]);
+                if (m_character.tags[i])
+                    m_character.skill[i] -= 2;
             }
             break;
         }
