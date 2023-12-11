@@ -15,11 +15,11 @@ Name	Cost	Load
 9mm.	34c (1c)	Pack of 34.
 Cryo Cell.	72c (6c)	Pack of 12.
 Energy Cell.	24c (2c)	Pack of 12.
-Fuel.	50c	15 load.
+Fuel.	50c (50c)	15 sth.
 Flares.	12c (1c)	Pack of 12.
-Fusion Core.	200c	5 load.
+Fusion Core.	200c (200c)	5 sth.
 Microfusion Cell.	30c (3c)	Pack of 10.
-Mini Nuke.	(250c)	12 load.
-Missile.	(50c)	8 load.
+Mini Nuke.	250c (250c)	12 sth.
+Missile.	50c (50c)	8 sth.
 Nails.	20c (1c)	Pack of 100.
 Railway Spike.	5c (1c)	Pack of 5.

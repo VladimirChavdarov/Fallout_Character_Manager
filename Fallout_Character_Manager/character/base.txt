@@ -6,7 +6,7 @@ background: Farmer
 level: 8
 hp: 25
 sp: 33
-ac: 12
+ac: 10
 dt: 2
 ap: 11
 healing_rate: 4
@@ -18,7 +18,7 @@ passive_sense: 16
 party_nerve: 2
 party_luck: 3
 party_sneak: 1
-hunger: 2
+hunger: 1
 thirst: 1
 exhaustion: 3
 fatigue: 5

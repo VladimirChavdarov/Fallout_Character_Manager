@@ -7,8 +7,26 @@
 
 void App::Init()
 {
+    ExtractLeveling();
+    ExtractArmorsUpgrades();
     ExtractArmors();
+    ExtractWeaponsProperties();
+    ExtractWeaponsUpgrades();
     ExtractWeapons();
+    ExtractAmmoProperties();
+    ExtractAmmo();
+    ExtractExplosivesProperties();
+    ExtractExplosives();
+    ExtractGear();
+    ExtractFoodsDrinksProps();
+    ExtractFoodsDrinks();
+    ExtractMedicine();
+    ExtractChems();
+    ExtractRads();
+    ExtractExhaustion();
+    ExtractThirst();
+    ExtractHunger();
+    ExtractDecay();
     ExtractConditions();
 
     if (m_character.autoload)
@@ -30,10 +48,23 @@ void App::Run()
     ConditionsWindow();
     PerkWindow();
     EquippedWindow();
+    CatalogueWindow();
+    InfoWindow();
 
 	// Render All Windows
 	//Render();
 }
+
+void App::Shutdown()
+{
+    if (m_character.autosave)
+        SaveToTSV();
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+}
+
 
 // ---- RUN FUNCTIONS ----
 
@@ -90,7 +121,7 @@ void App::BioWindow()
 
 void App::MainParamsWindow()
 {
-    ImGui::SetNextWindowPos(ImVec2(320, 30), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(330, 30), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(800, 400), ImGuiCond_Once);
     ImGui::Begin("S.P.E.C.I.A.L.");
     ImGui::SetWindowFontScale(4.0f);
@@ -338,8 +369,8 @@ void App::MainParamsWindow()
 void App::PassiveParamsWindow()
 {
     // Passives Window
-    ImGui::SetNextWindowPos(ImVec2(10, 770), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(10, 500), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(300, 190), ImGuiCond_Once);
     ImGui::Begin("Passives");
     ImGui::SetWindowFontScale(1.5f);
     ImGui::SetCursorPos(ImVec2(10, 30));
@@ -369,8 +400,8 @@ void App::PassiveParamsWindow()
 void App::SurvivalParamsWindow()
 {
     // Survival Window
-    ImGui::SetNextWindowPos(ImVec2(10, 440), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(10, 200), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(300, 290), ImGuiCond_Once);
     ImGui::Begin("Survival");
     ImGui::SetWindowFontScale(1.5f);
     ImGui::SetCursorPos(ImVec2(10, 30));
@@ -698,8 +729,8 @@ void App::ConditionsWindow()
 void App::PerkWindow()
 {
     // Perk Window
-    ImGui::SetNextWindowPos(ImVec2(1500, 650), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(400, 320), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(1500, 640), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(400, 330), ImGuiCond_Once);
     ImGui::Begin("Traits and Perks");
     if (ImGui::Button("Add", ImVec2(50, 25)))
     {
@@ -735,65 +766,51 @@ void App::PerkWindow()
 void App::EquippedWindow()
 {
     // Invetory for equippable items
-    ImGui::SetNextWindowPos(ImVec2(320, 440), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(330, 440), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(800, 350), ImGuiCond_Once);
     ImGui::Begin("Equippable Items Inventory");
     ImGui::SetWindowFontScale(1.5f);
     // armor
+    ImGui::SeparatorText("Armor");
+    static int armor_index = -1; // index of the selected armor
+    if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
     {
-        ImGui::SeparatorText("Armor");
-        if (DisplayComboBox(ImVec2(600, 60), 160, "Add Armor", tbl::armors, m_character.selected_armor))
-        {
-            cout << "added armor: " << m_character.selected_armor << endl;
-            auto the_armor = tbl::armors.find(m_character.selected_armor);
-            m_character.armors.push_back({ the_armor->first, the_armor->second });
-        }
-        static int armor_index = -1; // index of the selected armor
-        if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
-        {
-            for (int i = 0; i < m_character.armors.size(); i++)
-                if (m_character.selected_armor == m_character.armors[i].first)
-                    armor_index = i;
-        }
-        if (armor_index != -1)
-        {
-            // name
-            ImGui::SetCursorPos(ImVec2(10, 100));
-            ImGui::Text("Name:");
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(250);
-            ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
-            // equipped
-            ImGui::SetCursorPos(ImVec2(10, 130));
-            ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
-            // ac, dt
-            m_character.ac = m_character.armors[armor_index].second.ac;
-            m_character.dt = m_character.armors[armor_index].second.dt;
-            // cost
-            ImGui::SetCursorPos(ImVec2(450, 100));
-            ImGui::Text("Cost:");
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(40);
-            ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
-            // decay
-            ImGui::SetCursorPos(ImVec2(450, 135));
-            ImGui::Text("Decay:");
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(90);
-            ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
-            // upgrades
-            // TODO: do the upgrades section
-        }
+        for (int i = 0; i < m_character.armors.size(); i++)
+            if (m_character.selected_armor == m_character.armors[i].first)
+                armor_index = i;
+    }
+    if (armor_index != -1)
+    {
+        // name
+        ImGui::SetCursorPos(ImVec2(10, 100));
+        ImGui::Text("Name:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(250);
+        ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
+        // equipped
+        ImGui::SetCursorPos(ImVec2(10, 130));
+        ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
+        // ac, dt
+        m_character.ac = m_character.armors[armor_index].second.ac;
+        m_character.dt = m_character.armors[armor_index].second.dt;
+        // cost
+        ImGui::SetCursorPos(ImVec2(450, 100));
+        ImGui::Text("Cost:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(40);
+        ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        // decay
+        ImGui::SetCursorPos(ImVec2(450, 135));
+        ImGui::Text("Decay:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(90);
+        ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
+        // upgrades
+        // TODO: do the upgrades section
     }
 
     // weapons
     ImGui::SeparatorText("Weapons");
-    if (DisplayComboBox(ImVec2(600, 200), 160, "Add Weapon", tbl::weapons, m_character.selected_weapon))
-    {
-        cout << "added weapon: " << m_character.selected_weapon << endl;
-        auto the_weapon = tbl::weapons.find(m_character.selected_weapon);
-        m_character.weapons.push_back({ the_weapon->first, the_weapon->second });
-    }
     static int weapon_index = -1; // index of the selected armor
     if (DisplayComboBox(ImVec2(10, 200), 300, m_character.selected_weapon, m_character.weapons, m_character.selected_weapon))
     {
@@ -838,19 +855,414 @@ void App::EquippedWindow()
         ImGui::InputText("##WeaponCrit", &m_character.weapons[weapon_index].second.crit);
         // upgrades
         // TODO: do the upgrades section
+        // properties
+        if (DisplayComboBox(ImVec2(400, 200), 200, m_character.selected_item, m_character.weapons[weapon_index].second.props, m_character.selected_item))
+        {
+            // do stuff maybe
+        }
     }
     ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
 }
 
-void App::Shutdown()
+void App::CatalogueWindow()
 {
-    if (m_character.autosave)
-        SaveToTSV();
+    // Catalogue Window
+    ImGui::SetNextWindowPos(ImVec2(10, 700), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(300, 270), ImGuiCond_Once);
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.0f, 0.1f, 0.9f));
+    ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4(0.3f, 0.0f, 0.3f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.6f, 0.0f, 0.6f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.6f, 0.0f, 0.6f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.5f, 0.0f, 0.5f, 1.0f));
+    bool b = false;
+    ImGui::Begin("Catalogue", &b, ImGuiWindowFlags_MenuBar);
+    //ImGui::Begin("Catalogue");
 
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
+    if (ImGui::BeginMenuBar())
+    {
+        if (ImGui::BeginMenu("Category"))
+        {
+            if (ImGui::MenuItem("Armor", NULL, !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            if (ImGui::MenuItem("Armor Upgrades", NULL, !(m_selected_list - armor_upgrades)))
+            {
+                m_selected_list = armor_upgrades;
+            }
+            if (ImGui::MenuItem("Melee Weapons Properties", NULL, !(m_selected_list - melee_weapons_props)))
+            {
+                m_selected_list = melee_weapons_props;
+            }
+            if (ImGui::MenuItem("Ranged Weapons Properties", NULL, !(m_selected_list - ranged_weapons_props)))
+            {
+                m_selected_list = ranged_weapons_props;
+            }
+            if (ImGui::MenuItem("Weapons", NULL, !(m_selected_list - weapons)))
+            {
+                m_selected_list = weapons;
+            }
+            if (ImGui::MenuItem("Melee Weapons Upgrades", NULL, !(m_selected_list - melee_weapons_upgrades)))
+            {
+                m_selected_list = melee_weapons_upgrades;
+            }
+            if (ImGui::MenuItem("Ranged Weapons Upgrades", NULL, !(m_selected_list - ranged_weapons_upgrades)))
+            {
+                m_selected_list = ranged_weapons_upgrades;
+            }
+            if (ImGui::MenuItem("Ammo", NULL, !(m_selected_list - ammo)))
+            {
+                m_selected_list = ammo;
+            }
+            if (ImGui::MenuItem("Ammo Props", NULL, !(m_selected_list - ammo_props)))
+            {
+                m_selected_list = ammo_props;
+            }
+            if (ImGui::MenuItem("Explosives Properties", NULL, !(m_selected_list - explosives_props)))
+            {
+                m_selected_list = explosives_props;
+            }
+            if (ImGui::MenuItem("Explosives, Thrown", NULL, !(m_selected_list - explosives_thrown)))
+            {
+                m_selected_list = explosives_thrown;
+            }
+            if (ImGui::MenuItem("Explosives, Placed", NULL, !(m_selected_list - explosives_placed)))
+            {
+                m_selected_list = explosives_placed;
+            }
+            if (ImGui::MenuItem("Gear", NULL, !(m_selected_list - gear)))
+            {
+                m_selected_list = gear;
+            }
+            if (ImGui::MenuItem("Foods and Drinks Properties", NULL, !(m_selected_list - food_drinks_props)))
+            {
+                m_selected_list = food_drinks_props;
+            }
+            if (ImGui::MenuItem("Foods and Drinks", NULL, !(m_selected_list - food_drinks)))
+            {
+                m_selected_list = food_drinks;
+            }
+            if (ImGui::MenuItem("Medicine", NULL, !(m_selected_list - medicine_items)))
+            {
+                m_selected_list = medicine_items;
+            }
+            if (ImGui::MenuItem("Chems", NULL, !(m_selected_list - chems)))
+            {
+                m_selected_list = chems;
+            }
+            if (ImGui::MenuItem("Decay Levels", NULL, !(m_selected_list - decay)))
+            {
+                m_selected_list = decay;
+            }
+            if (ImGui::MenuItem("Rads Levels", NULL, !(m_selected_list - rads)))
+            {
+                m_selected_list = rads;
+            }
+            if (ImGui::MenuItem("Exhaustion Levels", NULL, !(m_selected_list - exhaustion)))
+            {
+                m_selected_list = exhaustion;
+            }
+            if (ImGui::MenuItem("Thirst Levels", NULL, !(m_selected_list - thirst)))
+            {
+                m_selected_list = thirst;
+            }
+            if (ImGui::MenuItem("Hunger Levels", NULL, !(m_selected_list - hunger)))
+            {
+                m_selected_list = hunger;
+            }
+            /*if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
+            {
+                m_selected_list = armor;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Weapons", !(m_selected_list - weapons)))
+            {
+                m_selected_list = weapons;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Misc", !(m_selected_list - misc)))
+            {
+                m_selected_list = misc;
+            }*/
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
+    }
+    ImGui::SetWindowFontScale(0.9f);
+    ImGui::Text("Note: Everything is sorted alphabetically.");
+    ImGui::SetWindowFontScale(1.0f);
+    switch (m_selected_list)
+    {
+    case armor_upgrades:
+    {
+        ImGui::Text("Armor Upgrades:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Armor Upgrades", tbl::armors_upgrades, m_selected_name))
+        {
+            m_list_of_selected_name = armor_upgrades;
+        }
+        break;
+    }
+    case armor:
+    {
+        ImGui::Text("Armor:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Armor", tbl::armors, m_selected_name))
+        {
+            m_list_of_selected_name = armor;
+        }
+        break;
+    }
+    case melee_weapons_props:
+    {
+        ImGui::Text("Melee Weapons Properties:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Melee Weapons Properties", tbl::melee_weapons_props, m_selected_name))
+        {
+            m_list_of_selected_name = melee_weapons_props;
+        }
+        break;
+    }
+    case ranged_weapons_props:
+    {
+        ImGui::Text("Ranged Weapons Properties:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Ranged Weapons Properties", tbl::ranged_weapons_props, m_selected_name))
+        {
+            m_list_of_selected_name = ranged_weapons_props;
+        }
+        break;
+    }
+    case weapons:
+    {
+        ImGui::Text("Weapons:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Weapons", tbl::weapons, m_selected_name))
+        {
+            m_list_of_selected_name = weapons;
+        }
+        break;
+    }
+    case melee_weapons_upgrades:
+    {
+        ImGui::Text("Melee Weapons Upgrades:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Melee Weapons Upgrades", tbl::melee_weapons_upgrades, m_selected_name))
+        {
+            m_list_of_selected_name = melee_weapons_upgrades;
+        }
+        break;
+    }
+    case ranged_weapons_upgrades:
+    {
+        ImGui::Text("Ranged Weapons Upgrades:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Ranged Weapons Upgrades", tbl::ranged_weapons_upgrades, m_selected_name))
+        {
+            m_list_of_selected_name = ranged_weapons_upgrades;
+        }
+        break;
+    }
+    case ammo_props:
+    {
+        ImGui::Text("Ammo Properties:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Ammo Properties", tbl::ammos_props, m_selected_name))
+        {
+            m_list_of_selected_name = ammo_props;
+        }
+        break;
+    }
+    case ammo:
+    {
+        ImGui::Text("Ammo:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Ammo", tbl::ammos, m_selected_name))
+        {
+            m_list_of_selected_name = ammo;
+        }
+        break;
+    }
+    case explosives_props:
+    {
+        ImGui::Text("Explosives Properties:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Explosives Properties", tbl::explosives_props, m_selected_name))
+        {
+            m_list_of_selected_name = explosives_props;
+        }
+        break;
+    }
+    case explosives_thrown:
+    {
+        ImGui::Text("Explosives, Thrown:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Explosives, Thrown", tbl::explosives_thrown, m_selected_name))
+        {
+            m_list_of_selected_name = explosives_thrown;
+        }
+        break;
+    }
+    case explosives_placed:
+    {
+        ImGui::Text("Explosives, Placed:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Explosives, Placed", tbl::explosives_placed, m_selected_name))
+        {
+            m_list_of_selected_name = explosives_placed;
+        }
+        break;
+    }
+    case gear:
+    {
+        ImGui::Text("Gear:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Gear", tbl::gear, m_selected_name))
+        {
+            m_list_of_selected_name = gear;
+        }
+        break;
+    }
+    case food_drinks_props:
+    {
+        ImGui::Text("Foods and Drinks Properties:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Foods and Drinks Properties", tbl::foods_drinks_props, m_selected_name))
+        {
+            m_list_of_selected_name = food_drinks_props;
+        }
+        break;
+    }
+    case food_drinks:
+    {
+        ImGui::Text("Foods and Drinks:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Foods and Drinks", tbl::foods_drinks, m_selected_name))
+        {
+            m_list_of_selected_name = food_drinks;
+        }
+        break;
+    }
+    case medicine_items:
+    {
+        ImGui::Text("Medicine:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Medicine", tbl::medicine, m_selected_name))
+        {
+            m_list_of_selected_name = medicine_items;
+        }
+        break;
+    }
+    case chems:
+    {
+        ImGui::Text("Chems:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Chems", tbl::chems, m_selected_name))
+        {
+            m_list_of_selected_name = chems;
+        }
+        break;
+    }
+    case decay:
+    {
+        ImGui::Text("Decay Levels:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Decay Levels", tbl::decay_levels, m_selected_name))
+        {
+            m_list_of_selected_name = decay;
+        }
+        break;
+    }
+    case rads:
+    {
+        ImGui::Text("Rads Levels:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Rads Levels", tbl::rads_levels, m_selected_name))
+        {
+            m_list_of_selected_name = rads;
+        }
+        break;
+    }
+    case exhaustion:
+    {
+        ImGui::Text("Exhaustion Levels:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Exhaustion Levels", tbl::exhaustion_levels, m_selected_name))
+        {
+            m_list_of_selected_name = exhaustion;
+        }
+        break;
+    }
+    case thirst:
+    {
+        ImGui::Text("Thirst Levels:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Thirst Levels", tbl::thirst_levels, m_selected_name))
+        {
+            m_list_of_selected_name = thirst;
+        }
+        break;
+    }
+    case hunger:
+    {
+        ImGui::Text("Hunger Levels:");
+        if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), "Hunger Levels", tbl::hunger_levels, m_selected_name))
+        {
+            m_list_of_selected_name = hunger;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    ImGui::End();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+    //// add armor
+    //if (DisplayComboBox(ImVec2(20, 60), 160, "Add Armor", tbl::armors, m_character.selected_armor))
+    //{
+    //    cout << "added armor: " << m_character.selected_armor << endl;
+    //    auto the_armor = tbl::armors.find(m_character.selected_armor);
+    //    m_character.armors.push_back({ the_armor->first, the_armor->second });
+    //}
+    //// add weapon
+    //if (DisplayComboBox(ImVec2(20, 120), 160, "Add Weapon", tbl::weapons, m_character.selected_weapon))
+    //{
+    //    cout << "added weapon: " << m_character.selected_weapon << endl;
+    //    auto the_weapon = tbl::weapons.find(m_character.selected_weapon);
+    //    m_character.weapons.push_back({ the_weapon->first, the_weapon->second });
+    //}
+}
+
+void App::InfoWindow()
+{
+    // Bio Window
+    ImGui::SetNextWindowPos(ImVec2(330, 800), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(800, 170), ImGuiCond_Once);
+    ImGui::Begin("Info Window");
+    ImGui::SetWindowFontScale(1.5f);
+    
+    ImGui::SetWindowFontScale(1.0f);
+    ImGui::End();
 }
 
 void App::Render()
@@ -859,7 +1271,46 @@ void App::Render()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
+
 // ---- INIT FUNCTIONS ----
+
+void App::ExtractLeveling()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/leveling.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::level value;
+        key = row[0];
+        value.flat_sp = stoi(util::GetSubstringBetween(row[1], "", " SP"));
+        value.agi_mul = stoi(util::GetSubstringBetween(row[1], "AGI mod x", ", "));
+        value.flat_hp = stoi(util::GetSubstringBetween(row[1], ", ", " HP"));
+        value.end_mul = stoi(util::GetSubstringBetween(row[1], "END mod x", ""));
+
+        tbl::levels.emplace(key, value);
+    }
+    tsv_file.close();
+}
 
 void App::ExtractArmors()
 {
@@ -904,6 +1355,109 @@ void App::ExtractArmors()
 
         tbl::armors.emplace(key, value);
     }
+}
+
+void App::ExtractArmorsUpgrades()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/armor_upgrades.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::armor_upg value;
+        key = row[0];
+        value.cost = stoi(util::GetSubstringBetween(row[1], "", "c"));
+        value.rank_description[0] = row[2];
+        value.rank_description[1] = row[3];
+        value.rank_description[2] = row[4];
+
+        tbl::armors_upgrades.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractWeaponsProperties()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/melee_weapons_properties.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::weapon_prop value;
+        key = row[0];
+        value.description = row[1];
+
+        tbl::melee_weapons_props.emplace(key, value);
+    }
+    tsv_file.close();
+
+    ifstream tsv_file2("../Fallout_character_Manager/spreadsheets/ranged_weapons_properties.txt");
+    if (!tsv_file2.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    //string line;
+    skip_first = true;
+    while (getline(tsv_file2, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::weapon_prop value;
+        key = row[0];
+        value.description = row[1];
+
+        tbl::ranged_weapons_props.emplace(key, value);
+    }
+    tsv_file2.close();
 }
 
 void App::ExtractWeapons()
@@ -965,7 +1519,10 @@ void App::ExtractWeapons()
                     if (start != string::npos && end != string::npos)
                     {
                         string name = prop.substr(start, end - (start - 1));
-                        tbl::weapon_props prop = { "" };
+                        tbl::weapon_prop prop = { "" };
+                        auto it = tbl::ranged_weapons_props.find(name);
+                        if (it != tbl::ranged_weapons_props.end())
+                            prop = it->second;
                         value.props.emplace(name, prop);
                     }
                 }
@@ -997,7 +1554,10 @@ void App::ExtractWeapons()
                     if (start != string::npos && end != string::npos)
                     {
                         string name = prop.substr(start, end - (start - 1));
-                        tbl::weapon_props prop = { "" };
+                        tbl::weapon_prop prop = { "" };
+                        auto it = tbl::melee_weapons_props.find(name);
+                        if (it != tbl::melee_weapons_props.end())
+                            prop = it->second;
                         value.props.emplace(name, prop);
                     }
                 }
@@ -1024,6 +1584,665 @@ void App::ExtractWeapons()
         cout << weapon.second.str_req << endl;
         cout << "-------------------------" << endl;
     }*/
+}
+
+void App::ExtractWeaponsUpgrades()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/melee_weapons_upgrades.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::weapon_upg value;
+        key = row[0];
+        value.description = row[1];
+
+        tbl::melee_weapons_upgrades.emplace(key, value);
+    }
+    tsv_file.close();
+
+    ifstream tsv_file2("../Fallout_character_Manager/spreadsheets/ranged_weapons_upgrades.txt");
+    if (!tsv_file2.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    //string line;
+    skip_first = true;
+    while (getline(tsv_file2, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::weapon_upg value;
+        key = row[0];
+        value.description = row[1];
+        value.req = row[2];
+
+        tbl::ranged_weapons_upgrades.emplace(key, value);
+    }
+    tsv_file2.close();
+}
+
+void App::ExtractAmmoProperties()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/ammo_special.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::ammo_prop value;
+        key = row[0];
+        value.description = row[1];
+        value.req = row[2];
+
+        tbl::ammos_props.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractAmmo()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/ammo.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::ammo value;
+        key = row[0];
+        value.cost = stoi(util::GetSubstringBetween(row[1], "(", "c)"));
+        //cout << row[2] << endl;
+        string pack_size = util::GetSubstringBetween(row[2], "Pack of ", ".");
+        if (pack_size != "")
+        {
+            value.pack_size = stoi(pack_size);
+            value.load = value.quantity / value.pack_size;
+        }
+        else
+        {
+            pack_size = util::GetSubstringBetween(row[2], "", "sth.");
+            value.pack_size = 1;
+            value.load = stoi(pack_size);
+        }
+
+        tbl::ammos.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractExplosivesProperties()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/explosives_properties.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::explosive_prop value;
+        key = row[0];
+        value.description = row[1];
+
+        tbl::explosives_props.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractExplosives()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/explosives_thrown.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::explosive value;
+        key = row[0];
+        value.cost = stoi(util::GetSubstringBetween(row[1], "", "c"));
+        value.ap = stoi(util::GetSubstringBetween(row[2], "", " AP"));
+        value.dmg = row[3];
+        value.range_or_arm_dc = row[4];
+        value.aoe = row[5];
+        istringstream iss_prop(row[6]);
+        string prop;
+        while (getline(iss_prop, prop, '.'))
+        {
+            size_t start = prop.find_first_not_of(" \t\n\r");
+            size_t end = prop.find_last_not_of(" \t\n\r");
+            if (start != string::npos && end != string::npos)
+            {
+                string name = prop.substr(start, end - (start - 1));
+                tbl::explosive_prop prop = { "" };
+                auto it = tbl::explosives_props.find(name);
+                if (it != tbl::explosives_props.end())
+                    prop = it->second;
+                value.props.emplace(name, prop);
+            }
+        }
+        value.load = stoi(util::GetSubstringBetween(row[7], "Load: ", "."));
+
+        tbl::explosives_thrown.emplace(key, value);
+    }
+    tsv_file.close();
+
+    ifstream tsv_file2("../Fallout_character_Manager/spreadsheets/explosives_placed.txt");
+    if (!tsv_file2.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    //string line;
+    skip_first = true;
+    while (getline(tsv_file2, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::explosive value;
+        key = row[0];
+        value.cost = stoi(util::GetSubstringBetween(row[1], "", "c"));
+        value.ap = stoi(util::GetSubstringBetween(row[2], "", " AP"));
+        value.dmg = row[3];
+        value.range_or_arm_dc = row[4];
+        value.aoe = row[5];
+        istringstream iss_prop(row[6]);
+        string prop;
+        while (getline(iss_prop, prop, '.'))
+        {
+            size_t start = prop.find_first_not_of(" \t\n\r");
+            size_t end = prop.find_last_not_of(" \t\n\r");
+            if (start != string::npos && end != string::npos)
+            {
+                string name = prop.substr(start, end - (start - 1));
+                tbl::explosive_prop prop = { "" };
+                auto it = tbl::explosives_props.find(name);
+                if (it != tbl::explosives_props.end())
+                    prop = it->second;
+                value.props.emplace(name, prop);
+            }
+        }
+        value.load = stoi(util::GetSubstringBetween(row[7], "Load: ", "."));
+
+        tbl::explosives_placed.emplace(key, value);
+    }
+    tsv_file2.close();
+}
+
+void App::ExtractGear()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/gear.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::misc value;
+        key = row[0];
+        value.description = row[1];
+        value.cost = stoi(util::GetSubstringBetween(row[2], "", "c"));
+        value.load = stoi(row[3]);
+
+        tbl::gear.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractFoodsDrinksProps()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/food_drink_properties.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::food_drink_prop value;
+        key = row[0];
+        value.description = row[1];
+
+        tbl::foods_drinks_props.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractFoodsDrinks()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/food_drink.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::food_drink value;
+        key = row[0];
+        value.cost = stoi(util::GetSubstringBetween(row[1], "", "c"));
+        istringstream iss_prop(row[2]);
+        string prop;
+        while (getline(iss_prop, prop, '.'))
+        {
+            size_t start = prop.find_first_not_of(" \t\n\r");
+            size_t end = prop.find_last_not_of(" \t\n\r");
+            if (start != string::npos && end != string::npos)
+            {
+                string name = prop.substr(start, end - (start - 1));
+                tbl::food_drink_prop prop = { "" };
+                auto it = tbl::foods_drinks_props.find(name);
+                if (it != tbl::foods_drinks_props.end())
+                    prop = it->second;
+                value.props.emplace(name, prop);
+            }
+        }
+        value.load = stoi(row[3]);
+
+        tbl::foods_drinks.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractMedicine()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/medicine.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::misc value;
+        key = row[0];
+        value.description = row[1];
+        value.cost = stoi(util::GetSubstringBetween(row[2], "", "c"));
+        value.load = stoi(row[3]);
+
+        tbl::medicine.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractChems()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/chems.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::misc value;
+        key = row[0];
+        value.cost = stoi(util::GetSubstringBetween(row[1], "", "c"));
+        value.description = row[2];
+        value.load = stoi(row[3]);
+
+        tbl::chems.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractRads()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/rads.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::rads value;
+        key = row[1];
+        value.level = stoi(util::GetSubstringBetween(row[0], "Level ", ""));
+        value.event = row[2];
+
+        tbl::rads_levels.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractExhaustion()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/exhaustion.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::exhaustion value;
+        key = row[1];
+        value.level = stoi(row[0]);
+        value.event = row[2];
+
+        tbl::exhaustion_levels.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractThirst()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/thirst.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::thirst value;
+        key = row[1];
+        value.level = stoi(row[0]);
+        value.event = row[2];
+
+        tbl::thirst_levels.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractHunger()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/hunger.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::hunger value;
+        key = row[1];
+        value.level = stoi(row[0]);
+        value.event = row[2];
+
+        tbl::hunger_levels.emplace(key, value);
+    }
+    tsv_file.close();
+}
+
+void App::ExtractDecay()
+{
+    ifstream tsv_file("../Fallout_character_Manager/spreadsheets/decay.txt");
+    if (!tsv_file.is_open())
+    {
+        cout << "Can't open file" << endl;
+        return;
+    }
+    string line;
+    bool skip_first = true;
+    while (getline(tsv_file, line))
+    {
+        if (skip_first)
+        {
+            skip_first = false;
+            continue;
+        }
+        istringstream iss(line);
+        vector<string> row;
+        string substr;
+        while (getline(iss, substr, '\t'))
+        {
+            row.push_back(substr);
+        }
+        string key;
+        tbl::decay value;
+        key = row[1];
+        value.level = stoi(row[0]);
+        value.weapon_effect = row[2];
+        value.armor_effect = row[3];
+        value.cost_reduction_percentage = stoi(util::GetSubstringBetween(row[4], "", "%"));
+
+        tbl::decay_levels.emplace(key, value);
+    }
+    tsv_file.close();
 }
 
 void App::ExtractConditions()
@@ -1076,6 +2295,7 @@ void App::ExtractConditions()
         cout << "-----------------------------------------------" << endl;
     }*/
 }
+
 
 // ---- SAVE/LOAD FUNCTIONS ----
 
@@ -1588,7 +2808,7 @@ void App::LoadFromTSV()
             vector<string> props = util::SplitString(weapon_string[9], '|');
             for (auto& name : props)
             {
-                tbl::weapon_props prop = { "" };
+                tbl::weapon_prop prop = { "" };
                 weapon.props.emplace(name, prop);
             }
         }
@@ -1611,6 +2831,7 @@ void App::LoadFromTSV()
     f_weapons.close();
 
 }
+
 
 // ---- HELPER FUNCTIONS ---
 
@@ -1647,6 +2868,39 @@ bool App::DisplayComboBox(
         ImGui::EndCombo();
     }
 
+    return new_select;
+}
+
+template <typename Container>
+bool App::DisplayList(
+    const ImVec2& pos,
+    const ImVec2& size,
+    const string& name,
+    const Container& list,
+    string& selected_item)
+{
+    ImGui::SetCursorPos(pos);
+    bool new_select = false;
+    string tag = "##" + name;
+    if (ImGui::BeginListBox(tag.c_str(), size))
+    {
+        // Display the items in the ListBox
+        for (auto& item : list)
+        {
+            const bool is_selected = (selected_item == item.first);
+            if (ImGui::Selectable(item.first.c_str(), is_selected))
+            {
+                new_select = true;
+                selected_item = item.first;
+            }
+
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndListBox();
+    }
+    
     return new_select;
 }
 

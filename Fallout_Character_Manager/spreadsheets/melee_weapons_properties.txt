@@ -1,3 +1,4 @@
+-
 Ammo and Depleted	"Weapons with these properties require certain types of ammunition or fuel to operate at full capacity, each listed next to the property name. You can deal the damage listed in the Damage section of the weapon so long as you have rounds available in the weapon. If you attack with a weapon that has this property and has no rounds left, you deal the damage listed next to the Depleted property. To load rounds into the weapon, you must have the required ammunition and you must spend 6 AP to reload."
 Breakable	The weapon gains a level of decay when you roll a 3 or lower on an attack roll.
 Cleave	"You can spend 3 additional AP when you attack with a weapon that has this property to also target two additional areas with the attack roll. These areas are as long as the weapons range and must be within 5 feet of the previously targeted area. Each creature or object in the area is attacked with the attack roll and takes damage if the attack beats their AC. If a single creature occupies both or all the areas, they are targeted by each attack; taking damage from all the attack rolls.  If the weapon specifies it “always cleaves”, you do not have to spend the additional AP to make this special attack."
@@ -15,80 +16,3 @@ Thrown	"When you attack with a weapon that has this property, you can throw the 
 Two Handed	"If you attack with a weapon that has this property with only one hand, you have disadvantage on the attack roll. Alternatively, if your Strength ability score is greater than strength requirement by at least 3, you can wield a melee weapon with the two handed property with one hand without having disadvantage on the attack roll."
 Unarmed	"When you make an attack roll with a weapon that has this property, you add your unarmed skill bonus to the d20 roll instead of your melee weapons skill bonus."
 Weighted	"When you roll a 1 on the damage dice with a weapon that has this property, it is a 2 instead."
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

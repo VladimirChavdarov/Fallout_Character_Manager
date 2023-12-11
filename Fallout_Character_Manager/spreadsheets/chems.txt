@@ -20,16 +20,15 @@ Grape Mentats	120c	You gain advantage on Charisma checks. You can sell items for
 Orange Mentats	120c	Targeted attack rolls cost 1 less AP	1
 Overdrive	110c	"You gain +2 crit chance with any weapon. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
 Psycho	80c	You gain +3 to damage with all weapons and a +1 to DT.	1
-Psycho buff	160c	"You gain a +5 damage with all 
-weapons and temporary SP equal to x2 your END score. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
+Psycho buff	160c	"You gain a +5 damage with all weapons and temporary SP equal to x2 your END score. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
 Psycho jet	160c	"You gain an extra 3 action points (to a maximum of 18) to use on your turn and a +3 damage with all weapons. However, you always attack the nearest hostile creature. If there are no creatures that are hostile nearby, you must make an Endurance ability check equal to 15. If you fail, you attack the nearest creature."	1
-Cache Clearer	5c	Anxiolytic. Stimulant.	1 (10)
-Coolant Rerouter	100c	Sedative.	1 (10)
-Data Scrubber	50c	Extrapolating.	1 (10)
-EISENHOWER PROTOCOL	60c	Painkilling. Psychosis.  Super Stimulant.	1 (10)
-Incoming Projectile Predictor	20c	Anesthetic. 	1 (10)
-Military Auto-Tank AI Upload	50c	Psychosis. Painkilling.	1 (10)
-Military Turret Operating System	55c	Invigorating. Psychosis. 	1 (10)
-Overclock Hardware	20c	Stimulant.	1 (10)
-Overclock Hardware v2.0	30c	Stimulant. Invigorating.	1 (10)
-Servo Override	20c	Anabolic. 	1 (10)
+Cache Clearer	5c	Anxiolytic. Stimulant.	1
+Coolant Rerouter	100c	Sedative.	1
+Data Scrubber	50c	Extrapolating.	1
+EISENHOWER PROTOCOL	60c	Painkilling. Psychosis.  Super Stimulant.	1
+Incoming Projectile Predictor	20c	Anesthetic. 	1
+Military Auto-Tank AI Upload	50c	Psychosis. Painkilling.	1
+Military Turret Operating System	55c	Invigorating. Psychosis. 	1
+Overclock Hardware	20c	Stimulant.	1
+Overclock Hardware v2.0	30c	Stimulant. Invigorating.	1
+Servo Override	20c	Anabolic. 	1

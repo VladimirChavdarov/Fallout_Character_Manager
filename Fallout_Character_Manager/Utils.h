@@ -12,7 +12,7 @@ namespace util
         size_t start_pos;
         size_t end_pos;
         if (start == "")
-            start_pos = 1;
+            start_pos = 0;
         else
         {
             start_pos = input.find(start);

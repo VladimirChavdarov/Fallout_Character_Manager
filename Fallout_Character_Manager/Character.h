@@ -43,7 +43,7 @@ public:
 public:
 	string filename = "../Fallout_Character_Manager/character/";
 	bool autosave = true;
-	bool autoload = false;
+	bool autoload = true;
 
 	// bio
 	string name = "...";
@@ -89,6 +89,9 @@ public:
 	string selected_armor = "";
 	vector<pair<string, tbl::weapon>> weapons; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
 	string selected_weapon = "";
+	// TODO: ammo category in the inventory
+	vector<pair<string, tbl::misc>> misc;
+	string selected_item = "";
 
 	// gameplay
 	map<string, tbl::limb_condition> head_conditions;

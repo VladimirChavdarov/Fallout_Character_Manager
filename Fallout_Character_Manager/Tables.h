@@ -14,11 +14,13 @@ namespace tbl
 		int flat_sp;
 		int agi_mul;
 	};
+	// Note: The key is a string for consistency with everything else. If you want to use it as an int, convert it to int on the spot.
+	static map<string, tbl::level> levels;
 
 	struct armor_upg
 	{
 		int cost;
-		string description;
+		string rank_description[3] = { "" };
 	};
 	static map<string, tbl::armor_upg> armors_upgrades;
 
@@ -38,16 +40,20 @@ namespace tbl
 	static map<string, tbl::armor> armors;
 
 
-	struct weapon_props
+	struct weapon_prop
 	{
 		string description;
 	};
+	static map<string, tbl::weapon_prop> melee_weapons_props;
+	static map<string, tbl::weapon_prop> ranged_weapons_props;
 
 	struct weapon_upg
 	{
 		string description;
 		string req; //which weapons can have this mod
 	};
+	static map<string, tbl::weapon_upg> melee_weapons_upgrades;
+	static map<string, tbl::weapon_upg> ranged_weapons_upgrades;
 
 	struct weapon
 	{
@@ -58,7 +64,7 @@ namespace tbl
 		string crit = "";
 		string ammo = "";
 		int clip_size = 0;
-		map<string, weapon_props> props;
+		map<string, weapon_prop> props;
 		//vector<string> props_keywords;
 		//vector<weapon_props> props; //TODO
 		float load = 0.0f;
@@ -70,11 +76,27 @@ namespace tbl
 	};
 	static map<string, tbl::weapon> weapons;
 
+	struct ammo_prop
+	{
+		string description;
+		string req;
+	};
+	static map<string, tbl::ammo_prop> ammos_props;
 
-	struct explosive_props
+	struct ammo
+	{
+		int cost = 0; // per bullet
+		int pack_size = 0;
+		int quantity = 0;
+		float load = 1.0f; // load of a pack if pack size isn't 1
+	};
+	static map<string, tbl::ammo> ammos;
+
+	struct explosive_prop
 	{
 		string description;
 	};
+	static map<string, tbl::explosive_prop> explosives_props;
 
 	struct explosive
 	{
@@ -83,60 +105,73 @@ namespace tbl
 		string dmg;
 		string range_or_arm_dc;
 		string aoe;
-		map<string, explosive_props> props;
+		map<string, explosive_prop> props;
 		float load;
 	};
+	static map<string, tbl::explosive> explosives_thrown;
+	static map<string, tbl::explosive> explosives_placed;
 
-	struct food_drinks_props
+	struct food_drink_prop
 	{
 		string description;
 	};
+	static map<string, tbl::food_drink_prop> foods_drinks_props;
 
-	struct food_drinks
+	struct food_drink
 	{
 		int cost;
-		map<string, food_drinks_props> props;
+		map<string, food_drink_prop> props;
 		float load;
 	};
+	static map<string, tbl::food_drink> foods_drinks;
 
-	struct misc // gear, medicine, chems
+	struct misc // gear, medicine, chems, junk
 	{
 		int cost;
-		string props;
+		string description;
 		float load;
 	};
+	static map<string, tbl::misc> gear;
+	static map<string, tbl::misc> junk;
+	static map<string, tbl::misc> medicine;
+	static map<string, tbl::misc> chems;
 
 	struct decay
 	{
-		string level;
+		int level;
 		string armor_effect;
 		string weapon_effect;
 		int cost_reduction_percentage;
 	};
+	static map<string, tbl::decay> decay_levels;
 
 	struct rads
 	{
 		int level;
 		string event;
 	};
+	static map<string, tbl::rads> rads_levels;
 
 	struct exhaustion
 	{
 		int level;
 		string event;
 	};
+	static map<string, tbl::exhaustion> exhaustion_levels;
 
 	struct thirst
 	{
 		int level;
 		string event;
 	};
+	static map<string, tbl::thirst> thirst_levels;
 
 	struct hunger
 	{
 		int level;
 		string event;
 	};
+	static map<string, tbl::hunger> hunger_levels;
 
 	struct limb_condition
 	{
