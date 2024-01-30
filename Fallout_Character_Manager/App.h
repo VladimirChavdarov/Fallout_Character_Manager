@@ -71,6 +71,9 @@ private:
 	void EquippedWindow();
 	void CatalogueWindow();
 	void InfoWindow();
+	void InventoryWindow();
+	void WeaponsInventoryWindow();
+	void ArmorInventoryWindow();
 	
 	// Save/Load
 	void LoadFromTSV();
@@ -79,6 +82,13 @@ private:
 
 	// helper functions
 	
+	template <typename Container, typename Upgrade, typename Item>
+	void RightClickUpgradeFromCatalogue(const string& name, const Container& list, const int list_id, const Upgrade upgrade, Item& add_to);
+	template <typename Container, typename Item>
+	void RightClickAddableFromCatalogue(const string& name, const Container& list, const Item& item, vector<pair<string, Item>>& add_to);
+	template <typename Container, typename Item>
+	void RightClickNonAddableFromCatalogue(const string& name, const Container& list, const Item& item);
+
 	// chatGPT sa izkora sa taq templatenata funkciq
 	//template <template <typename, typename...> class Container, typename T>
 	template <typename Container>
@@ -97,6 +107,23 @@ private:
 		const string& name,
 		const Container& list,
 		string& selected_item);
+	template <typename Container, typename ItemAddTo>
+	bool DisplayList(
+		const ImVec2& pos,
+		const ImVec2& size,
+		const string& name,
+		const Container& list,
+		string& selected_item,
+		ItemAddTo& add_to);
+	template <typename Container, typename ItemAddTo>
+	bool DisplayList(
+		const ImVec2& pos,
+		const ImVec2& size,
+		const string& name,
+		const Container& list,
+		string& selected_item,
+		vector<pair<string, ItemAddTo>>& add_to);
+
 
 	void ReloadCharacterFromBaseStats();
 
@@ -132,6 +159,6 @@ private:
 	};
 	int m_selected_list = 1;
 	string m_selected_name = "";
-	int m_list_of_selected_name = 0;
+	int m_list_id_of_selected_name = 0;
 };
 

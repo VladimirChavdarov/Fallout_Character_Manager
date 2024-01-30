@@ -85,13 +85,16 @@ public:
 
 	// resources
 	int caps = 0;
-	vector<pair<string, tbl::armor>> armors; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
+	vector<pair<string, tbl::armor>> armors; //not a map cuz you may have more of the same armor (Askata s 40 kopiq be like)
 	string selected_armor = "";
 	vector<pair<string, tbl::weapon>> weapons; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
 	string selected_weapon = "";
-	// TODO: ammo category in the inventory
+	vector<pair<string, tbl::ammo>> ammos;
+	vector<pair<string, tbl::explosive>> explosives;
+	vector<pair<string, tbl::food_drink>> foods_drinks;
 	vector<pair<string, tbl::misc>> misc;
 	string selected_item = "";
+	int item_category = 0;
 
 	// gameplay
 	map<string, tbl::limb_condition> head_conditions;

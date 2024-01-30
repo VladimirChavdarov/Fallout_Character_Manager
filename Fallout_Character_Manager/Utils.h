@@ -16,17 +16,20 @@ namespace util
         else
         {
             start_pos = input.find(start);
-            if (start_pos == string::npos) return ""; // start pos not found
+            if (start_pos == std::string::npos) return "";  // start pos not found
         }
+
+        std::string leftover_string = input.substr(start_pos + start.length());
+
         if (end == "")
             end_pos = input.size();
         else
         {
-            size_t end_pos = input.find(end);
-            if (end_pos == string::npos) return ""; // end pos not found
+            end_pos = leftover_string.find(end) + start_pos + start.length();
+            if (end_pos == std::string::npos) return "";  // end pos not found
         }
 
-        string substr = input.substr(start_pos + start.length(), end_pos - (start_pos + start.length()));
+        std::string substr = input.substr(start_pos + start.length(), end_pos - (start_pos + start.length()));
         return substr;
     }
 
