@@ -772,12 +772,6 @@ void App::EquippedWindow()
     ImGui::SetWindowFontScale(1.5f);
     // armor
     ImGui::SeparatorText("Armor");
-    if (DisplayComboBox(ImVec2(600, 60), 160, "Add Armor", tbl::armors, m_character.selected_armor))
-    {
-        cout << "added armor: " << m_character.selected_armor << endl;
-        auto the_armor = tbl::armors.find(m_character.selected_armor);
-        m_character.armors.push_back({ the_armor->first, the_armor->second });
-    }
     static int armor_index = -1; // index of the selected armor
     if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
     {
@@ -793,6 +787,12 @@ void App::EquippedWindow()
         ImGui::SameLine();
         ImGui::SetNextItemWidth(250);
         ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
+        // upgrades
+        if (DisplayComboBox(ImVec2(600, 60), 180, "Armor Upgrades", m_character.armors[armor_index].second.upgrades, m_character.selected_item))
+        {
+            m_list_id_of_selected_name = armor_upgrades;
+            m_selected_name = m_character.selected_item;
+        }
         // equipped
         ImGui::SetCursorPos(ImVec2(10, 130));
         ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
@@ -811,18 +811,10 @@ void App::EquippedWindow()
         ImGui::SameLine();
         ImGui::SetNextItemWidth(90);
         ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
-        // upgrades
-        // TODO: do the upgrades section
     }
 
     // weapons
     ImGui::SeparatorText("Weapons");
-    if (DisplayComboBox(ImVec2(600, 200), 160, "Add Weapon", tbl::weapons, m_character.selected_weapon))
-    {
-        cout << "added weapon: " << m_character.selected_weapon << endl;
-        auto the_weapon = tbl::weapons.find(m_character.selected_weapon);
-        m_character.weapons.push_back({ the_weapon->first, the_weapon->second });
-    }
     static int weapon_index = -1; // index of the selected armor
     if (DisplayComboBox(ImVec2(10, 200), 300, m_character.selected_weapon, m_character.weapons, m_character.selected_weapon))
     {
@@ -866,11 +858,46 @@ void App::EquippedWindow()
         ImGui::SetNextItemWidth(200);
         ImGui::InputText("##WeaponCrit", &m_character.weapons[weapon_index].second.crit);
         // upgrades
-        // TODO: do the upgrades section
-        // properties
-        if (DisplayComboBox(ImVec2(360, 200), 200, m_character.selected_item, m_character.weapons[weapon_index].second.props, m_character.selected_item))
+        if (DisplayComboBox(ImVec2(600, 200), 180, "Weapon Upgrades", m_character.weapons[weapon_index].second.upgrades, m_character.selected_item))
         {
-            // do stuff maybe
+            for (auto& weapon_upg : tbl::melee_weapons_upgrades)
+            {
+                if (weapon_upg.first == m_character.selected_item);
+                {
+                    m_list_id_of_selected_name = melee_weapons_upgrades;
+                    break;
+                }
+            }
+            for (auto& weapon_upg : tbl::ranged_weapons_upgrades)
+            {
+                if (weapon_upg.first == m_character.selected_item);
+                {
+                    m_list_id_of_selected_name = melee_weapons_upgrades;
+                    break;
+                }
+            }
+            m_selected_name = m_character.selected_item;
+        }
+        // properties
+        if (DisplayComboBox(ImVec2(360, 200), 200, "Properties", m_character.weapons[weapon_index].second.props, m_character.selected_item))
+        {
+            for (auto& weapon_upg : tbl::melee_weapons_props)
+            {
+                if (weapon_upg.first == m_character.selected_item);
+                {
+                    m_list_id_of_selected_name = melee_weapons_props;
+                    break;
+                }
+            }
+            for (auto& weapon_upg : tbl::ranged_weapons_props)
+            {
+                if (weapon_upg.first == m_character.selected_item);
+                {
+                    m_list_id_of_selected_name = melee_weapons_props;
+                    break;
+                }
+            }
+            m_selected_name = m_character.selected_item;
         }
     }
     ImGui::SetWindowFontScale(1.0f);
@@ -3375,29 +3402,6 @@ void App::LoadFromTSV()
 
 // ---- HELPER FUNCTIONS ---
 
-template <typename Container, typename Upgrade, typename Item>
-void App::RightClickUpgradeFromCatalogue(const string& name, const Container& list, const int list_id, const Upgrade upgrade, Item& add_to)
-{
-    string title = name + ":";
-    ImGui::Text(title.c_str());
-    if (DisplayList(ImVec2(0, 80), ImVec2(-1, -1), name, list, m_selected_name))
-    {
-        m_list_id_of_selected_name = list_id;
-    }
-}
-
-template <typename Container, typename Item>
-void App::RightClickAddableFromCatalogue(const string& name, const Container& list, const Item& item, vector<pair<string, Item>>& add_to)
-{
-
-}
-
-template <typename Container, typename Item>
-void App::RightClickNonAddableFromCatalogue(const string& name, const Container& list, const Item& item)
-{
-
-}
-
 //template <template <typename, typename...> class Container, typename T>
 template <typename Container>
 bool App::DisplayComboBox(
@@ -3494,6 +3498,7 @@ bool App::DisplayList(const ImVec2& pos, const ImVec2& size, const string& name,
                     if (add_to->second.equipped)
                     {
                         add_to->second.upgrades.emplace(item.first, item.second);
+                        ImGui::OpenPopup("Mod added.");
                     }
                     else
                     {
@@ -3501,17 +3506,34 @@ bool App::DisplayList(const ImVec2& pos, const ImVec2& size, const string& name,
                     }
                 }
 
+                // bad
                 ImVec2 center = ImGui::GetMainViewport()->GetCenter();
                 ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
                 if (ImGui::BeginPopupModal("Mod can't be applied.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
                 {
-                    ImGui::Text("This mod can't be applied to the equipped item.\nPlease equip another item and try again.");
+                    ImGui::Text("Please select your equipped item to apply the mod.");
                     ImGui::Separator();
 
                     if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
                     ImGui::SetItemDefaultFocus();
                     ImGui::EndPopup();
                 }
+
+                // good
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                if (ImGui::BeginPopupModal("Mod added.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                {
+                    ImGui::Text("Mod added successfully.");
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(item.first.c_str());
+                    ImGui::SetWindowFontScale(1.0f);
+                    ImGui::Separator();
+
+                    if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+                    ImGui::SetItemDefaultFocus();
+                    ImGui::EndPopup();
+                }
+
                 ImGui::EndPopup();
             }
             ImGui::SetItemTooltip("Right-click to open popup");
@@ -3553,22 +3575,27 @@ bool App::DisplayList(const ImVec2& pos, const ImVec2& size, const string& name,
                     string key = item.first;
                     ItemAddTo value = item.second;
                     add_to.push_back({ key, value });
+                    ImGui::OpenPopup("Item added.");
                 }
+
+                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                if (ImGui::BeginPopupModal("Item added.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                {
+                    ImGui::Text("Item added successfully.");
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(item.first.c_str());
+                    ImGui::SetWindowFontScale(1.0f);
+                    ImGui::Separator();
+
+                    if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+                    ImGui::SetItemDefaultFocus();
+                    ImGui::EndPopup();
+                }
+
                 ImGui::EndPopup();
             }
             ImGui::SetItemTooltip("Right-click to open popup");
-
-            ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-            ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-            if (ImGui::BeginPopupModal("Mod can't be applied.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-            {
-                ImGui::Text("This mod can't be applied to the equipped item.\nPlease equip another item and try again.");
-                ImGui::Separator();
-
-                if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
-                ImGui::SetItemDefaultFocus();
-                ImGui::EndPopup();
-            }
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected)

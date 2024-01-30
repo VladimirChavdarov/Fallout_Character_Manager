@@ -81,13 +81,6 @@ private:
 
 
 	// helper functions
-	
-	template <typename Container, typename Upgrade, typename Item>
-	void RightClickUpgradeFromCatalogue(const string& name, const Container& list, const int list_id, const Upgrade upgrade, Item& add_to);
-	template <typename Container, typename Item>
-	void RightClickAddableFromCatalogue(const string& name, const Container& list, const Item& item, vector<pair<string, Item>>& add_to);
-	template <typename Container, typename Item>
-	void RightClickNonAddableFromCatalogue(const string& name, const Container& list, const Item& item);
 
 	// chatGPT sa izkora sa taq templatenata funkciq
 	//template <template <typename, typename...> class Container, typename T>
