@@ -4,5 +4,3 @@ name: Steel	cost: 220	ac: 13	dt: 2	upg_slots: 2	load: 50	str_req: 6	equipped: 1	
 name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
 name: Cloth2	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
 name: Scrap Metal	cost: 100	ac: 12	dt: 0	upg_slots: 4	load: 20	str_req: 5	equipped: 0	decay_level: 0	current_upg: 0		
-name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
-name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		

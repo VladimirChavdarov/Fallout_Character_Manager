@@ -50,6 +50,7 @@ void App::Run()
     EquippedWindow();
     CatalogueWindow();
     InfoWindow();
+    InventoryWindow();
 
 	// Render All Windows
 	//Render();
@@ -1079,6 +1080,7 @@ void App::CatalogueWindow()
         }
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Armor Upgrades", tbl::armors_upgrades, m_selected_name, equipped_armor))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = armor_upgrades;
         }
         break;
@@ -1088,6 +1090,7 @@ void App::CatalogueWindow()
         ImGui::Text("Armor:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Armor", tbl::armors, m_selected_name, m_character.armors))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = armor;
         }
         break;
@@ -1097,6 +1100,7 @@ void App::CatalogueWindow()
         ImGui::Text("Melee Weapons Properties:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Melee Weapons Properties", tbl::melee_weapons_props, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = melee_weapons_props;
         }
         break;
@@ -1106,6 +1110,7 @@ void App::CatalogueWindow()
         ImGui::Text("Ranged Weapons Properties:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Ranged Weapons Properties", tbl::ranged_weapons_props, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = ranged_weapons_props;
         }
         break;
@@ -1115,6 +1120,7 @@ void App::CatalogueWindow()
         ImGui::Text("Weapons:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Weapons", tbl::weapons, m_selected_name, m_character.weapons))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = weapons;
         }
         break;
@@ -1130,6 +1136,7 @@ void App::CatalogueWindow()
         }
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Melee Weapons Upgrades", tbl::melee_weapons_upgrades, m_selected_name, equipped_weapon))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = melee_weapons_upgrades;
         }
         break;
@@ -1145,6 +1152,7 @@ void App::CatalogueWindow()
         }
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Ranged Weapons Upgrades", tbl::ranged_weapons_upgrades, m_selected_name, equipped_weapon))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = ranged_weapons_upgrades;
         }
         break;
@@ -1154,6 +1162,7 @@ void App::CatalogueWindow()
         ImGui::Text("Ammo Properties:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Ammo Properties", tbl::ammos_props, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = ammo_props;
         }
         break;
@@ -1163,6 +1172,7 @@ void App::CatalogueWindow()
         ImGui::Text("Ammo:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Ammo", tbl::ammos, m_selected_name, m_character.ammos))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = ammo;
         }
         break;
@@ -1172,6 +1182,7 @@ void App::CatalogueWindow()
         ImGui::Text("Explosives Properties:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Explosives Properties", tbl::explosives_props, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = explosives_props;
         }
         break;
@@ -1181,6 +1192,7 @@ void App::CatalogueWindow()
         ImGui::Text("Explosives, Thrown:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Explosives, Thrown", tbl::explosives_thrown, m_selected_name, m_character.explosives))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = explosives_thrown;
         }
         break;
@@ -1190,6 +1202,7 @@ void App::CatalogueWindow()
         ImGui::Text("Explosives, Placed:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Explosives, Placed", tbl::explosives_placed, m_selected_name, m_character.explosives))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = explosives_placed;
         }
         break;
@@ -1197,8 +1210,9 @@ void App::CatalogueWindow()
     case gear:
     {
         ImGui::Text("Gear:");
-        if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Gear", tbl::gear, m_selected_name, m_character.misc))
+        if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Gear", tbl::gear, m_selected_name, m_character.gear))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = gear;
         }
         break;
@@ -1208,6 +1222,7 @@ void App::CatalogueWindow()
         ImGui::Text("Foods and Drinks Properties:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Foods and Drinks Properties", tbl::foods_drinks_props, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = food_drinks_props;
         }
         break;
@@ -1217,6 +1232,7 @@ void App::CatalogueWindow()
         ImGui::Text("Foods and Drinks:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Foods and Drinks", tbl::foods_drinks, m_selected_name, m_character.foods_drinks))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = food_drinks;
         }
         break;
@@ -1224,8 +1240,9 @@ void App::CatalogueWindow()
     case medicine_items:
     {
         ImGui::Text("Medicine:");
-        if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Medicine", tbl::medicine, m_selected_name, m_character.misc))
+        if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Medicine", tbl::medicine, m_selected_name, m_character.medicine))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = medicine_items;
         }
         break;
@@ -1233,8 +1250,9 @@ void App::CatalogueWindow()
     case chems:
     {
         ImGui::Text("Chems:");
-        if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Chems", tbl::chems, m_selected_name, m_character.misc))
+        if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Chems", tbl::chems, m_selected_name, m_character.chems))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = chems;
         }
         break;
@@ -1244,6 +1262,7 @@ void App::CatalogueWindow()
         ImGui::Text("Decay Levels:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Decay Levels", tbl::decay_levels, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = decay;
         }
         break;
@@ -1253,6 +1272,7 @@ void App::CatalogueWindow()
         ImGui::Text("Rads Levels:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Rads Levels", tbl::rads_levels, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = rads;
         }
         break;
@@ -1262,6 +1282,7 @@ void App::CatalogueWindow()
         ImGui::Text("Exhaustion Levels:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Exhaustion Levels", tbl::exhaustion_levels, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = exhaustion;
         }
         break;
@@ -1271,6 +1292,7 @@ void App::CatalogueWindow()
         ImGui::Text("Thirst Levels:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Thirst Levels", tbl::thirst_levels, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = thirst;
         }
         break;
@@ -1280,6 +1302,7 @@ void App::CatalogueWindow()
         ImGui::Text("Hunger Levels:");
         if (DisplayList(ImVec2(0, 80), ImVec2(300, 150), "Hunger Levels", tbl::hunger_levels, m_selected_name))
         {
+            catalogue_or_inventory = false;
             m_list_id_of_selected_name = hunger;
         }
         break;
@@ -1287,6 +1310,8 @@ void App::CatalogueWindow()
     default:
         break;
     }
+
+    ImGui::Separator();
 
     if (ImGui::Button("Add Custom"))
     {
@@ -1309,11 +1334,11 @@ void App::CatalogueWindow()
         ImGui::InputInt("Cost", &item.second.cost);
         ImGui::InputFloat("Load", &item.second.load);
         ImGui::Separator();
-        ImGui::InputInt("Amount", &item.second.amount, 1.0f, 1, 1000);
+        ImGui::InputInt("Amount", &item.second.amount);
         ImGui::Separator();
         if (ImGui::Button("Confirm", ImVec2(120, 0)))
         {
-            m_character.misc.push_back(item);
+            m_character.junk.push_back(item);
             ImGui::CloseCurrentPopup();
         }
         ImGui::SetItemDefaultFocus();
@@ -1338,479 +1363,641 @@ void App::InfoWindow()
     ImGui::Begin("Info Window");
     ImGui::SetWindowFontScale(1.2f);
     
-    switch (m_list_id_of_selected_name)
+    if (!catalogue_or_inventory)
     {
-    case armor_upgrades:
-    {
-        for (auto& armor_upgrade : tbl::armors_upgrades)
+        switch (m_list_id_of_selected_name)
         {
-            if (armor_upgrade.first == m_selected_name)
+        case armor_upgrades:
+        {
+            for (auto& armor_upgrade : tbl::armors_upgrades)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(armor_upgrade.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(armor_upgrade.second.cost);
-                ImGui::Text(cost.c_str());
-                for (int i = 0; i < 3; i++)
+                if (armor_upgrade.first == m_selected_name)
                 {
-                    string s = "Rank " + to_string(i + 1) + ": " + armor_upgrade.second.rank_description[i];
-                    ImGui::Text(s.c_str());
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(armor_upgrade.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(armor_upgrade.second.cost);
+                    ImGui::Text(cost.c_str());
+                    for (int i = 0; i < 3; i++)
+                    {
+                        string s = "Rank " + to_string(i + 1) + ": " + armor_upgrade.second.rank_description[i];
+                        ImGui::Text(s.c_str());
+                    }
                 }
             }
+            break;
         }
-        break;
-    }
-    case armor:
-    {
-        for (auto& armor : tbl::armors)
+        case armor:
         {
-            if (armor.first == m_selected_name)
+            for (auto& armor : tbl::armors)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(armor.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(armor.second.cost);
-                ImGui::Text(cost.c_str());
-                string ac = "Armor Class: " + to_string(armor.second.ac);
-                ImGui::Text(ac.c_str());
-                string dt = "Damage Threshold: " + to_string(armor.second.dt);
-                ImGui::Text(dt.c_str());
-                string upg_slots = "Upgrade Slots: " + to_string(armor.second.upg_slots);
-                ImGui::Text(upg_slots.c_str());
-                string load = "Load: " + to_string(armor.second.load);
-                ImGui::Text(load.c_str());
-                string str_req = "Strength Requirement: " + to_string(armor.second.str_req);
-                ImGui::Text(str_req.c_str());
-            }
-        }
-        break;
-    }
-    case melee_weapons_props:
-    {
-        for (auto& weapon_prop : tbl::melee_weapons_props)
-        {
-            if (weapon_prop.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(weapon_prop.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + weapon_prop.second.description;
-                ImGui::Text(description.c_str());
-            }
-        }
-        break;
-    }
-    case ranged_weapons_props:
-    {
-        for (auto& weapon_prop : tbl::ranged_weapons_props)
-        {
-            if (weapon_prop.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(weapon_prop.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + weapon_prop.second.description;
-                ImGui::Text(description.c_str());
-            }
-        }
-        break;
-    }
-    case weapons:
-    {
-        for (auto& weapon : tbl::weapons)
-        {
-            if (weapon.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(weapon.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(weapon.second.cost);
-                ImGui::Text(cost.c_str());
-                string ap = "Action Points: " + to_string(weapon.second.ap);
-                ImGui::Text(ap.c_str());
-                string dmg = "Damage: " + weapon.second.dmg;
-                ImGui::Text(dmg.c_str());
-                string range = "Range: " + weapon.second.range;
-                ImGui::Text(range.c_str());
-                string crit = "Critical: " + weapon.second.crit;
-                ImGui::Text(crit.c_str());
-                string ammo = "Ammo: " + weapon.second.ammo;
-                ImGui::Text(ammo.c_str());
-                string clip_size = "Clip Size: " + to_string(weapon.second.clip_size);
-                ImGui::Text(clip_size.c_str());
-                ImGui::Text("--- Props ---");
-                for (auto& prop : weapon.second.props)
+                if (armor.first == m_selected_name)
                 {
-                    string s = prop.first + ": " + prop.second.description;
-                    ImGui::Text(s.c_str());
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(armor.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(armor.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string ac = "Armor Class: " + to_string(armor.second.ac);
+                    ImGui::Text(ac.c_str());
+                    string dt = "Damage Threshold: " + to_string(armor.second.dt);
+                    ImGui::Text(dt.c_str());
+                    string upg_slots = "Upgrade Slots: " + to_string(armor.second.upg_slots);
+                    ImGui::Text(upg_slots.c_str());
+                    string load = "Load: " + to_string(armor.second.load);
+                    ImGui::Text(load.c_str());
+                    string str_req = "Strength Requirement: " + to_string(armor.second.str_req);
+                    ImGui::Text(str_req.c_str());
                 }
-                ImGui::Text("-------------");
-                string load = "Load: " + to_string(weapon.second.load);
-                ImGui::Text(load.c_str());
-                string str_req = "Strength Requirement: " + to_string(weapon.second.str_req);
-                ImGui::Text(str_req.c_str());
             }
+            break;
         }
-        break;
-    }
-    case melee_weapons_upgrades:
-    {
-        for (auto& weapon_upg : tbl::melee_weapons_upgrades)
+        case melee_weapons_props:
         {
-            if (weapon_upg.first == m_selected_name)
+            for (auto& weapon_prop : tbl::melee_weapons_props)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(weapon_upg.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + weapon_upg.second.description;
-                ImGui::Text(description.c_str());
-                string req = "Requirement: " + weapon_upg.second.req;
-                ImGui::Text(req.c_str());
-            }
-        }
-        break;
-    }
-    case ranged_weapons_upgrades:
-    {
-        for (auto& weapon_upg : tbl::ranged_weapons_upgrades)
-        {
-            if (weapon_upg.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(weapon_upg.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + weapon_upg.second.description;
-                ImGui::Text(description.c_str());
-                string req = "Requirement: " + weapon_upg.second.req;
-                ImGui::Text(req.c_str());
-            }
-        }
-        break;
-    }
-    case ammo_props:
-    {
-        for (auto& ammo_prop : tbl::ammos_props)
-        {
-            if (ammo_prop.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(ammo_prop.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + ammo_prop.second.description;
-                ImGui::Text(description.c_str());
-                string req = "Requirement: " + ammo_prop.second.req;
-                ImGui::Text(req.c_str());
-            }
-        }
-        break;
-    }
-    case ammo:
-    {
-        for (auto& ammo : tbl::ammos)
-        {
-            if (ammo.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(ammo.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost per bullet: " + to_string(ammo.second.cost);
-                ImGui::Text(cost.c_str());
-                string pack_size = "Pack Size: " + to_string(ammo.second.pack_size);
-                ImGui::Text(pack_size.c_str());
-                string load = "Load: " + to_string(ammo.second.load);
-                ImGui::Text(load.c_str());
-            }
-        }
-        break;
-    }
-    case explosives_props:
-    {
-        for (auto& explosive_prop : tbl::explosives_props)
-        {
-            if (explosive_prop.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(explosive_prop.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + explosive_prop.second.description;
-                ImGui::Text(description.c_str());
-            }
-        }
-        break;
-    }
-    case explosives_thrown:
-    {
-        for (auto& explosive : tbl::explosives_thrown)
-        {
-            if (explosive.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(explosive.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(explosive.second.cost);
-                ImGui::Text(cost.c_str());
-                string ap = "Action Points: " + to_string(explosive.second.ap);
-                ImGui::Text(ap.c_str());
-                string dmg = "Damage: " + explosive.second.dmg;
-                ImGui::Text(dmg.c_str());
-                string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
-                ImGui::Text(range_or_arm_dc.c_str());
-                string aoe = "Area of Effect: " + explosive.second.aoe;
-                ImGui::Text(aoe.c_str());
-                ImGui::Text("--- Props ---");
-                for (auto& prop : explosive.second.props)
+                if (weapon_prop.first == m_selected_name)
                 {
-                    string s = prop.first + ": " + prop.second.description;
-                    ImGui::Text(s.c_str());
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(weapon_prop.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + weapon_prop.second.description;
+                    ImGui::Text(description.c_str());
                 }
-                ImGui::Text("-------------");
-                string load = "Load: " + to_string(explosive.second.load);
-                ImGui::Text(load.c_str());
             }
+            break;
         }
-        break;
-    }
-    case explosives_placed:
-    {
-        for (auto& explosive : tbl::explosives_placed)
+        case ranged_weapons_props:
         {
-            if (explosive.first == m_selected_name)
+            for (auto& weapon_prop : tbl::ranged_weapons_props)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(explosive.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(explosive.second.cost);
-                ImGui::Text(cost.c_str());
-                string ap = "Action Points: " + to_string(explosive.second.ap);
-                ImGui::Text(ap.c_str());
-                string dmg = "Damage: " + explosive.second.dmg;
-                ImGui::Text(dmg.c_str());
-                string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
-                ImGui::Text(range_or_arm_dc.c_str());
-                string aoe = "Area of Effect: " + explosive.second.aoe;
-                ImGui::Text(aoe.c_str());
-                ImGui::Text("--- Props ---");
-                for (auto& prop : explosive.second.props)
+                if (weapon_prop.first == m_selected_name)
                 {
-                    string s = prop.first + ": " + prop.second.description;
-                    ImGui::Text(s.c_str());
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(weapon_prop.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + weapon_prop.second.description;
+                    ImGui::Text(description.c_str());
                 }
-                ImGui::Text("-------------");
-                string load = "Load: " + to_string(explosive.second.load);
-                ImGui::Text(load.c_str());
             }
+            break;
         }
-        break;
-    }
-    case gear:
-    {
-        for (auto& gear : tbl::gear)
+        case weapons:
         {
-            if (gear.first == m_selected_name)
+            for (auto& weapon : tbl::weapons)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(gear.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(gear.second.cost);
-                ImGui::Text(cost.c_str());
-                string description = "Description: " + gear.second.description;
-                ImGui::Text(description.c_str());
-                string load = "Load: " + to_string(gear.second.load);
-                ImGui::Text(load.c_str());
-            }
-        }
-        break;
-    }
-    case food_drinks_props:
-    {
-        for (auto& food_drink_prop : tbl::foods_drinks_props)
-        {
-            if (food_drink_prop.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(food_drink_prop.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string description = "Description: " + food_drink_prop.second.description;
-                ImGui::Text(description.c_str());
-            }
-        }
-        break;
-    }
-    case food_drinks:
-    {
-        for (auto& food_drink : tbl::foods_drinks)
-        {
-            if (food_drink.first == m_selected_name)
-            {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(food_drink.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(food_drink.second.cost);
-                ImGui::Text(cost.c_str());
-                ImGui::Text("--- Props ---");
-                for (auto& prop : food_drink.second.props)
+                if (weapon.first == m_selected_name)
                 {
-                    string s = prop.first + ": " + prop.second.description;
-                    ImGui::Text(s.c_str());
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(weapon.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(weapon.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string ap = "Action Points: " + to_string(weapon.second.ap);
+                    ImGui::Text(ap.c_str());
+                    string dmg = "Damage: " + weapon.second.dmg;
+                    ImGui::Text(dmg.c_str());
+                    string range = "Range: " + weapon.second.range;
+                    ImGui::Text(range.c_str());
+                    string crit = "Critical: " + weapon.second.crit;
+                    ImGui::Text(crit.c_str());
+                    string ammo = "Ammo: " + weapon.second.ammo;
+                    ImGui::Text(ammo.c_str());
+                    string clip_size = "Clip Size: " + to_string(weapon.second.clip_size);
+                    ImGui::Text(clip_size.c_str());
+                    ImGui::Text("--- Props ---");
+                    for (auto& prop : weapon.second.props)
+                    {
+                        string s = prop.first + ": " + prop.second.description;
+                        ImGui::Text(s.c_str());
+                    }
+                    ImGui::Text("-------------");
+                    string load = "Load: " + to_string(weapon.second.load);
+                    ImGui::Text(load.c_str());
+                    string str_req = "Strength Requirement: " + to_string(weapon.second.str_req);
+                    ImGui::Text(str_req.c_str());
                 }
-                ImGui::Text("-------------");
-                string load = "Load: " + to_string(food_drink.second.load);
-                ImGui::Text(load.c_str());
             }
+            break;
         }
-        break;
-    }
-    case medicine_items:
-    {
-        for (auto& gear : tbl::medicine)
+        case melee_weapons_upgrades:
         {
-            if (gear.first == m_selected_name)
+            for (auto& weapon_upg : tbl::melee_weapons_upgrades)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(gear.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(gear.second.cost);
-                ImGui::Text(cost.c_str());
-                string description = "Description: " + gear.second.description;
-                ImGui::Text(description.c_str());
-                string load = "Load: " + to_string(gear.second.load);
-                ImGui::Text(load.c_str());
+                if (weapon_upg.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(weapon_upg.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + weapon_upg.second.description;
+                    ImGui::Text(description.c_str());
+                    string req = "Requirement: " + weapon_upg.second.req;
+                    ImGui::Text(req.c_str());
+                }
             }
+            break;
         }
-        break;
-    }
-    case chems:
-    {
-        for (auto& gear : tbl::chems)
+        case ranged_weapons_upgrades:
         {
-            if (gear.first == m_selected_name)
+            for (auto& weapon_upg : tbl::ranged_weapons_upgrades)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(gear.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string cost = "Cost: " + to_string(gear.second.cost);
-                ImGui::Text(cost.c_str());
-                string description = "Description: " + gear.second.description;
-                ImGui::Text(description.c_str());
-                string load = "Load: " + to_string(gear.second.load);
-                ImGui::Text(load.c_str());
+                if (weapon_upg.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(weapon_upg.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + weapon_upg.second.description;
+                    ImGui::Text(description.c_str());
+                    string req = "Requirement: " + weapon_upg.second.req;
+                    ImGui::Text(req.c_str());
+                }
             }
+            break;
         }
-        break;
-    }
-    case decay:
-    {
-        for (auto& decay : tbl::decay_levels)
+        case ammo_props:
         {
-            if (decay.first == m_selected_name)
+            for (auto& ammo_prop : tbl::ammos_props)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(decay.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string level = "Level: " + to_string(decay.second.level);
-                ImGui::Text(level.c_str());
-                string armor_effect = "Armor Effect: " + decay.second.armor_effect;
-                ImGui::Text(armor_effect.c_str());
-                string weapon_effect = "Weapon Effect: " + decay.second.weapon_effect;
-                ImGui::Text(weapon_effect.c_str());
-                string cost_reduction_percentage = "Cost Reduction: " + to_string(decay.second.cost_reduction_percentage) + "%";
-                ImGui::Text(cost_reduction_percentage.c_str());
+                if (ammo_prop.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(ammo_prop.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + ammo_prop.second.description;
+                    ImGui::Text(description.c_str());
+                    string req = "Requirement: " + ammo_prop.second.req;
+                    ImGui::Text(req.c_str());
+                }
             }
+            break;
         }
-        break;
-    }
-    case rads:
-    {
-        for (auto& rads : tbl::rads_levels)
+        case ammo:
         {
-            if (rads.first == m_selected_name)
+            for (auto& ammo : tbl::ammos)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(rads.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string level = "Level: " + to_string(rads.second.level);
-                ImGui::Text(level.c_str());
-                string event = "Event: " + rads.second.event;
-                ImGui::Text(event.c_str());
+                if (ammo.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(ammo.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost per bullet: " + to_string(ammo.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string pack_size = "Pack Size: " + to_string(ammo.second.pack_size);
+                    ImGui::Text(pack_size.c_str());
+                    string load = "Load: " + to_string(ammo.second.load);
+                    ImGui::Text(load.c_str());
+                }
             }
+            break;
         }
-        break;
-    }
-    case exhaustion:
-    {
-        for (auto& rads : tbl::exhaustion_levels)
+        case explosives_props:
         {
-            if (rads.first == m_selected_name)
+            for (auto& explosive_prop : tbl::explosives_props)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(rads.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string level = "Level: " + to_string(rads.second.level);
-                ImGui::Text(level.c_str());
-                string event = "Event: " + rads.second.event;
-                ImGui::Text(event.c_str());
+                if (explosive_prop.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(explosive_prop.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + explosive_prop.second.description;
+                    ImGui::Text(description.c_str());
+                }
             }
+            break;
         }
-        break;
-    }
-    case thirst:
-    {
-        for (auto& rads : tbl::thirst_levels)
+        case explosives_thrown:
         {
-            if (rads.first == m_selected_name)
+            for (auto& explosive : tbl::explosives_thrown)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(rads.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string level = "Level: " + to_string(rads.second.level);
-                ImGui::Text(level.c_str());
-                string event = "Event: " + rads.second.event;
-                ImGui::Text(event.c_str());
+                if (explosive.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(explosive.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(explosive.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string ap = "Action Points: " + to_string(explosive.second.ap);
+                    ImGui::Text(ap.c_str());
+                    string dmg = "Damage: " + explosive.second.dmg;
+                    ImGui::Text(dmg.c_str());
+                    string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
+                    ImGui::Text(range_or_arm_dc.c_str());
+                    string aoe = "Area of Effect: " + explosive.second.aoe;
+                    ImGui::Text(aoe.c_str());
+                    ImGui::Text("--- Props ---");
+                    for (auto& prop : explosive.second.props)
+                    {
+                        string s = prop.first + ": " + prop.second.description;
+                        ImGui::Text(s.c_str());
+                    }
+                    ImGui::Text("-------------");
+                    string load = "Load: " + to_string(explosive.second.load);
+                    ImGui::Text(load.c_str());
+                }
             }
+            break;
         }
-        break;
-    }
-    case hunger:
-    {
-        for (auto& rads : tbl::hunger_levels)
+        case explosives_placed:
         {
-            if (rads.first == m_selected_name)
+            for (auto& explosive : tbl::explosives_placed)
             {
-                ImGui::PushTextWrapPos(780.0f);
-                ImGui::SetWindowFontScale(1.8f);
-                ImGui::Text(rads.first.c_str());
-                ImGui::SetWindowFontScale(1.2f);
-                string level = "Level: " + to_string(rads.second.level);
-                ImGui::Text(level.c_str());
-                string event = "Event: " + rads.second.event;
-                ImGui::Text(event.c_str());
+                if (explosive.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(explosive.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(explosive.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string ap = "Action Points: " + to_string(explosive.second.ap);
+                    ImGui::Text(ap.c_str());
+                    string dmg = "Damage: " + explosive.second.dmg;
+                    ImGui::Text(dmg.c_str());
+                    string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
+                    ImGui::Text(range_or_arm_dc.c_str());
+                    string aoe = "Area of Effect: " + explosive.second.aoe;
+                    ImGui::Text(aoe.c_str());
+                    ImGui::Text("--- Props ---");
+                    for (auto& prop : explosive.second.props)
+                    {
+                        string s = prop.first + ": " + prop.second.description;
+                        ImGui::Text(s.c_str());
+                    }
+                    ImGui::Text("-------------");
+                    string load = "Load: " + to_string(explosive.second.load);
+                    ImGui::Text(load.c_str());
+                }
             }
+            break;
         }
-        break;
+        case gear:
+        {
+            for (auto& gear : tbl::gear)
+            {
+                if (gear.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(gear.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(gear.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string description = "Description: " + gear.second.description;
+                    ImGui::Text(description.c_str());
+                    string load = "Load: " + to_string(gear.second.load);
+                    ImGui::Text(load.c_str());
+                }
+            }
+            break;
+        }
+        case food_drinks_props:
+        {
+            for (auto& food_drink_prop : tbl::foods_drinks_props)
+            {
+                if (food_drink_prop.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(food_drink_prop.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string description = "Description: " + food_drink_prop.second.description;
+                    ImGui::Text(description.c_str());
+                }
+            }
+            break;
+        }
+        case food_drinks:
+        {
+            for (auto& food_drink : tbl::foods_drinks)
+            {
+                if (food_drink.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(food_drink.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(food_drink.second.cost);
+                    ImGui::Text(cost.c_str());
+                    ImGui::Text("--- Props ---");
+                    for (auto& prop : food_drink.second.props)
+                    {
+                        string s = prop.first + ": " + prop.second.description;
+                        ImGui::Text(s.c_str());
+                    }
+                    ImGui::Text("-------------");
+                    string load = "Load: " + to_string(food_drink.second.load);
+                    ImGui::Text(load.c_str());
+                }
+            }
+            break;
+        }
+        case medicine_items:
+        {
+            for (auto& gear : tbl::medicine)
+            {
+                if (gear.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(gear.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(gear.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string description = "Description: " + gear.second.description;
+                    ImGui::Text(description.c_str());
+                    string load = "Load: " + to_string(gear.second.load);
+                    ImGui::Text(load.c_str());
+                }
+            }
+            break;
+        }
+        case chems:
+        {
+            for (auto& gear : tbl::chems)
+            {
+                if (gear.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(gear.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string cost = "Cost: " + to_string(gear.second.cost);
+                    ImGui::Text(cost.c_str());
+                    string description = "Description: " + gear.second.description;
+                    ImGui::Text(description.c_str());
+                    string load = "Load: " + to_string(gear.second.load);
+                    ImGui::Text(load.c_str());
+                }
+            }
+            break;
+        }
+        case decay:
+        {
+            for (auto& decay : tbl::decay_levels)
+            {
+                if (decay.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(decay.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string level = "Level: " + to_string(decay.second.level);
+                    ImGui::Text(level.c_str());
+                    string armor_effect = "Armor Effect: " + decay.second.armor_effect;
+                    ImGui::Text(armor_effect.c_str());
+                    string weapon_effect = "Weapon Effect: " + decay.second.weapon_effect;
+                    ImGui::Text(weapon_effect.c_str());
+                    string cost_reduction_percentage = "Cost Reduction: " + to_string(decay.second.cost_reduction_percentage) + "%";
+                    ImGui::Text(cost_reduction_percentage.c_str());
+                }
+            }
+            break;
+        }
+        case rads:
+        {
+            for (auto& rads : tbl::rads_levels)
+            {
+                if (rads.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(rads.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string level = "Level: " + to_string(rads.second.level);
+                    ImGui::Text(level.c_str());
+                    string event = "Event: " + rads.second.event;
+                    ImGui::Text(event.c_str());
+                }
+            }
+            break;
+        }
+        case exhaustion:
+        {
+            for (auto& rads : tbl::exhaustion_levels)
+            {
+                if (rads.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(rads.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string level = "Level: " + to_string(rads.second.level);
+                    ImGui::Text(level.c_str());
+                    string event = "Event: " + rads.second.event;
+                    ImGui::Text(event.c_str());
+                }
+            }
+            break;
+        }
+        case thirst:
+        {
+            for (auto& rads : tbl::thirst_levels)
+            {
+                if (rads.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(rads.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string level = "Level: " + to_string(rads.second.level);
+                    ImGui::Text(level.c_str());
+                    string event = "Event: " + rads.second.event;
+                    ImGui::Text(event.c_str());
+                }
+            }
+            break;
+        }
+        case hunger:
+        {
+            for (auto& rads : tbl::hunger_levels)
+            {
+                if (rads.first == m_selected_name)
+                {
+                    ImGui::PushTextWrapPos(780.0f);
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(rads.first.c_str());
+                    ImGui::SetWindowFontScale(1.2f);
+                    string level = "Level: " + to_string(rads.second.level);
+                    ImGui::Text(level.c_str());
+                    string event = "Event: " + rads.second.event;
+                    ImGui::Text(event.c_str());
+                }
+            }
+            break;
+        }
+        default:
+            break;
+        }
     }
-    default:
-        break;
+    else
+    {
+        switch (m_character.item_category)
+        {
+        case ammo:
+        {
+            pair<string, tbl::ammo> ammo = m_character.ammos[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(ammo.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost per bullet: " + to_string(ammo.second.cost);
+            ImGui::Text(cost.c_str());
+            string pack_size = "Pack Size: " + to_string(ammo.second.pack_size);
+            ImGui::Text(pack_size.c_str());
+            string load = "Load: " + to_string(ammo.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case explosives_thrown:
+        {
+            pair<string, tbl::explosive> explosive = m_character.explosives[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(explosive.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(explosive.second.cost);
+            ImGui::Text(cost.c_str());
+            string ap = "Action Points: " + to_string(explosive.second.ap);
+            ImGui::Text(ap.c_str());
+            string dmg = "Damage: " + explosive.second.dmg;
+            ImGui::Text(dmg.c_str());
+            string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
+            ImGui::Text(range_or_arm_dc.c_str());
+            string aoe = "Area of Effect: " + explosive.second.aoe;
+            ImGui::Text(aoe.c_str());
+            ImGui::Text("--- Props ---");
+            for (auto& prop : explosive.second.props)
+            {
+                string s = prop.first + ": " + prop.second.description;
+                ImGui::Text(s.c_str());
+            }
+            ImGui::Text("-------------");
+            string load = "Load: " + to_string(explosive.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case explosives_placed:
+        {
+            pair<string, tbl::explosive> explosive = m_character.explosives[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(explosive.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(explosive.second.cost);
+            ImGui::Text(cost.c_str());
+            string ap = "Action Points: " + to_string(explosive.second.ap);
+            ImGui::Text(ap.c_str());
+            string dmg = "Damage: " + explosive.second.dmg;
+            ImGui::Text(dmg.c_str());
+            string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
+            ImGui::Text(range_or_arm_dc.c_str());
+            string aoe = "Area of Effect: " + explosive.second.aoe;
+            ImGui::Text(aoe.c_str());
+            ImGui::Text("--- Props ---");
+            for (auto& prop : explosive.second.props)
+            {
+                string s = prop.first + ": " + prop.second.description;
+                ImGui::Text(s.c_str());
+            }
+            ImGui::Text("-------------");
+            string load = "Load: " + to_string(explosive.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case food_drinks:
+        {
+            pair<string, tbl::food_drink> food_drink = m_character.foods_drinks[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(food_drink.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(food_drink.second.cost);
+            ImGui::Text(cost.c_str());
+            ImGui::Text("--- Props ---");
+            for (auto& prop : food_drink.second.props)
+            {
+                string s = prop.first + ": " + prop.second.description;
+                ImGui::Text(s.c_str());
+            }
+            ImGui::Text("-------------");
+            string load = "Load: " + to_string(food_drink.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case gear:
+        {
+            pair<string, tbl::misc> gear = m_character.gear[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(gear.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(gear.second.cost);
+            ImGui::Text(cost.c_str());
+            string description = "Description: " + gear.second.description;
+            ImGui::Text(description.c_str());
+            string load = "Load: " + to_string(gear.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case medicine:
+        {
+            pair<string, tbl::misc> medicine = m_character.medicine[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(medicine.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(medicine.second.cost);
+            ImGui::Text(cost.c_str());
+            string description = "Description: " + medicine.second.description;
+            ImGui::Text(description.c_str());
+            string load = "Load: " + to_string(medicine.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case chems:
+        {
+            pair<string, tbl::misc> chems = m_character.chems[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(chems.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(chems.second.cost);
+            ImGui::Text(cost.c_str());
+            string description = "Description: " + chems.second.description;
+            ImGui::Text(description.c_str());
+            string load = "Load: " + to_string(chems.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        case junk:
+        {
+            pair<string, tbl::misc> junk = m_character.junk[m_character.item_index];
+            ImGui::PushTextWrapPos(780.0f);
+            ImGui::SetWindowFontScale(1.8f);
+            ImGui::Text(junk.first.c_str());
+            ImGui::SetWindowFontScale(1.2f);
+            string cost = "Cost: " + to_string(junk.second.cost);
+            ImGui::Text(cost.c_str());
+            string description = "Description: " + junk.second.description;
+            ImGui::Text(description.c_str());
+            string load = "Load: " + to_string(junk.second.load);
+            ImGui::Text(load.c_str());
+            break;
+        }
+        default:
+            break;
+        }
     }
 
     ImGui::SetWindowFontScale(1.0f);
@@ -1819,17 +2006,141 @@ void App::InfoWindow()
 
 void App::InventoryWindow()
 {
-    
-}
-
-void App::WeaponsInventoryWindow()
-{
-
-}
-
-void App::ArmorInventoryWindow()
-{
-
+    // Inventory Window
+    ImGui::SetNextWindowPos(ImVec2(1140, 640), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(350, 330), ImGuiCond_Once);
+    ImGui::Begin("Inventory");
+    if (ImGui::BeginTabBar("MyTabBar"))
+    {
+        if (ImGui::BeginTabItem("Ammo"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Ammo", m_character.ammos, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.ammos.size(); i++)
+                {
+                    if (m_character.ammos[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                }
+                catalogue_or_inventory = true;
+                m_character.item_category = ammo;
+            }
+            if(m_character.item_index != -1)
+                ImGui::InputInt("Ammo Amount", &m_character.ammos[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Explosives"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Explosives", m_character.explosives, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.explosives.size(); i++)
+                {
+                    if (m_character.explosives[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                }
+                for (auto& explosive : tbl::explosives_thrown)
+                {
+                    if (explosive.first == m_character.selected_item);
+                    {
+                        m_character.item_category = explosives_thrown;
+                        break;
+                    }
+                }
+                for (auto& explosive : tbl::explosives_placed)
+                {
+                    if (explosive.first == m_character.selected_item);
+                    {
+                        m_character.item_category = explosives_placed;
+                        break;
+                    }
+                }
+            }
+            if (m_character.item_index != -1)
+                ImGui::InputInt("Explosives Amount", &m_character.explosives[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Food/Drinks"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Food or Drinks", m_character.foods_drinks, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.foods_drinks.size(); i++)
+                {
+                    if (m_character.foods_drinks[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                }
+                catalogue_or_inventory = true;
+                m_character.item_category = food_drinks;
+            }
+            if (m_character.item_index != -1)
+                ImGui::InputInt("Food or Drinks Amount", &m_character.foods_drinks[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Gear"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Gear", m_character.gear, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.gear.size(); i++)
+                {
+                    if (m_character.gear[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                }
+                catalogue_or_inventory = true;
+                m_character.item_category = gear;
+            }
+            if (m_character.item_index != -1)
+                ImGui::InputInt("Gear Amount", &m_character.gear[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Medicine"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Medicine", m_character.medicine, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.medicine.size(); i++)
+                {
+                    if (m_character.medicine[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                }
+                catalogue_or_inventory = true;
+                m_character.item_category = medicine_items;
+            }
+            if (m_character.item_index != -1)
+                ImGui::InputInt("Medicine Amount", &m_character.medicine[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Chems"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Chems", m_character.chems, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.chems.size(); i++)
+                {
+                    if (m_character.chems[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                }
+                catalogue_or_inventory = true;
+                m_character.item_category = chems;
+            }
+            if (m_character.item_index != -1)
+                ImGui::InputInt("Chems Amount", &m_character.chems[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Junk"))
+        {
+            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Junk", m_character.junk, m_character.selected_item))
+            {
+                for (int i = 0; i < m_character.junk.size(); i++)
+                {
+                    if (m_character.junk[i].first == m_character.selected_item)
+                        m_character.item_index = i;
+                    catalogue_or_inventory = true;
+                    m_character.item_category = junk;
+                }
+            }
+            if (m_character.item_index != -1)
+                ImGui::InputInt("Junk Amount", &m_character.junk[m_character.item_index].second.amount);
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+    ImGui::End();
 }
 
 void App::Render()
@@ -3596,6 +3907,35 @@ bool App::DisplayList(const ImVec2& pos, const ImVec2& size, const string& name,
                 ImGui::EndPopup();
             }
             ImGui::SetItemTooltip("Right-click to open popup");
+
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndListBox();
+    }
+
+    return new_select;
+}
+
+template<typename Container>
+bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const string& name, const Container& list, string& selected_item)
+{
+    ImGui::SetCursorPos(pos);
+    bool new_select = false;
+    string tag = "##" + name;
+    if (ImGui::BeginListBox(tag.c_str(), size))
+    {
+        // Display the items in the ListBox
+        for (auto& item : list)
+        {
+            const bool is_selected = (selected_item == item.first);
+            string s = "(" + to_string(item.second.amount) + ") " + item.first;
+            if (ImGui::Selectable(s.c_str(), is_selected))
+            {
+                new_select = true;
+                selected_item = item.first;
+            }
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected)

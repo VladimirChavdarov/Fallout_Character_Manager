@@ -92,8 +92,13 @@ public:
 	vector<pair<string, tbl::ammo>> ammos;
 	vector<pair<string, tbl::explosive>> explosives;
 	vector<pair<string, tbl::food_drink>> foods_drinks;
-	vector<pair<string, tbl::misc>> misc;
+	vector<pair<string, tbl::misc>> gear;
+	vector<pair<string, tbl::misc>> medicine;
+	vector<pair<string, tbl::misc>> chems;
+	vector<pair<string, tbl::misc>> junk;
+	vector<pair<string, tbl::misc>> other;
 	string selected_item = "";
+	int item_index = -1;
 	int item_category = 0;
 
 	// gameplay

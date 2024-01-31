@@ -117,6 +117,14 @@ private:
 		string& selected_item,
 		vector<pair<string, ItemAddTo>>& add_to);
 
+	template <typename Container>
+	bool DisplayListInventory(
+		const ImVec2& pos,
+		const ImVec2& size,
+		const string& name,
+		const Container& list,
+		string& selected_item);
+
 
 	void ReloadCharacterFromBaseStats();
 
@@ -148,10 +156,13 @@ private:
 		rads,
 		exhaustion,
 		thirst,
-		hunger
+		hunger,
+		junk // this is used only for player inventory. TODO: implement junk table
 	};
 	int m_selected_list = 1;
 	string m_selected_name = "";
 	int m_list_id_of_selected_name = 0;
+	// False for catalogue. True for inventory.
+	bool catalogue_or_inventory = false;
 };
 
