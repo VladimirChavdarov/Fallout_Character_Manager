@@ -10,6 +10,13 @@
 #include <glfw/glfw3.h>
 #include <iostream>
 
+#ifdef _WIN32
+#include <direct.h> // for _mkdir
+#elif __linux__ || __APPLE__
+#include <sys/stat.h> // for mkdir
+#include <unistd.h>   // for access
+#endif
+
 struct texture
 {
 	GLuint image_texture;
@@ -79,6 +86,8 @@ private:
 
 
 	// helper functions
+
+	bool CreateDirectory(const string& path);
 
 	// chatGPT sa izkora sa taq templatenata funkciq
 	//template <template <typename, typename...> class Container, typename T>

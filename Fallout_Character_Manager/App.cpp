@@ -1,8 +1,8 @@
 #include "App.h"
 
 #include <fstream>
-#include <filesystem>
 #include <sstream>
+#include <algorithm>
 
 #define IM_ARRAYSIZE(_ARR)          ((int)(sizeof(_ARR) / sizeof(*(_ARR))))     // Size of a static C-style array. Don't use on pointers!
 
@@ -30,8 +30,9 @@ void App::Init()
     ExtractDecay();
     ExtractConditions();
 
-    if (m_character.autoload)
-        LoadFromTSV();
+    // load the character set to default
+    m_character.SetCharacterDir();
+    LoadFromTSV();
 }
 
 void App::Run()
@@ -72,27 +73,47 @@ void App::Shutdown()
 
 void App::MenuBar()
 {
-    ImGui::BeginMainMenuBar();
-    if (ImGui::Button("Save", ImVec2(40, 20)))
+    if (ImGui::BeginMainMenuBar())
     {
-        SaveToTSV();
-    }
-    if (ImGui::Button("Load", ImVec2(40, 20)))
-    {
-        LoadFromTSV();
-    }
-    if (ImGui::Checkbox("Autosave", &m_character.autosave))
-    {
-        
-    }
-    if (ImGui::Checkbox("Autoload", &m_character.autoload))
-    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Save"))
+            {
+                SaveToTSV();
+            }
+            if (ImGui::MenuItem("Load"))
+            {
+                LoadFromTSV();
+            }
+            if (ImGui::MenuItem("Default", NULL, &m_character.default_character))
+            {
+                string s = m_character.name;
+                for (auto& x : s)
+                    x = tolower(x);
+                std::replace(s.begin(), s.end(), ' ', '_');
+                m_character.SetCharacterFilename(s);
+                m_character.SetCharacterDir();
 
+            }
+            ImGui::EndMenu();
+        }
+        /*if (ImGui::Button("Save", ImVec2(40, 20)))
+        {
+            SaveToTSV();
+        }
+        if (ImGui::Button("Load", ImVec2(40, 20)))
+        {
+            LoadFromTSV();
+        }
+        if (ImGui::Checkbox("Autosave", &m_character.autosave))
+        {
+
+        }
+        float width = ImGui::CalcTextSize(m_character.dir.c_str()).x;
+        ImGui::SetNextItemWidth(width + 30.0f);
+        ImGui::InputText("Path", &m_character.dir);*/
+        ImGui::EndMainMenuBar();
     }
-    float width = ImGui::CalcTextSize(m_character.filename.c_str()).x;
-    ImGui::SetNextItemWidth(width + 30.0f);
-    ImGui::InputText("Path", &m_character.filename);
-    ImGui::EndMainMenuBar();
 }
 
 void App::BioWindow()
@@ -3188,7 +3209,16 @@ void App::ExtractConditions()
 
 void App::SaveToTSV()
 {
-    ofstream f_base(m_character.filename + "base.txt", ios::app);
+    string s = m_character.name;
+    for (auto& x : s)
+        x = tolower(x);
+    std::replace(s.begin(), s.end(), ' ', '_');
+    m_character.SetCharacterFilename(s);
+    m_character.SetCharacterDir();
+
+    CreateDirectory(m_character.m_dir);
+    ofstream f_base(m_character.m_dir + "base.txt");
+    f_base.clear();
     if (!f_base.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3196,7 +3226,7 @@ void App::SaveToTSV()
     string output = "";
     // auto save/load
     output += "autosave: " + to_string(m_character.autosave) + "\n";
-    output += "autoload: " + to_string(m_character.autoload) + "\n";
+    output += "default_character: " + to_string(m_character.default_character) + "\n";
     // bio
     output += "name: " + m_character.name + "\n";
     output += "race: " + m_character.race + "\n";
@@ -3245,7 +3275,7 @@ void App::SaveToTSV()
     f_base.write(output.c_str(), output.size());
     f_base.close();
 
-    ofstream f_perks(m_character.filename + "perks.txt", ios::app);
+    ofstream f_perks(m_character.m_dir + "perks.txt");
     if (!f_perks.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3259,7 +3289,7 @@ void App::SaveToTSV()
     f_perks.write(output.c_str(), output.size());
     f_perks.close();
 
-    ofstream f_conditions(m_character.filename + "conditions.txt", ios::app);
+    ofstream f_conditions(m_character.m_dir + "conditions.txt");
     if (!f_conditions.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3275,7 +3305,7 @@ void App::SaveToTSV()
     f_conditions.write(output.c_str(), output.size());
     f_conditions.close();
 
-    ofstream f_armors(m_character.filename + "armors.txt", ios::app);
+    ofstream f_armors(m_character.m_dir + "armors.txt");
     if (!f_armors.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3303,7 +3333,7 @@ void App::SaveToTSV()
     f_armors.write(output.c_str(), output.size());
     f_armors.close();
 
-    ofstream f_weapons(m_character.filename + "weapons.txt", ios::app);
+    ofstream f_weapons(m_character.m_dir + "weapons.txt");
     if (!f_weapons.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3375,7 +3405,7 @@ void App::LoadFromTSV()
             fatigue,
             rads
         };
-    ifstream f_base(m_character.filename + "base.txt");
+    ifstream f_base(m_character.m_dir + "base.txt");
     if (!f_base.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3395,9 +3425,9 @@ void App::LoadFromTSV()
         }
         case autoload:
         {
-            string autoload = util::GetSubstringBetween(line, "autoload: ", "");
-            if (autoload != "")
-                m_character.autoload = stoi(autoload);
+            string default_character = util::GetSubstringBetween(line, "default_character: ", "");
+            if (default_character != "")
+                m_character.default_character = stoi(default_character);
             break;
         }
         case name:
@@ -3580,7 +3610,7 @@ void App::LoadFromTSV()
     f_base.close();
 
     // perks
-    ifstream f_perks(m_character.filename + "perks.txt");
+    ifstream f_perks(m_character.m_dir + "perks.txt");
     if (!f_perks.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3601,7 +3631,7 @@ void App::LoadFromTSV()
     f_perks.close();
 
     // conditions
-    ifstream f_conditions(m_character.filename + "conditions.txt");
+    ifstream f_conditions(m_character.m_dir + "conditions.txt");
     if (!f_conditions.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3632,7 +3662,7 @@ void App::LoadFromTSV()
     f_conditions.close();
 
     // armors
-    ifstream f_armors(m_character.filename + "armors.txt");
+    ifstream f_armors(m_character.m_dir + "armors.txt");
     if (!f_armors.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3669,7 +3699,7 @@ void App::LoadFromTSV()
     f_armors.close();
 
     // weapons
-    ifstream f_weapons(m_character.filename + "weapons.txt");
+    ifstream f_weapons(m_character.m_dir + "weapons.txt");
     if (!f_weapons.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3721,6 +3751,55 @@ void App::LoadFromTSV()
 
 
 // ---- HELPER FUNCTIONS ---
+
+bool App::CreateDirectory(const string& path)
+{
+    try
+    {
+#ifdef _WIN32
+        if (_mkdir(path.c_str()) == 0)
+        {
+            std::cout << "Directory created: " << path << std::endl;
+        }
+        else
+        {
+            if (errno == EEXIST)
+            {
+                std::cout << "Directory already exists: " << path << std::endl;
+                return false;
+            }
+            else
+            {
+                std::cout << "Error creating directory: " << path << std::endl;
+                return false;
+            }
+        }
+#elif __linux__ || __APPLE__
+        if (mkdir(path.c_str(), 0777) == 0)
+        {
+            std::cout << "Directory created: " << path << std::endl;
+        }
+        else
+        {
+            if (errno == EEXIST)
+            {
+                std::cout << "Directory already exists: " << path << std::endl;
+                return false;
+            }
+            else
+            {
+                std::cout << "Error creating directory: " << path << std::endl;
+                return false;
+            }
+        }
+#endif
+        return true;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error creating directory: " << e.what() << std::endl;
+        return false;
+    }
+}
 
 //template <template <typename, typename...> class Container, typename T>
 template <typename Container>

@@ -40,13 +40,22 @@ public:
 
 	void FindLimbMap(const string& selected_cond, map<string, tbl::limb_condition>*& character_body_part);
 
+	// set character filename in filename.txt
+	void SetCharacterFilename(const string& new_filename);
+	// get character filename from filename.txt
+	void GetCharacterFilename();
+	// update the character dir to full dir.
+	void SetCharacterDir();
+
 public:
-	string filename = "../Fallout_Character_Manager/characters/svetlyo_cherniq/";
+	string m_filename = ""; // dir + filename to get the full path to the character folder
+	string m_dir = "../Fallout_Character_Manager/characters/"; // dir + filename to get the full path to the character folder
 	bool autosave = true;
-	bool autoload = true;
+	//bool autoload = true;
+	bool default_character = false;
 
 	// bio
-	string name = "...";
+	string name = "none";
 	int level = 0;
 	string race = "...";
 	string background = "...";
