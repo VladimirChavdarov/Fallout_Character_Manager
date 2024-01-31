@@ -72,8 +72,6 @@ private:
 	void CatalogueWindow();
 	void InfoWindow();
 	void InventoryWindow();
-	void WeaponsInventoryWindow();
-	void ArmorInventoryWindow();
 	
 	// Save/Load
 	void LoadFromTSV();

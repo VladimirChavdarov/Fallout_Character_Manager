@@ -1,6 +1,7 @@
 #include "App.h"
 
 #include <fstream>
+#include <filesystem>
 #include <sstream>
 
 #define IM_ARRAYSIZE(_ARR)          ((int)(sizeof(_ARR) / sizeof(*(_ARR))))     // Size of a static C-style array. Don't use on pointers!
@@ -75,12 +76,10 @@ void App::MenuBar()
     if (ImGui::Button("Save", ImVec2(40, 20)))
     {
         SaveToTSV();
-        cout << "File saved!" << endl;
     }
     if (ImGui::Button("Load", ImVec2(40, 20)))
     {
         LoadFromTSV();
-        cout << "File loaded" << endl;
     }
     if (ImGui::Checkbox("Autosave", &m_character.autosave))
     {
@@ -3189,7 +3188,7 @@ void App::ExtractConditions()
 
 void App::SaveToTSV()
 {
-    ofstream f_base(m_character.filename + "base.txt");
+    ofstream f_base(m_character.filename + "base.txt", ios::app);
     if (!f_base.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3246,7 +3245,7 @@ void App::SaveToTSV()
     f_base.write(output.c_str(), output.size());
     f_base.close();
 
-    ofstream f_perks(m_character.filename + "perks.txt");
+    ofstream f_perks(m_character.filename + "perks.txt", ios::app);
     if (!f_perks.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3260,7 +3259,7 @@ void App::SaveToTSV()
     f_perks.write(output.c_str(), output.size());
     f_perks.close();
 
-    ofstream f_conditions(m_character.filename + "conditions.txt");
+    ofstream f_conditions(m_character.filename + "conditions.txt", ios::app);
     if (!f_conditions.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3276,7 +3275,7 @@ void App::SaveToTSV()
     f_conditions.write(output.c_str(), output.size());
     f_conditions.close();
 
-    ofstream f_armors(m_character.filename + "armors.txt");
+    ofstream f_armors(m_character.filename + "armors.txt", ios::app);
     if (!f_armors.is_open())
     {
         cout << "Can't open file" << endl;
@@ -3304,7 +3303,7 @@ void App::SaveToTSV()
     f_armors.write(output.c_str(), output.size());
     f_armors.close();
 
-    ofstream f_weapons(m_character.filename + "weapons.txt");
+    ofstream f_weapons(m_character.filename + "weapons.txt", ios::app);
     if (!f_weapons.is_open())
     {
         cout << "Can't open file" << endl;

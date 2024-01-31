@@ -41,7 +41,7 @@ public:
 	void FindLimbMap(const string& selected_cond, map<string, tbl::limb_condition>*& character_body_part);
 
 public:
-	string filename = "../Fallout_Character_Manager/character/";
+	string filename = "../Fallout_Character_Manager/characters/svetlyo_cherniq/";
 	bool autosave = true;
 	bool autoload = true;
 
