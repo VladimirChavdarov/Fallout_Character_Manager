@@ -768,139 +768,149 @@ void App::EquippedWindow()
 {
     // Invetory for equippable items
     ImGui::SetNextWindowPos(ImVec2(330, 440), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(800, 350), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(800, 250), ImGuiCond_Once);
     ImGui::Begin("Equippable Items Inventory");
     ImGui::SetWindowFontScale(1.5f);
-    // armor
-    ImGui::SeparatorText("Armor");
-    static int armor_index = -1; // index of the selected armor
-    if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
+    if (ImGui::BeginTabBar("EquippableTabBar"))
     {
-        for (int i = 0; i < m_character.armors.size(); i++)
-            if (m_character.selected_armor == m_character.armors[i].first)
-                armor_index = i;
-    }
-    if (armor_index != -1)
-    {
-        // name
-        ImGui::SetCursorPos(ImVec2(10, 100));
-        ImGui::Text("Name:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(250);
-        ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
-        // upgrades
-        if (DisplayComboBox(ImVec2(600, 60), 180, "Armor Upgrades", m_character.armors[armor_index].second.upgrades, m_character.selected_item))
+        if (ImGui::BeginTabItem("Armor"))
         {
-            m_list_id_of_selected_name = armor_upgrades;
-            m_selected_name = m_character.selected_item;
+            // armor
+            static int armor_index = -1; // index of the selected armor
+            if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
+            {
+                for (int i = 0; i < m_character.armors.size(); i++)
+                    if (m_character.selected_armor == m_character.armors[i].first)
+                        armor_index = i;
+            }
+            if (armor_index != -1)
+            {
+                // name
+                ImGui::SetCursorPos(ImVec2(10, 100));
+                ImGui::Text("Name:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(250);
+                ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
+                // upgrades
+                if (DisplayComboBox(ImVec2(600, 60), 180, "Armor Upgrades", m_character.armors[armor_index].second.upgrades, m_character.selected_item))
+                {
+                    m_list_id_of_selected_name = armor_upgrades;
+                    m_selected_name = m_character.selected_item;
+                }
+                // equipped
+                ImGui::SetCursorPos(ImVec2(10, 130));
+                ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
+                // ac, dt
+                m_character.ac = m_character.armors[armor_index].second.ac;
+                m_character.dt = m_character.armors[armor_index].second.dt;
+                // cost
+                ImGui::SetCursorPos(ImVec2(450, 100));
+                ImGui::Text("Cost:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(40);
+                ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+                // decay
+                ImGui::SetCursorPos(ImVec2(450, 135));
+                ImGui::Text("Decay:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(90);
+                ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
+            }
+            ImGui::EndTabItem();
         }
-        // equipped
-        ImGui::SetCursorPos(ImVec2(10, 130));
-        ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
-        // ac, dt
-        m_character.ac = m_character.armors[armor_index].second.ac;
-        m_character.dt = m_character.armors[armor_index].second.dt;
-        // cost
-        ImGui::SetCursorPos(ImVec2(450, 100));
-        ImGui::Text("Cost:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(40);
-        ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
-        // decay
-        ImGui::SetCursorPos(ImVec2(450, 135));
-        ImGui::Text("Decay:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(90);
-        ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
+        if (ImGui::BeginTabItem("Weapon"))
+        {
+            // weapons
+            static int weapon_index = -1; // index of the selected armor
+            if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_weapon, m_character.weapons, m_character.selected_weapon))
+            {
+                for (int i = 0; i < m_character.weapons.size(); i++)
+                    if (m_character.selected_weapon == m_character.weapons[i].first)
+                        weapon_index = i;
+            }
+            if (weapon_index != -1)
+            {
+                // name
+                ImGui::SetCursorPos(ImVec2(10, 100));
+                ImGui::Text("Name:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(250);
+                ImGui::InputText("##WeaponName", &m_character.weapons[weapon_index].first);
+                // equipped
+                ImGui::SetCursorPos(ImVec2(10, 130));
+                ImGui::Checkbox("Equipped##W", &m_character.weapons[weapon_index].second.equipped);
+                // cost
+                ImGui::SetCursorPos(ImVec2(350, 100));
+                ImGui::Text("Cost:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(40);
+                ImGui::InputInt("##WeaponCost", &m_character.weapons[weapon_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+                // decay
+                ImGui::SetCursorPos(ImVec2(350, 135));
+                ImGui::Text("Decay:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(90);
+                ImGui::InputInt("##WeaponDecay", &m_character.weapons[weapon_index].second.decay_level);
+                // dmg
+                ImGui::SetCursorPos(ImVec2(10, 170));
+                ImGui::Text("Damage:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(200);
+                ImGui::InputText("##WeaponDamage", &m_character.weapons[weapon_index].second.dmg);
+                // dmg
+                ImGui::SetCursorPos(ImVec2(350, 170));
+                ImGui::Text("Crit:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(200);
+                ImGui::InputText("##WeaponCrit", &m_character.weapons[weapon_index].second.crit);
+                // upgrades
+                if (DisplayComboBox(ImVec2(600, 60), 180, "Weapon Upgrades", m_character.weapons[weapon_index].second.upgrades, m_character.selected_item))
+                {
+                    for (auto& weapon_upg : tbl::melee_weapons_upgrades)
+                    {
+                        if (weapon_upg.first == m_character.selected_item);
+                        {
+                            m_list_id_of_selected_name = melee_weapons_upgrades;
+                            break;
+                        }
+                    }
+                    for (auto& weapon_upg : tbl::ranged_weapons_upgrades)
+                    {
+                        if (weapon_upg.first == m_character.selected_item);
+                        {
+                            m_list_id_of_selected_name = melee_weapons_upgrades;
+                            break;
+                        }
+                    }
+                    m_selected_name = m_character.selected_item;
+                }
+                // properties
+                if (DisplayComboBox(ImVec2(360, 60), 200, "Properties", m_character.weapons[weapon_index].second.props, m_character.selected_item))
+                {
+                    for (auto& weapon_upg : tbl::melee_weapons_props)
+                    {
+                        if (weapon_upg.first == m_character.selected_item);
+                        {
+                            m_list_id_of_selected_name = melee_weapons_props;
+                            break;
+                        }
+                    }
+                    for (auto& weapon_upg : tbl::ranged_weapons_props)
+                    {
+                        if (weapon_upg.first == m_character.selected_item);
+                        {
+                            m_list_id_of_selected_name = melee_weapons_props;
+                            break;
+                        }
+                    }
+                    m_selected_name = m_character.selected_item;
+                }
+            }
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
     }
 
-    // weapons
-    ImGui::SeparatorText("Weapons");
-    static int weapon_index = -1; // index of the selected armor
-    if (DisplayComboBox(ImVec2(10, 200), 300, m_character.selected_weapon, m_character.weapons, m_character.selected_weapon))
-    {
-        for (int i = 0; i < m_character.weapons.size(); i++)
-            if (m_character.selected_weapon == m_character.weapons[i].first)
-                weapon_index = i;
-    }
-    if (weapon_index != -1)
-    {
-        // name
-        ImGui::SetCursorPos(ImVec2(10, 240));
-        ImGui::Text("Name:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(250);
-        ImGui::InputText("##WeaponName", &m_character.weapons[weapon_index].first);
-        // equipped
-        ImGui::SetCursorPos(ImVec2(10, 270));
-        ImGui::Checkbox("Equipped##W", &m_character.weapons[weapon_index].second.equipped);
-        // cost
-        ImGui::SetCursorPos(ImVec2(350, 240));
-        ImGui::Text("Cost:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(40);
-        ImGui::InputInt("##WeaponCost", &m_character.weapons[weapon_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
-        // decay
-        ImGui::SetCursorPos(ImVec2(350, 275));
-        ImGui::Text("Decay:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(90);
-        ImGui::InputInt("##WeaponDecay", &m_character.weapons[weapon_index].second.decay_level);
-        // dmg
-        ImGui::SetCursorPos(ImVec2(10, 310));
-        ImGui::Text("Damage:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(200);
-        ImGui::InputText("##WeaponDamage", &m_character.weapons[weapon_index].second.dmg);
-        // dmg
-        ImGui::SetCursorPos(ImVec2(350, 310));
-        ImGui::Text("Crit:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(200);
-        ImGui::InputText("##WeaponCrit", &m_character.weapons[weapon_index].second.crit);
-        // upgrades
-        if (DisplayComboBox(ImVec2(600, 200), 180, "Weapon Upgrades", m_character.weapons[weapon_index].second.upgrades, m_character.selected_item))
-        {
-            for (auto& weapon_upg : tbl::melee_weapons_upgrades)
-            {
-                if (weapon_upg.first == m_character.selected_item);
-                {
-                    m_list_id_of_selected_name = melee_weapons_upgrades;
-                    break;
-                }
-            }
-            for (auto& weapon_upg : tbl::ranged_weapons_upgrades)
-            {
-                if (weapon_upg.first == m_character.selected_item);
-                {
-                    m_list_id_of_selected_name = melee_weapons_upgrades;
-                    break;
-                }
-            }
-            m_selected_name = m_character.selected_item;
-        }
-        // properties
-        if (DisplayComboBox(ImVec2(360, 200), 200, "Properties", m_character.weapons[weapon_index].second.props, m_character.selected_item))
-        {
-            for (auto& weapon_upg : tbl::melee_weapons_props)
-            {
-                if (weapon_upg.first == m_character.selected_item);
-                {
-                    m_list_id_of_selected_name = melee_weapons_props;
-                    break;
-                }
-            }
-            for (auto& weapon_upg : tbl::ranged_weapons_props)
-            {
-                if (weapon_upg.first == m_character.selected_item);
-                {
-                    m_list_id_of_selected_name = melee_weapons_props;
-                    break;
-                }
-            }
-            m_selected_name = m_character.selected_item;
-        }
-    }
     ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
 }
@@ -1358,8 +1368,8 @@ void App::CatalogueWindow()
 void App::InfoWindow()
 {
     // Bio Window
-    ImGui::SetNextWindowPos(ImVec2(330, 800), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(800, 170), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(330, 700), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(800, 270), ImGuiCond_Once);
     ImGui::Begin("Info Window");
     ImGui::SetWindowFontScale(1.2f);
     
@@ -2010,7 +2020,7 @@ void App::InventoryWindow()
     ImGui::SetNextWindowPos(ImVec2(1140, 640), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(350, 330), ImGuiCond_Once);
     ImGui::Begin("Inventory");
-    if (ImGui::BeginTabBar("MyTabBar"))
+    if (ImGui::BeginTabBar("InventoryTabBar"))
     {
         if (ImGui::BeginTabItem("Ammo"))
         {
