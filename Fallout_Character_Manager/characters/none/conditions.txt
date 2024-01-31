@@ -1,0 +1,18 @@
+Head 1
+Head 4
+Head Severe Injury
+Eyes 1
+Eyes 2
+Eyes Severe Injury
+Arms 1
+Arms 2
+Arms 3
+Arms 4
+Torso 1
+Torso 4
+Torso Severe Injury
+Groin 2
+Groin 3
+Groin 4
+Legs 2
+Legs 3

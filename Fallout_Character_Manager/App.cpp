@@ -31,6 +31,7 @@ void App::Init()
     ExtractConditions();
 
     // load the character set to default
+    m_character.GetCharacterFilename();
     m_character.SetCharacterDir();
     LoadFromTSV();
 }
@@ -97,6 +98,16 @@ void App::MenuBar()
             }
             ImGui::EndMenu();
         }
+
+        string new_filename = m_character.m_filename;
+        float width = ImGui::CalcTextSize(new_filename.c_str()).x;
+        ImGui::SetNextItemWidth(width + 30.0f);
+        if (ImGui::InputText("File name", &new_filename))
+        {
+            m_character.SetCharacterFilename(new_filename);
+            m_character.SetCharacterDir();
+        }
+
         /*if (ImGui::Button("Save", ImVec2(40, 20)))
         {
             SaveToTSV();
@@ -108,10 +119,7 @@ void App::MenuBar()
         if (ImGui::Checkbox("Autosave", &m_character.autosave))
         {
 
-        }
-        float width = ImGui::CalcTextSize(m_character.dir.c_str()).x;
-        ImGui::SetNextItemWidth(width + 30.0f);
-        ImGui::InputText("Path", &m_character.dir);*/
+        }*/
         ImGui::EndMainMenuBar();
     }
 }
@@ -796,95 +804,95 @@ void App::EquippedWindow()
         if (ImGui::BeginTabItem("Armor"))
         {
             // armor
-            static int armor_index = -1; // index of the selected armor
+            //m_character.armor_index = -1; // index of the selected armor
             if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_armor, m_character.armors, m_character.selected_armor))
             {
                 for (int i = 0; i < m_character.armors.size(); i++)
                     if (m_character.selected_armor == m_character.armors[i].first)
-                        armor_index = i;
+                        m_character.armor_index = i;
             }
-            if (armor_index != -1)
+            if (m_character.armor_index != -1)
             {
                 // name
                 ImGui::SetCursorPos(ImVec2(10, 100));
                 ImGui::Text("Name:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(250);
-                ImGui::InputText("##ArmorName", &m_character.armors[armor_index].first);
+                ImGui::InputText("##ArmorName", &m_character.armors[m_character.armor_index].first);
                 // upgrades
-                if (DisplayComboBox(ImVec2(600, 60), 180, "Armor Upgrades", m_character.armors[armor_index].second.upgrades, m_character.selected_item))
+                if (DisplayComboBox(ImVec2(600, 60), 180, "Armor Upgrades", m_character.armors[m_character.armor_index].second.upgrades, m_character.selected_item))
                 {
                     m_list_id_of_selected_name = armor_upgrades;
                     m_selected_name = m_character.selected_item;
                 }
                 // equipped
                 ImGui::SetCursorPos(ImVec2(10, 130));
-                ImGui::Checkbox("Equipped##A", &m_character.armors[armor_index].second.equipped);
+                ImGui::Checkbox("Equipped##A", &m_character.armors[m_character.armor_index].second.equipped);
                 // ac, dt
-                m_character.ac = m_character.armors[armor_index].second.ac;
-                m_character.dt = m_character.armors[armor_index].second.dt;
+                m_character.ac = m_character.armors[m_character.armor_index].second.ac;
+                m_character.dt = m_character.armors[m_character.armor_index].second.dt;
                 // cost
                 ImGui::SetCursorPos(ImVec2(450, 100));
                 ImGui::Text("Cost:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(40);
-                ImGui::InputInt("##ArmorCost", &m_character.armors[armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+                ImGui::InputInt("##ArmorCost", &m_character.armors[m_character.armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
                 // decay
                 ImGui::SetCursorPos(ImVec2(450, 135));
                 ImGui::Text("Decay:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(90);
-                ImGui::InputInt("##ArmorDecay", &m_character.armors[armor_index].second.decay_level);
+                ImGui::InputInt("##ArmorDecay", &m_character.armors[m_character.armor_index].second.decay_level);
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Weapon"))
         {
             // weapons
-            static int weapon_index = -1; // index of the selected armor
+            //static int m_character.weapon_index = -1; // index of the selected armor
             if (DisplayComboBox(ImVec2(10, 60), 300, m_character.selected_weapon, m_character.weapons, m_character.selected_weapon))
             {
                 for (int i = 0; i < m_character.weapons.size(); i++)
                     if (m_character.selected_weapon == m_character.weapons[i].first)
-                        weapon_index = i;
+                        m_character.weapon_index = i;
             }
-            if (weapon_index != -1)
+            if (m_character.weapon_index != -1)
             {
                 // name
                 ImGui::SetCursorPos(ImVec2(10, 100));
                 ImGui::Text("Name:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(250);
-                ImGui::InputText("##WeaponName", &m_character.weapons[weapon_index].first);
+                ImGui::InputText("##WeaponName", &m_character.weapons[m_character.weapon_index].first);
                 // equipped
                 ImGui::SetCursorPos(ImVec2(10, 130));
-                ImGui::Checkbox("Equipped##W", &m_character.weapons[weapon_index].second.equipped);
+                ImGui::Checkbox("Equipped##W", &m_character.weapons[m_character.weapon_index].second.equipped);
                 // cost
                 ImGui::SetCursorPos(ImVec2(350, 100));
                 ImGui::Text("Cost:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(40);
-                ImGui::InputInt("##WeaponCost", &m_character.weapons[weapon_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
+                ImGui::InputInt("##WeaponCost", &m_character.weapons[m_character.weapon_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
                 // decay
                 ImGui::SetCursorPos(ImVec2(350, 135));
                 ImGui::Text("Decay:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(90);
-                ImGui::InputInt("##WeaponDecay", &m_character.weapons[weapon_index].second.decay_level);
+                ImGui::InputInt("##WeaponDecay", &m_character.weapons[m_character.weapon_index].second.decay_level);
                 // dmg
                 ImGui::SetCursorPos(ImVec2(10, 170));
                 ImGui::Text("Damage:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(200);
-                ImGui::InputText("##WeaponDamage", &m_character.weapons[weapon_index].second.dmg);
+                ImGui::InputText("##WeaponDamage", &m_character.weapons[m_character.weapon_index].second.dmg);
                 // dmg
                 ImGui::SetCursorPos(ImVec2(350, 170));
                 ImGui::Text("Crit:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(200);
-                ImGui::InputText("##WeaponCrit", &m_character.weapons[weapon_index].second.crit);
+                ImGui::InputText("##WeaponCrit", &m_character.weapons[m_character.weapon_index].second.crit);
                 // upgrades
-                if (DisplayComboBox(ImVec2(600, 60), 180, "Weapon Upgrades", m_character.weapons[weapon_index].second.upgrades, m_character.selected_item))
+                if (DisplayComboBox(ImVec2(600, 60), 180, "Weapon Upgrades", m_character.weapons[m_character.weapon_index].second.upgrades, m_character.selected_item))
                 {
                     for (auto& weapon_upg : tbl::melee_weapons_upgrades)
                     {
@@ -905,7 +913,7 @@ void App::EquippedWindow()
                     m_selected_name = m_character.selected_item;
                 }
                 // properties
-                if (DisplayComboBox(ImVec2(360, 60), 200, "Properties", m_character.weapons[weapon_index].second.props, m_character.selected_item))
+                if (DisplayComboBox(ImVec2(360, 60), 200, "Properties", m_character.weapons[m_character.weapon_index].second.props, m_character.selected_item))
                 {
                     for (auto& weapon_upg : tbl::melee_weapons_props)
                     {
@@ -2046,6 +2054,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Ammo", m_character.ammos, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.ammos.size(); i++)
                 {
                     if (m_character.ammos[i].first == m_character.selected_item)
@@ -2054,7 +2063,7 @@ void App::InventoryWindow()
                 catalogue_or_inventory = true;
                 m_character.item_category = ammo;
             }
-            if(m_character.item_index != -1)
+            if(m_character.item_index != -1 && m_character.item_category == ammo)
                 ImGui::InputInt("Ammo Amount", &m_character.ammos[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
@@ -2062,6 +2071,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Explosives", m_character.explosives, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.explosives.size(); i++)
                 {
                     if (m_character.explosives[i].first == m_character.selected_item)
@@ -2084,7 +2094,7 @@ void App::InventoryWindow()
                     }
                 }
             }
-            if (m_character.item_index != -1)
+            if (m_character.item_index != -1 && (m_character.item_category == explosives_thrown || m_character.item_category == explosives_placed))
                 ImGui::InputInt("Explosives Amount", &m_character.explosives[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
@@ -2092,6 +2102,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Food or Drinks", m_character.foods_drinks, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.foods_drinks.size(); i++)
                 {
                     if (m_character.foods_drinks[i].first == m_character.selected_item)
@@ -2100,7 +2111,7 @@ void App::InventoryWindow()
                 catalogue_or_inventory = true;
                 m_character.item_category = food_drinks;
             }
-            if (m_character.item_index != -1)
+            if (m_character.item_index != -1 && m_character.item_category == food_drinks)
                 ImGui::InputInt("Food or Drinks Amount", &m_character.foods_drinks[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
@@ -2108,6 +2119,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Gear", m_character.gear, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.gear.size(); i++)
                 {
                     if (m_character.gear[i].first == m_character.selected_item)
@@ -2116,7 +2128,7 @@ void App::InventoryWindow()
                 catalogue_or_inventory = true;
                 m_character.item_category = gear;
             }
-            if (m_character.item_index != -1)
+            if (m_character.item_index != -1 && m_character.item_category == gear)
                 ImGui::InputInt("Gear Amount", &m_character.gear[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
@@ -2124,6 +2136,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Medicine", m_character.medicine, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.medicine.size(); i++)
                 {
                     if (m_character.medicine[i].first == m_character.selected_item)
@@ -2132,7 +2145,7 @@ void App::InventoryWindow()
                 catalogue_or_inventory = true;
                 m_character.item_category = medicine_items;
             }
-            if (m_character.item_index != -1)
+            if (m_character.item_index != -1 && m_character.item_category == medicine_items)
                 ImGui::InputInt("Medicine Amount", &m_character.medicine[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
@@ -2140,6 +2153,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Chems", m_character.chems, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.chems.size(); i++)
                 {
                     if (m_character.chems[i].first == m_character.selected_item)
@@ -2148,7 +2162,7 @@ void App::InventoryWindow()
                 catalogue_or_inventory = true;
                 m_character.item_category = chems;
             }
-            if (m_character.item_index != -1)
+            if (m_character.item_index != -1 && m_character.item_category == chems)
                 ImGui::InputInt("Chems Amount", &m_character.chems[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
@@ -2156,6 +2170,7 @@ void App::InventoryWindow()
         {
             if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Junk", m_character.junk, m_character.selected_item))
             {
+                m_character.item_index = -1;
                 for (int i = 0; i < m_character.junk.size(); i++)
                 {
                     if (m_character.junk[i].first == m_character.selected_item)
@@ -2164,10 +2179,11 @@ void App::InventoryWindow()
                     m_character.item_category = junk;
                 }
             }
-            if (m_character.item_index != -1)
+            if (m_character.item_index != -1 && m_character.item_category == junk)
                 ImGui::InputInt("Junk Amount", &m_character.junk[m_character.item_index].second.amount);
             ImGui::EndTabItem();
         }
+
         ImGui::EndTabBar();
     }
     ImGui::End();
@@ -3369,10 +3385,160 @@ void App::SaveToTSV()
     }
     f_weapons.write(output.c_str(), output.size());
     f_weapons.close();
+
+    ofstream f_ammo(m_character.m_dir + "ammo.txt");
+    if (!f_ammo.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // ammo
+    for (auto& a : m_character.ammos)
+    {
+        output += "name: " + a.first + "\t";
+        output += "cost: " + to_string(a.second.cost) + "\t";
+        output += "pack_size: " + to_string(a.second.pack_size) + "\t";
+        output += "quantity: " + to_string(a.second.quantity) + "\t";
+        output += "load: " + to_string(a.second.load) + "\t";
+        output += "amount: " + to_string(a.second.amount) + "\t";
+        output += "\n";
+    }
+    f_ammo.write(output.c_str(), output.size());
+    f_ammo.close();
+
+    ofstream f_explosives(m_character.m_dir + "explosives.txt");
+    if (!f_explosives.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // explosives
+    for (auto& e : m_character.explosives)
+    {
+        output += "name: " + e.first + "\t";
+        output += "cost: " + to_string(e.second.cost) + "\t";
+        output += "ap: " + to_string(e.second.ap) + "\t";
+        output += "dmg: " + e.second.dmg + "\t";
+        output += "range_or_arm_dc: " + e.second.range_or_arm_dc + "\t";
+        output += "aoe: " + e.second.aoe + "\t";
+        output += "props: " + to_string(e.second.props.size()) + "\t";
+        for (auto& e_p : e.second.props)
+        {
+            output += e_p.first + "|";
+        }
+        output += "\t";
+        output += "load: " + to_string(e.second.load) + "\t";
+        output += "amount: " + to_string(e.second.amount) + "\t";
+        output += "\n";
+    }
+    f_explosives.write(output.c_str(), output.size());
+    f_explosives.close();
+
+    ofstream f_foods_drinks(m_character.m_dir + "foods_drinks.txt");
+    if (!f_foods_drinks.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // foods and drinks
+    for (auto& fd : m_character.foods_drinks)
+    {
+        output += "name: " + fd.first + "\t";
+        output += "cost: " + to_string(fd.second.cost) + "\t";
+        output += "props: " + to_string(fd.second.props.size()) + "\t";
+        for (auto& fd_p : fd.second.props)
+        {
+            output += fd_p.first + "|";
+        }
+        output += "\t";
+        output += "load: " + to_string(fd.second.load) + "\t";
+        output += "amount: " + to_string(fd.second.amount) + "\t";
+        output += "\n";
+    }
+    f_foods_drinks.write(output.c_str(), output.size());
+    f_foods_drinks.close();
+
+    ofstream f_gear(m_character.m_dir + "gear.txt");
+    if (!f_gear.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // gear
+    for (auto& g : m_character.gear)
+    {
+        output += "name: " + g.first + "\t";
+        output += "cost: " + to_string(g.second.cost) + "\t";
+        output += "description: " + g.second.description + "\t";
+        output += "load: " + to_string(g.second.load) + "\t";
+        output += "amount: " + to_string(g.second.amount) + "\t";
+        output += "\n";
+    }
+    f_gear.write(output.c_str(), output.size());
+    f_gear.close();
+
+    ofstream f_medicine(m_character.m_dir + "medicine.txt");
+    if (!f_medicine.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // medicine
+    for (auto& m : m_character.medicine)
+    {
+        output += "name: " + m.first + "\t";
+        output += "cost: " + to_string(m.second.cost) + "\t";
+        output += "description: " + m.second.description + "\t";
+        output += "load: " + to_string(m.second.load) + "\t";
+        output += "amount: " + to_string(m.second.amount) + "\t";
+        output += "\n";
+    }
+    f_medicine.write(output.c_str(), output.size());
+    f_medicine.close();
+
+    ofstream m_chems(m_character.m_dir + "chems.txt");
+    if (!m_chems.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // chems
+    for (auto& c : m_character.chems)
+    {
+        output += "name: " + c.first + "\t";
+        output += "cost: " + to_string(c.second.cost) + "\t";
+        output += "description: " + c.second.description + "\t";
+        output += "load: " + to_string(c.second.load) + "\t";
+        output += "amount: " + to_string(c.second.amount) + "\t";
+        output += "\n";
+    }
+    m_chems.write(output.c_str(), output.size());
+    m_chems.close();
+
+    ofstream f_junk(m_character.m_dir + "junk.txt");
+    if (!f_junk.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    output = "";
+    // junk
+    for (auto& j : m_character.junk)
+    {
+        output += "name: " + j.first + "\t";
+        output += "cost: " + to_string(j.second.cost) + "\t";
+        output += "description: " + j.second.description + "\t";
+        output += "load: " + to_string(j.second.load) + "\t";
+        output += "amount: " + to_string(j.second.amount) + "\t";
+        output += "\n";
+    }
+    f_junk.write(output.c_str(), output.size());
+    f_junk.close();
 }
 
 void App::LoadFromTSV()
 {
+    m_character.ResetSelected();
+
     string line = "";
     int line_count = 0;
 
@@ -3747,6 +3913,187 @@ void App::LoadFromTSV()
     }
     f_weapons.close();
 
+    // ammo
+    ifstream f_ammo(m_character.m_dir + "ammo.txt");
+    if (!f_ammo.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.ammos.clear();
+    while (getline(f_ammo, line))
+    {
+        vector<string> ammo_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(ammo_string[0], "name: ", "");
+        tbl::ammo ammo;
+        ammo.cost = stoi(util::GetSubstringBetween(ammo_string[1], "cost: ", ""));
+        ammo.pack_size = stoi(util::GetSubstringBetween(ammo_string[2], "pack_size: ", ""));
+        ammo.quantity = stoi(util::GetSubstringBetween(ammo_string[3], "quantity: ", ""));
+        ammo.load = stof(util::GetSubstringBetween(ammo_string[4], "load: ", ""));
+        ammo.amount = stoi(util::GetSubstringBetween(ammo_string[5], "amount: ", ""));
+
+        m_character.ammos.push_back({ name, ammo });
+    }
+    f_ammo.close();
+
+    // explosives
+    ifstream f_explosives(m_character.m_dir + "explosives.txt");
+    if (!f_explosives.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.explosives.clear();
+    while (getline(f_explosives, line))
+    {
+        vector<string> explosive_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(explosive_string[0], "name: ", "");
+        tbl::explosive explosive;
+        explosive.cost = stoi(util::GetSubstringBetween(explosive_string[1], "cost: ", ""));
+        explosive.ap = stoi(util::GetSubstringBetween(explosive_string[2], "ap: ", ""));
+        explosive.dmg = util::GetSubstringBetween(explosive_string[3], "dmg: ", "");
+        explosive.range_or_arm_dc = util::GetSubstringBetween(explosive_string[4], "range_or_arm_dc: ", "");
+        explosive.aoe = util::GetSubstringBetween(explosive_string[5], "aoe: ", "");
+        int props_num = stoi(util::GetSubstringBetween(explosive_string[6], "props: ", ""));
+        if (props_num != 0)
+        {
+            vector<string> props = util::SplitString(explosive_string[7], '|');
+            for (auto& name : props)
+            {
+                tbl::explosive_prop prop = { "" };
+                explosive.props.emplace(name, prop);
+            }
+        }
+        explosive.load = stof(util::GetSubstringBetween(explosive_string[8], "load: ", ""));
+        explosive.amount = stoi(util::GetSubstringBetween(explosive_string[9], "amount: ", ""));
+        m_character.explosives.push_back({ name, explosive });
+    }
+    f_explosives.close();
+
+    // foods_drinks
+    ifstream f_foods_drinks(m_character.m_dir + "foods_drinks.txt");
+    if (!f_foods_drinks.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.foods_drinks.clear();
+    while (getline(f_foods_drinks, line))
+    {
+        vector<string> food_drink_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(food_drink_string[0], "name: ", "");
+        tbl::food_drink food_drink;
+        food_drink.cost = stoi(util::GetSubstringBetween(food_drink_string[1], "cost: ", ""));
+        int props_num = stoi(util::GetSubstringBetween(food_drink_string[2], "props: ", ""));
+        if (props_num != 0)
+        {
+            vector<string> props = util::SplitString(food_drink_string[3], '|');
+            for (auto& name : props)
+            {
+                tbl::food_drink_prop prop = { "" };
+                food_drink.props.emplace(name, prop);
+            }
+        }
+        food_drink.load = stof(util::GetSubstringBetween(food_drink_string[4], "load: ", ""));
+        food_drink.amount = stoi(util::GetSubstringBetween(food_drink_string[5], "amount: ", ""));
+        m_character.foods_drinks.push_back({ name, food_drink });
+    }
+    f_foods_drinks.close();
+
+    // gear
+    ifstream f_gear(m_character.m_dir + "gear.txt");
+    if (!f_gear.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.gear.clear();
+    while (getline(f_gear, line))
+    {
+        vector<string> gear_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(gear_string[0], "name: ", "");
+        tbl::misc gear;
+        gear.cost = stoi(util::GetSubstringBetween(gear_string[1], "cost: ", ""));
+        gear.description = util::GetSubstringBetween(gear_string[2], "dmg: ", "");
+        gear.load = stof(util::GetSubstringBetween(gear_string[3], "load: ", ""));
+        gear.amount = stoi(util::GetSubstringBetween(gear_string[4], "amount: ", ""));
+
+        m_character.gear.push_back({ name, gear });
+    }
+    f_gear.close();
+
+    // medicine
+    ifstream f_medicine(m_character.m_dir + "medicine.txt");
+    if (!f_medicine.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.medicine.clear();
+    while (getline(f_medicine, line))
+    {
+        vector<string> medicine_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(medicine_string[0], "name: ", "");
+        tbl::misc medicine;
+        medicine.cost = stoi(util::GetSubstringBetween(medicine_string[1], "cost: ", ""));
+        medicine.description = util::GetSubstringBetween(medicine_string[2], "dmg: ", "");
+        medicine.load = stof(util::GetSubstringBetween(medicine_string[3], "load: ", ""));
+        medicine.amount = stoi(util::GetSubstringBetween(medicine_string[4], "amount: ", ""));
+
+        m_character.medicine.push_back({ name, medicine });
+    }
+    f_medicine.close();
+
+    // chems
+    ifstream f_chems(m_character.m_dir + "chems.txt");
+    if (!f_chems.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.chems.clear();
+    while (getline(f_chems, line))
+    {
+        vector<string> chem_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(chem_string[0], "name: ", "");
+        tbl::misc a_chem;
+        a_chem.cost = stoi(util::GetSubstringBetween(chem_string[1], "cost: ", ""));
+        a_chem.description = util::GetSubstringBetween(chem_string[2], "dmg: ", "");
+        a_chem.load = stof(util::GetSubstringBetween(chem_string[3], "load: ", ""));
+        a_chem.amount = stoi(util::GetSubstringBetween(chem_string[4], "amount: ", ""));
+
+        m_character.chems.push_back({ name, a_chem });
+    }
+    f_chems.close();
+
+    // junk
+    ifstream f_junk(m_character.m_dir + "junk.txt");
+    if (!f_junk.is_open())
+    {
+        cout << "Can't open file" << endl;
+    }
+    line = "";
+    line_count = 0;
+    m_character.junk.clear();
+    while (getline(f_junk, line))
+    {
+        vector<string> junk_string = util::SplitString(line, '\t');
+        string name = util::GetSubstringBetween(junk_string[0], "name: ", "");
+        tbl::misc a_junk;
+        a_junk.cost = stoi(util::GetSubstringBetween(junk_string[1], "cost: ", ""));
+        a_junk.description = util::GetSubstringBetween(junk_string[2], "dmg: ", "");
+        a_junk.load = stof(util::GetSubstringBetween(junk_string[3], "load: ", ""));
+        a_junk.amount = stoi(util::GetSubstringBetween(junk_string[4], "amount: ", ""));
+
+        m_character.junk.push_back({ name, a_junk });
+    }
+    f_junk.close();
 }
 
 

@@ -89,7 +89,7 @@ namespace tbl
 
 		int cost = 0; // per bullet
 		int pack_size = 0;
-		int quantity = 0;
+		int quantity = 0; // I honestly forgot what this was for.
 		float load = 1.0f; // load of a pack if pack size isn't 1
 	};
 	static map<string, tbl::ammo> ammos;

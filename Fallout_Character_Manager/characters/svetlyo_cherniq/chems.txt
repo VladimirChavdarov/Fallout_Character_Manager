@@ -1,0 +1,2 @@
+name: Bufftats	cost: 100	description: "Gain advantage on all Strength, Intelligence, and Endurance checks. Gain temporary SP equal to x2 your END score. Gain a +5 to passive perception."	load: 1.000000	amount: 0	
+name: Berry Mentats	cost: 120	description: ??? 	load: 1.000000	amount: 0	

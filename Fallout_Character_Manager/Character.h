@@ -47,6 +47,8 @@ public:
 	// update the character dir to full dir.
 	void SetCharacterDir();
 
+	void ResetSelected();
+
 public:
 	string m_filename = ""; // dir + filename to get the full path to the character folder
 	string m_dir = "../Fallout_Character_Manager/characters/"; // dir + filename to get the full path to the character folder
@@ -96,8 +98,10 @@ public:
 	int caps = 0;
 	vector<pair<string, tbl::armor>> armors; //not a map cuz you may have more of the same armor (Askata s 40 kopiq be like)
 	string selected_armor = "";
+	int armor_index = -1;
 	vector<pair<string, tbl::weapon>> weapons; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
 	string selected_weapon = "";
+	int weapon_index = -1;
 	vector<pair<string, tbl::ammo>> ammos;
 	vector<pair<string, tbl::explosive>> explosives;
 	vector<pair<string, tbl::food_drink>> foods_drinks;
@@ -105,7 +109,6 @@ public:
 	vector<pair<string, tbl::misc>> medicine;
 	vector<pair<string, tbl::misc>> chems;
 	vector<pair<string, tbl::misc>> junk;
-	vector<pair<string, tbl::misc>> other;
 	string selected_item = "";
 	int item_index = -1;
 	int item_category = 0;

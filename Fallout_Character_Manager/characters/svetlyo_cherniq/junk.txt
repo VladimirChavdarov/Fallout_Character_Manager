@@ -1,0 +1,1 @@
+name: steel	cost: 1	description: crafting material	load: 1.000000	amount: 45	

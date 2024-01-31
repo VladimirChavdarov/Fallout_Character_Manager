@@ -1,5 +1,5 @@
 autosave: 1
-default_character: 0
+default_character: 1
 name: none
 race: ...
 background: ...

@@ -60,3 +60,14 @@ void Character::SetCharacterDir()
     m_dir = "../Fallout_Character_Manager/characters/";
     m_dir += m_filename + "/";
 }
+
+void Character::ResetSelected()
+{
+    selected_armor = "";
+    armor_index = -1;
+    selected_weapon = "";
+    weapon_index = -1;
+    selected_item = "";
+    item_index = -1;
+    item_category = 0;
+}

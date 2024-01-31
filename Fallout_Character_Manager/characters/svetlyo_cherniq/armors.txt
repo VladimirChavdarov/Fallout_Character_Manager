@@ -4,9 +4,3 @@ name: Steel	cost: 220	ac: 13	dt: 2	upg_slots: 2	load: 50	str_req: 6	equipped: 1	
 name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
 name: Cloth2	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
 name: Scrap Metal	cost: 100	ac: 12	dt: 0	upg_slots: 4	load: 20	str_req: 5	equipped: 0	decay_level: 0	current_upg: 0		
-name: Ballistic Weave	cost: 350	ac: 12	dt: 2	upg_slots: 2	load: 10	str_req: 3	equipped: 0	decay_level: 0	current_upg: 0		
-name: Multilayered	cost: 200	ac: 10	dt: 2	upg_slots: 5	load: 40	str_req: 3	equipped: 0	decay_level: 0	current_upg: 5	Camouflage|Lead Lined|Light|Pocketed|Strengthened|	
-name: Steel	cost: 220	ac: 13	dt: 2	upg_slots: 2	load: 50	str_req: 6	equipped: 1	decay_level: 3	current_upg: 2	Lead Lined|Light|	
-name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
-name: Cloth2	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
-name: Scrap Metal	cost: 100	ac: 12	dt: 0	upg_slots: 4	load: 20	str_req: 5	equipped: 0	decay_level: 0	current_upg: 0		
