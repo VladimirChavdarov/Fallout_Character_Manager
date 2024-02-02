@@ -1,2 +1,2 @@
-name: Cateye	cost: 20	description: You can consume this small pill with 3 AP. If you do; you have night vision for the next 3 hours.	load: 1.000000	amount: 0	
-name: Rad-X	cost: 40	description: "You can consume this small pill with 3 AP. If you do; your radiation DC decreases by 2 for the next 3 hours. You can consume a total of three Rad-X at one time to gain their benefits, if you consume more than three you do not gain any additional benefits."	load: 1.000000	amount: 0	
+name: Cateye	cost: 20	description: 	load: 1.000000	amount: 0	
+name: Rad-X	cost: 40	description: 	load: 1.000000	amount: 0	

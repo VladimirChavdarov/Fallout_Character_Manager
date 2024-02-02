@@ -1,2 +1,2 @@
-name: "Bag, Backpack."	cost: 20	description: "A leather, burlap, or cloth bag with straps or a sling to grant you more space to store items on you. While you wear a backpack, your carry load increases by 50."	load: 0.000000	amount: 0	
-name: Binoculars	cost: 90	description: "You can spend 3 AP to look through binoculars. While you look through them, your sight is magnified. You have advantage on any perception ability checks relying on sight when viewing objects, creatures, or a location that are at least 100 feet away. "	load: 2.000000	amount: 0	
+name: "Bag, Backpack."	cost: 20	description: 	load: 0.000000	amount: 0	
+name: Binoculars	cost: 90	description: 	load: 2.000000	amount: 0	

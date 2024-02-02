@@ -171,5 +171,7 @@ private:
 	int m_list_id_of_selected_name = 0;
 	// False for catalogue. True for inventory.
 	bool catalogue_or_inventory = false;
+
+	bool show_manual_modifiers = false;
 };
 

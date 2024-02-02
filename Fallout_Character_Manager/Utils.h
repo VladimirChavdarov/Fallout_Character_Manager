@@ -44,4 +44,14 @@ namespace util
 
         return tokens;
     }
+
+    static void ClampInt(int& a, int min, int max)
+    {
+        a = (a < min) ? min : (a > max) ? max : a;
+    }
+
+    static void ClampFloat(float& a, float min, float max)
+    {
+        a = (a < min) ? min : (a > max) ? max : a;
+    }
 }

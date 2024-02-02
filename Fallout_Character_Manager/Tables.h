@@ -85,7 +85,7 @@ namespace tbl
 
 	struct ammo
 	{
-		int amount = 0; // used for character inventory
+		int amount = 1; // used for character inventory
 
 		int cost = 0; // per bullet
 		int pack_size = 0;
@@ -102,7 +102,7 @@ namespace tbl
 
 	struct explosive
 	{
-		int amount = 0; // used for character inventory
+		int amount = 1; // used for character inventory
 
 		int cost;
 		int ap;
@@ -123,7 +123,7 @@ namespace tbl
 
 	struct food_drink
 	{
-		int amount = 0; // used for character inventory
+		int amount = 1; // used for character inventory
 
 		int cost;
 		map<string, food_drink_prop> props;
@@ -133,7 +133,7 @@ namespace tbl
 
 	struct misc // gear, medicine, chems, junk
 	{
-		int amount = 0; // used for character inventory
+		int amount = 1; // used for character inventory
 
 		int cost;
 		string description;

@@ -85,6 +85,7 @@ public:
 
 	// skills
 	int skill[16] = { 0 };
+	int skill_mods[16] = { 0 };
 	bool tags[16] = { false };
 
 	// survival stats

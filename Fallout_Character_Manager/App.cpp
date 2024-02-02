@@ -78,6 +78,15 @@ void App::MenuBar()
     {
         if (ImGui::BeginMenu("File"))
         {
+            string new_filename = m_character.m_filename;
+            float width = ImGui::CalcTextSize(new_filename.c_str()).x;
+            ImGui::SetNextItemWidth(width + 30.0f);
+            if (ImGui::InputText("File name", &new_filename))
+            {
+                m_character.SetCharacterFilename(new_filename);
+                m_character.SetCharacterDir();
+            }
+
             if (ImGui::MenuItem("Save"))
             {
                 SaveToTSV();
@@ -98,28 +107,15 @@ void App::MenuBar()
             }
             ImGui::EndMenu();
         }
-
-        string new_filename = m_character.m_filename;
-        float width = ImGui::CalcTextSize(new_filename.c_str()).x;
-        ImGui::SetNextItemWidth(width + 30.0f);
-        if (ImGui::InputText("File name", &new_filename))
+        if (ImGui::BeginMenu("CharacterSheet"))
         {
-            m_character.SetCharacterFilename(new_filename);
-            m_character.SetCharacterDir();
+            if (ImGui::MenuItem("Show Manual Modifiers", NULL, &show_manual_modifiers))
+            {
+                
+            }
+            ImGui::EndMenu();
         }
 
-        /*if (ImGui::Button("Save", ImVec2(40, 20)))
-        {
-            SaveToTSV();
-        }
-        if (ImGui::Button("Load", ImVec2(40, 20)))
-        {
-            LoadFromTSV();
-        }
-        if (ImGui::Checkbox("Autosave", &m_character.autosave))
-        {
-
-        }*/
         ImGui::EndMainMenuBar();
     }
 }
@@ -184,7 +180,7 @@ void App::MainParamsWindow()
         ImGui::SetWindowFontScale(3.0f);
         ImGui::SetCursorPos(ImVec2(40, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Strength", &m_character.special[str], 0))
+        if (ImGui::DragInt("##Strength", &m_character.special[str], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[str] = m_character.special[str] - 5;
             m_character.carry_load = static_cast<float>(m_character.special[str] * 10);
@@ -203,7 +199,7 @@ void App::MainParamsWindow()
         }
         ImGui::SetCursorPos(ImVec2(140, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Perception", &m_character.special[per], 0))
+        if (ImGui::DragInt("##Perception", &m_character.special[per], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[per] = m_character.special[per] - 5;
             m_character.passive_sense = 12 + m_character.special_mods[per];
@@ -222,7 +218,7 @@ void App::MainParamsWindow()
         }
         ImGui::SetCursorPos(ImVec2(240, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Endurance", &m_character.special[endu], 0))
+        if (ImGui::DragInt("##Endurance", &m_character.special[endu], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[endu] = m_character.special[endu] - 5;
             m_character.rad_dc = 12 - m_character.special_mods[endu];
@@ -236,7 +232,7 @@ void App::MainParamsWindow()
         }
         ImGui::SetCursorPos(ImVec2(340, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Charisma", &m_character.special[cha], 0))
+        if (ImGui::DragInt("##Charisma", &m_character.special[cha], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[cha] = m_character.special[cha] - 5;
             // barter
@@ -253,7 +249,7 @@ void App::MainParamsWindow()
         }
         ImGui::SetCursorPos(ImVec2(440, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Intelligence", &m_character.special[inte], 0))
+        if (ImGui::DragInt("##Intelligence", &m_character.special[inte], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[inte] = m_character.special[inte] - 5;
             if (m_character.race == "Robot" || m_character.race == "robot" || m_character.race == "Synth" || m_character.race == "synth")
@@ -277,7 +273,7 @@ void App::MainParamsWindow()
         }
         ImGui::SetCursorPos(ImVec2(540, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Agility", &m_character.special[agi], 0))
+        if (ImGui::DragInt("##Agility", &m_character.special[agi], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[agi] = m_character.special[agi] - 5;
             m_character.ap = 10 + m_character.special_mods[agi];
@@ -293,7 +289,7 @@ void App::MainParamsWindow()
         }
         ImGui::SetCursorPos(ImVec2(640, 110));
         ImGui::SetNextItemWidth(50);
-        if (ImGui::InputInt("##Luck", &m_character.special[lck], 0))
+        if (ImGui::DragInt("##Luck", &m_character.special[lck], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[lck] = m_character.special[lck] - 5;
             int quarter_luck_mod = m_character.special_mods[lck] / 4;
@@ -1351,7 +1347,7 @@ void App::CatalogueWindow()
 
     ImGui::Separator();
 
-    if (ImGui::Button("Add Custom"))
+    if (ImGui::Button("Add Junk"))
     {
         ImGui::OpenPopup("Add a custom Miscellaneous Item");
     }
@@ -1370,9 +1366,12 @@ void App::CatalogueWindow()
         ImGui::InputText("Name", &item.first);
         ImGui::InputText("Description", &item.second.description);
         ImGui::InputInt("Cost", &item.second.cost);
+        util::ClampInt(item.second.cost, 0, 999999);
         ImGui::InputFloat("Load", &item.second.load);
+        util::ClampFloat(item.second.load, 0.0f, 999999.0f);
         ImGui::Separator();
         ImGui::InputInt("Amount", &item.second.amount);
+        util::ClampInt(item.second.amount, 0, 999999);
         ImGui::Separator();
         if (ImGui::Button("Confirm", ImVec2(120, 0)))
         {
@@ -2063,8 +2062,12 @@ void App::InventoryWindow()
                 catalogue_or_inventory = true;
                 m_character.item_category = ammo;
             }
-            if(m_character.item_index != -1 && m_character.item_category == ammo)
+            if (m_character.item_index != -1 && m_character.item_category == ammo)
+            {
                 ImGui::InputInt("Ammo Amount", &m_character.ammos[m_character.item_index].second.amount);
+                util::ClampInt(m_character.ammos[m_character.item_index].second.amount, 0, 999999);
+
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Explosives"))
@@ -2095,7 +2098,10 @@ void App::InventoryWindow()
                 }
             }
             if (m_character.item_index != -1 && (m_character.item_category == explosives_thrown || m_character.item_category == explosives_placed))
+            {
                 ImGui::InputInt("Explosives Amount", &m_character.explosives[m_character.item_index].second.amount);
+                util::ClampInt(m_character.explosives[m_character.item_index].second.amount, 0, 999999);
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Food/Drinks"))
@@ -2112,7 +2118,10 @@ void App::InventoryWindow()
                 m_character.item_category = food_drinks;
             }
             if (m_character.item_index != -1 && m_character.item_category == food_drinks)
+            {
                 ImGui::InputInt("Food or Drinks Amount", &m_character.foods_drinks[m_character.item_index].second.amount);
+                util::ClampInt(m_character.foods_drinks[m_character.item_index].second.amount, 0, 999999);
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Gear"))
@@ -2129,7 +2138,10 @@ void App::InventoryWindow()
                 m_character.item_category = gear;
             }
             if (m_character.item_index != -1 && m_character.item_category == gear)
+            {
                 ImGui::InputInt("Gear Amount", &m_character.gear[m_character.item_index].second.amount);
+                util::ClampInt(m_character.gear[m_character.item_index].second.amount, 0, 999999);
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Medicine"))
@@ -2146,7 +2158,10 @@ void App::InventoryWindow()
                 m_character.item_category = medicine_items;
             }
             if (m_character.item_index != -1 && m_character.item_category == medicine_items)
+            {
                 ImGui::InputInt("Medicine Amount", &m_character.medicine[m_character.item_index].second.amount);
+                util::ClampInt(m_character.medicine[m_character.item_index].second.amount, 0, 999999);
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Chems"))
@@ -2163,7 +2178,10 @@ void App::InventoryWindow()
                 m_character.item_category = chems;
             }
             if (m_character.item_index != -1 && m_character.item_category == chems)
+            {
                 ImGui::InputInt("Chems Amount", &m_character.chems[m_character.item_index].second.amount);
+                util::ClampInt(m_character.chems[m_character.item_index].second.amount, 0, 999999);
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Junk"))
@@ -2180,7 +2198,10 @@ void App::InventoryWindow()
                 }
             }
             if (m_character.item_index != -1 && m_character.item_category == junk)
+            {
                 ImGui::InputInt("Junk Amount", &m_character.junk[m_character.item_index].second.amount);
+                util::ClampInt(m_character.junk[m_character.item_index].second.amount, 0, 999999);
+            }
             ImGui::EndTabItem();
         }
 
