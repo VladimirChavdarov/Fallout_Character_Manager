@@ -310,89 +310,100 @@ void App::MainParamsWindow()
         }
     }
     
-    // modifiers
+    if (!show_manual_modifiers)
     {
-        ImGui::SetWindowFontScale(1.5f);
-        ImGui::SetCursorPos(ImVec2(50, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##StrhMod", &m_character.special_mods[str], 0, 100, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SetCursorPos(ImVec2(150, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##PerMod", &m_character.special_mods[per], 0, 100, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SetCursorPos(ImVec2(250, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##EndMod", &m_character.special_mods[endu], 0, 100, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SetCursorPos(ImVec2(350, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##ChaMod", &m_character.special_mods[cha], 0, 100, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SetCursorPos(ImVec2(450, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##IntMod", &m_character.special_mods[inte], 0, 100, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SetCursorPos(ImVec2(550, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##AgiMod", &m_character.special_mods[agi], 0, 100, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SetCursorPos(ImVec2(650, 170));
-        ImGui::SetNextItemWidth(30);
-        ImGui::InputInt("##LckMod", &m_character.special_mods[lck], 0, 100, ImGuiInputTextFlags_ReadOnly);
-    }
+        // modifiers
+        {
+            ImGui::SetWindowFontScale(1.5f);
+            ImGui::SetCursorPos(ImVec2(50, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##StrhMod", &m_character.special_mods[str], 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(150, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##PerMod", &m_character.special_mods[per], 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(250, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##EndMod", &m_character.special_mods[endu], 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(350, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##ChaMod", &m_character.special_mods[cha], 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(450, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##IntMod", &m_character.special_mods[inte], 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(550, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##AgiMod", &m_character.special_mods[agi], 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(650, 170));
+            ImGui::SetNextItemWidth(30);
+            ImGui::InputInt("##LckMod", &m_character.special_mods[lck], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        }
 
-    // sp and hp
-    {
-        ImGui::SetWindowFontScale(1.5f);
-        ImGui::SetCursorPos(ImVec2(20, 300));
-        ImGui::Text("Stamina Points:");
-        ImGui::SetNextItemWidth(40);
-        ImGui::SameLine();
-        //ImGui::SetCursorPos(ImVec2(180, 300));
-        ImGui::InputInt("##SP", &m_character.sp, 0);
-        ImGui::SetCursorPos(ImVec2(60, 350));
-        ImGui::Text("Hit Points:");
-        ImGui::SetNextItemWidth(40);
-        //ImGui::SetCursorPos(ImVec2(180, 350));
-        ImGui::SameLine();
-        ImGui::InputInt("##HP", &m_character.hp, 0);
-    }
+        // sp and hp
+        {
+            ImGui::SetWindowFontScale(1.5f);
+            ImGui::SetCursorPos(ImVec2(20, 300));
+            ImGui::Text("Stamina Points:");
+            ImGui::SetNextItemWidth(40);
+            ImGui::SameLine();
+            //ImGui::SetCursorPos(ImVec2(180, 300));
+            ImGui::InputInt("##SP", &m_character.sp, 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(60, 350));
+            ImGui::Text("Hit Points:");
+            ImGui::SetNextItemWidth(40);
+            //ImGui::SetCursorPos(ImVec2(180, 350));
+            ImGui::SameLine();
+            ImGui::InputInt("##HP", &m_character.hp, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        }
 
-    // ac and dt
-    {
-        ImGui::SetWindowFontScale(1.5f);
-        ImGui::SetCursorPos(ImVec2(280, 300));
-        ImGui::Text("Armor Class:");
-        ImGui::SetNextItemWidth(30);
-        ImGui::SameLine();
-        //ImGui::SetCursorPos(ImVec2(180, 300));
-        ImGui::InputInt("##AC", &m_character.ac, 0);
-        ImGui::SetCursorPos(ImVec2(280, 350));
-        ImGui::Text("Damage Threshold:");
-        ImGui::SetNextItemWidth(30);
-        ImGui::SameLine();
-        //ImGui::SetCursorPos(ImVec2(180, 350));
-        ImGui::InputInt("##DT", &m_character.dt, 0);
-    }
+        // ac and dt
+        {
+            ImGui::SetWindowFontScale(1.5f);
+            ImGui::SetCursorPos(ImVec2(280, 300));
+            ImGui::Text("Armor Class:");
+            ImGui::SetNextItemWidth(30);
+            ImGui::SameLine();
+            int total_ac = m_character.ac + m_character.ac_modifier;
+            ImGui::InputInt("##AC", &total_ac, 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(280, 350));
+            ImGui::Text("Damage Threshold:");
+            ImGui::SetNextItemWidth(30);
+            ImGui::SameLine();
+            int total_dt = m_character.dt + m_character.dt_modifier;
+            ImGui::InputInt("##DT", &total_dt, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        }
 
-    // healing rate and combat sequence
-    {
-        ImGui::SetWindowFontScale(1.5f);
-        ImGui::SetCursorPos(ImVec2(550, 300));
-        ImGui::Text("Healing rate:");
-        ImGui::SetNextItemWidth(30);
-        ImGui::SameLine();
-        ImGui::InputInt("##HR", &m_character.healing_rate, 0);
-        ImGui::SetCursorPos(ImVec2(550, 350));
-        ImGui::Text("Combat Sequence:");
-        ImGui::SetNextItemWidth(30);
-        ImGui::SameLine();
-        ImGui::InputInt("##CS", &m_character.combat_seq, 0);
-    }
+        // healing rate and combat sequence
+        {
+            ImGui::SetWindowFontScale(1.5f);
+            ImGui::SetCursorPos(ImVec2(550, 300));
+            ImGui::Text("Healing rate:");
+            ImGui::SetNextItemWidth(30);
+            ImGui::SameLine();
+            int total_healing_rate = m_character.healing_rate + m_character.healing_rate_modifier;
+            ImGui::InputInt("##HR", &total_healing_rate, 0, 100, ImGuiInputTextFlags_ReadOnly);
+            ImGui::SetCursorPos(ImVec2(550, 350));
+            ImGui::Text("Combat Sequence:");
+            ImGui::SetNextItemWidth(30);
+            ImGui::SameLine();
+            int total_combat_seq = m_character.combat_seq + m_character.combat_seq_modifier;
+            ImGui::InputInt("##CS", &total_combat_seq, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        }
 
-    // ap
-    {
-        ImGui::SetCursorPos(ImVec2(40, 250));
-        ImGui::Text("Action Points:");
-        ImGui::SetNextItemWidth(30);
-        ImGui::SameLine();
-        ImGui::InputInt("##AP", &m_character.ap, 0);
+        // ap
+        {
+            ImGui::SetCursorPos(ImVec2(40, 250));
+            ImGui::Text("Action Points:");
+            ImGui::SetNextItemWidth(30);
+            ImGui::SameLine();
+            int total_ap = m_character.ap + m_character.ap_modifier;
+            ImGui::InputInt("##AP", &total_ap, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        }
     }
+    else
+    {
+        MainParamsMM();
+    }
+    
 
     // reduce window header font size
     ImGui::SetWindowFontScale(1.0f);
@@ -406,26 +417,36 @@ void App::PassiveParamsWindow()
     ImGui::SetNextWindowSize(ImVec2(300, 190), ImGuiCond_Once);
     ImGui::Begin("Passives");
     ImGui::SetWindowFontScale(1.5f);
-    ImGui::SetCursorPos(ImVec2(10, 30));
-    ImGui::Text("Passive Sense:");
-    ImGui::SetNextItemWidth(30);
-    ImGui::SameLine();
-    ImGui::InputInt("##PS", &m_character.passive_sense, 0);
+    if (!show_manual_modifiers)
+    {
+        ImGui::SetCursorPos(ImVec2(10, 30));
+        ImGui::Text("Passive Sense:");
+        ImGui::SetNextItemWidth(30);
+        ImGui::SameLine();
+        ImGui::InputInt("##PS", &m_character.passive_sense, 0, 100, ImGuiInputTextFlags_ReadOnly);
+    }
+    else
+    {
+        PassiveSenseMM();
+    }
     ImGui::SetCursorPos(ImVec2(10, 70));
     ImGui::Text("Party Nerve:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##PN", &m_character.party_nerve, 0);
+    if(ImGui::InputInt("##PN", &m_character.party_nerve, 0))
+        util::ClampInt(m_character.party_nerve, 0, 99);
     ImGui::SetCursorPos(ImVec2(10, 110));
     ImGui::Text("Party Luck:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##PL", &m_character.party_luck, 0);
+    if (ImGui::InputInt("##PL", &m_character.party_luck, 0))
+        util::ClampInt(m_character.party_luck, 0, 99);
     ImGui::SetCursorPos(ImVec2(10, 150));
     ImGui::Text("Party Sneak:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##PSN", &m_character.party_sneak, 0);
+    if (ImGui::InputInt("##PSN", &m_character.party_sneak, 0))
+        util::ClampInt(m_character.party_sneak, 0, 99);
     ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
 }
@@ -437,257 +458,296 @@ void App::SurvivalParamsWindow()
     ImGui::SetNextWindowSize(ImVec2(300, 290), ImGuiCond_Once);
     ImGui::Begin("Survival");
     ImGui::SetWindowFontScale(1.5f);
-    ImGui::SetCursorPos(ImVec2(10, 30));
-    ImGui::Text("Rad DC:");
-    ImGui::SetNextItemWidth(30);
-    ImGui::SameLine();
-    ImGui::InputInt("##RDC", &m_character.rad_dc, 0);
+    if (!show_manual_modifiers)
+    {
+        ImGui::SetCursorPos(ImVec2(10, 30));
+        ImGui::Text("Rad DC:");
+        ImGui::SetNextItemWidth(30);
+        ImGui::SameLine();
+        //int rad_dc_total = m_character.rad_dc + m_character.rad_dc_modifier;
+        ImGui::InputInt("##RDC", &m_character.rad_dc, 0, 100, ImGuiInputTextFlags_ReadOnly);
+    }
+    else
+    {
+        RadDCMM();
+    }
+   
     ImGui::SetCursorPos(ImVec2(10, 90));
     ImGui::Text("Rads:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##RAD", &m_character.rads, 0);
+    if (ImGui::InputInt("##RAD", &m_character.rads, 0))
+        util::ClampInt(m_character.rads, 0, 99);
     ImGui::SetCursorPos(ImVec2(10, 130));
     ImGui::Text("Fatigue:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##FT", &m_character.fatigue, 0);
+    if (ImGui::InputInt("##FT", &m_character.fatigue, 0))
+        util::ClampInt(m_character.fatigue, 0, 99);
     ImGui::SetCursorPos(ImVec2(10, 170));
     ImGui::Text("Thirst:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##TS", &m_character.thirst, 0);
+    if (ImGui::InputInt("##TS", &m_character.thirst, 0))
+        util::ClampInt(m_character.thirst, 0, 99);
     ImGui::SetCursorPos(ImVec2(10, 210));
     ImGui::Text("Hunger:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##HG", &m_character.hunger, 0);
+    if (ImGui::InputInt("##HG", &m_character.hunger, 0))
+        util::ClampInt(m_character.hunger, 0, 99);
     ImGui::SetCursorPos(ImVec2(10, 250));
     ImGui::Text("Exhaustion:");
     ImGui::SetNextItemWidth(30);
     ImGui::SameLine();
-    ImGui::InputInt("##EXH", &m_character.exhaustion, 0);
+    if (ImGui::InputInt("##EXH", &m_character.exhaustion, 0))
+        util::ClampInt(m_character.exhaustion, 0, 99);
     ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
 }
 
 void App::SkillWindow()
 {
-    int y_offset = 35;
-    int mul = 0;
     // Skill Window
     ImGui::SetNextWindowPos(ImVec2(1140, 30), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(350, 600), ImGuiCond_Once);
     ImGui::Begin("Skills");
     ImGui::SetWindowFontScale(1.5f);
     //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##GUN", &m_character.skill[guns], 0);
-    ImGui::SameLine();
-    ImGui::Text("Guns (AGI)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##GUNC", &m_character.tags[guns]))
+    if (!show_manual_modifiers)
     {
-        if (m_character.tags[guns]) { m_character.skill[guns] += 2; }
-        else { m_character.skill[guns] -= 2; }
+        int y_offset = 35;
+        int mul = 0;
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_guns = m_character.skill[guns] + m_character.skill_modifiers[guns];
+        ImGui::InputInt("##GUN", &total_guns, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Guns (AGI)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##GUNC", &m_character.tags[guns]))
+        {
+            if (m_character.tags[guns]) { m_character.skill[guns] += 2; }
+            else { m_character.skill[guns] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_energy_weapons = m_character.skill[energy_weapons] + m_character.skill_modifiers[energy_weapons];
+        ImGui::InputInt("##ENW", &total_energy_weapons, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Energy Weapons (PER)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##ENWC", &m_character.tags[energy_weapons]))
+        {
+            if (m_character.tags[energy_weapons]) { m_character.skill[energy_weapons] += 2; }
+            else { m_character.skill[energy_weapons] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_melee_weapons = m_character.skill[melee_weapons] + m_character.skill_modifiers[melee_weapons];
+        ImGui::InputInt("##MLW", &total_melee_weapons, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Melee Weapons (STR)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##MLWC", &m_character.tags[melee_weapons]))
+        {
+            if (m_character.tags[melee_weapons]) { m_character.skill[melee_weapons] += 2; }
+            else { m_character.skill[melee_weapons] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_unarmed = m_character.skill[unarmed] + m_character.skill_modifiers[unarmed];
+        ImGui::InputInt("##UMD", &total_unarmed, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Unarmed (STR or AGI)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##UMDC", &m_character.tags[unarmed]))
+        {
+            if (m_character.tags[unarmed]) { m_character.skill[unarmed] += 2; }
+            else { m_character.skill[unarmed] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_explosives = m_character.skill[explosives] + m_character.skill_modifiers[explosives];
+        ImGui::InputInt("##EXP", &total_explosives, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Explosives (PER)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##EXPC", &m_character.tags[explosives]))
+        {
+            if (m_character.tags[explosives]) { m_character.skill[explosives] += 2; }
+            else { m_character.skill[explosives] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_medicine = m_character.skill[medicine] + m_character.skill_modifiers[medicine];
+        ImGui::InputInt("##MED", &total_medicine, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Medicine (PER or INT)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##MEDC", &m_character.tags[medicine]))
+        {
+            if (m_character.tags[medicine]) { m_character.skill[medicine] += 2; }
+            else { m_character.skill[medicine] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_lockpick = m_character.skill[lockpick] + m_character.skill_modifiers[lockpick];
+        ImGui::InputInt("##LPK", &total_lockpick, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Lockpick (PER)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##LPKC", &m_character.tags[lockpick]))
+        {
+            if (m_character.tags[lockpick]) { m_character.skill[lockpick] += 2; }
+            else { m_character.skill[lockpick] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_hacking = m_character.skill[hacking] + m_character.skill_modifiers[hacking];
+        ImGui::InputInt("##HCK", &total_hacking, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Hacking (INT)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##HCKC", &m_character.tags[hacking]))
+        {
+            if (m_character.tags[hacking]) { m_character.skill[hacking] += 2; }
+            else { m_character.skill[hacking] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_crafting = m_character.skill[crafting] + m_character.skill_modifiers[crafting];
+        ImGui::InputInt("##CFT", &total_crafting, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Crafting (INT)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##CFTC", &m_character.tags[crafting]))
+        {
+            if (m_character.tags[crafting]) { m_character.skill[crafting] += 2; }
+            else { m_character.skill[crafting] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_science = m_character.skill[science] + m_character.skill_modifiers[science];
+        ImGui::InputInt("##SCI", &total_science, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Science (INT)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##SCIC", &m_character.tags[science]))
+        {
+            if (m_character.tags[science]) { m_character.skill[science] += 2; }
+            else { m_character.skill[science] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_sneak = m_character.skill[sneak] + m_character.skill_modifiers[sneak];
+        ImGui::InputInt("##SNK", &total_sneak, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Sneak (AGI)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##SNKC", &m_character.tags[sneak]))
+        {
+            if (m_character.tags[sneak]) { m_character.skill[sneak] += 2; }
+            else { m_character.skill[sneak] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_survival = m_character.skill[survival] + m_character.skill_modifiers[survival];
+        ImGui::InputInt("##SUR", &total_survival, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Survival (INT or END)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##SURC", &m_character.tags[survival]))
+        {
+            if (m_character.tags[survival]) { m_character.skill[survival] += 2; }
+            else { m_character.skill[survival] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_barter = m_character.skill[barter] + m_character.skill_modifiers[barter];
+        ImGui::InputInt("##BRT", &total_barter, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Barter (CHA)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##BRTC", &m_character.tags[barter]))
+        {
+            if (m_character.tags[barter]) { m_character.skill[barter] += 2; }
+            else { m_character.skill[barter] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_persuasion = m_character.skill[persuasion] + m_character.skill_modifiers[persuasion];
+        ImGui::InputInt("##PRS", &total_persuasion, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Persuasion (CHA)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##PRSC", &m_character.tags[persuasion]))
+        {
+            if (m_character.tags[persuasion]) { m_character.skill[persuasion] += 2; }
+            else { m_character.skill[persuasion] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_deception = m_character.skill[deception] + m_character.skill_modifiers[deception];
+        ImGui::InputInt("##DEC", &total_deception, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Deception (CHA)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##DECC", &m_character.tags[deception]))
+        {
+            if (m_character.tags[deception]) { m_character.skill[deception] += 2; }
+            else { m_character.skill[deception] -= 2; }
+        }
+        mul++;
+        //
+        ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+        ImGui::SetNextItemWidth(30);
+        int total_intimidation = m_character.skill[intimidation] + m_character.skill_modifiers[intimidation];
+        ImGui::InputInt("##ITM", &total_intimidation, 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SameLine();
+        ImGui::Text("Intimidation (STR or CHA)");
+        ImGui::SameLine();
+        if (ImGui::Checkbox("##ITMC", &m_character.tags[intimidation]))
+        {
+            if (m_character.tags[intimidation]) { m_character.skill[intimidation] += 2; }
+            else { m_character.skill[intimidation] -= 2; }
+        }
+        mul++;
     }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##ENW", &m_character.skill[energy_weapons], 0);
-    ImGui::SameLine();
-    ImGui::Text("Energy Weapons (PER)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##ENWC", &m_character.tags[energy_weapons]))
+    else
     {
-        if (m_character.tags[energy_weapons]) { m_character.skill[energy_weapons] += 2; }
-        else { m_character.skill[energy_weapons] -= 2; }
+        SkillsMM();
     }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##MLW", &m_character.skill[melee_weapons], 0);
-    ImGui::SameLine();
-    ImGui::Text("Melee Weapons (STR)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##MLWC", &m_character.tags[melee_weapons]))
-    {
-        if (m_character.tags[melee_weapons]) { m_character.skill[melee_weapons] += 2; }
-        else { m_character.skill[melee_weapons] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##UMD", &m_character.skill[unarmed], 0);
-    ImGui::SameLine();
-    ImGui::Text("Unarmed (STR or AGI)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##UMDC", &m_character.tags[unarmed]))
-    {
-        if (m_character.tags[unarmed]) { m_character.skill[unarmed] += 2; }
-        else { m_character.skill[unarmed] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##EXP", &m_character.skill[explosives], 0);
-    ImGui::SameLine();
-    ImGui::Text("Explosives (PER)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##EXPC", &m_character.tags[explosives]))
-    {
-        if (m_character.tags[explosives]) { m_character.skill[explosives] += 2; }
-        else { m_character.skill[explosives] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##MED", &m_character.skill[medicine], 0);
-    ImGui::SameLine();
-    ImGui::Text("Medicine (PER or INT)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##MEDC", &m_character.tags[medicine]))
-    {
-        if (m_character.tags[medicine]) { m_character.skill[medicine] += 2; }
-        else { m_character.skill[medicine] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##LPK", &m_character.skill[lockpick], 0);
-    ImGui::SameLine();
-    ImGui::Text("Lockpick (PER)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##LPKC", &m_character.tags[lockpick]))
-    {
-        if (m_character.tags[lockpick]) { m_character.skill[lockpick] += 2; }
-        else { m_character.skill[lockpick] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##HCK", &m_character.skill[hacking], 0);
-    ImGui::SameLine();
-    ImGui::Text("Hacking (INT)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##HCKC", &m_character.tags[hacking]))
-    {
-        if (m_character.tags[hacking]) { m_character.skill[hacking] += 2; }
-        else { m_character.skill[hacking] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##CFT", &m_character.skill[crafting], 0);
-    ImGui::SameLine();
-    ImGui::Text("Crafting (INT)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##CFTC", &m_character.tags[crafting]))
-    {
-        if (m_character.tags[crafting]) { m_character.skill[crafting] += 2; }
-        else { m_character.skill[crafting] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##SCI", &m_character.skill[science], 0);
-    ImGui::SameLine();
-    ImGui::Text("Science (INT)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##SCIC", &m_character.tags[science]))
-    {
-        if (m_character.tags[science]) { m_character.skill[science] += 2; }
-        else { m_character.skill[science] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##SNK", &m_character.skill[sneak], 0);
-    ImGui::SameLine();
-    ImGui::Text("Sneak (AGI)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##SNKC", &m_character.tags[sneak]))
-    {
-        if (m_character.tags[sneak]) { m_character.skill[sneak] += 2; }
-        else { m_character.skill[sneak] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##SUR", &m_character.skill[survival], 0);
-    ImGui::SameLine();
-    ImGui::Text("Survival (INT or END)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##SURC", &m_character.tags[survival]))
-    {
-        if (m_character.tags[survival]) { m_character.skill[survival] += 2; }
-        else { m_character.skill[survival] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##BRT", &m_character.skill[barter], 0);
-    ImGui::SameLine();
-    ImGui::Text("Barter (CHA)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##BRTC", &m_character.tags[barter]))
-    {
-        if (m_character.tags[barter]) { m_character.skill[barter] += 2; }
-        else { m_character.skill[barter] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##PRS", &m_character.skill[persuasion], 0);
-    ImGui::SameLine();
-    ImGui::Text("Persuasion (CHA)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##PRSC", &m_character.tags[persuasion]))
-    {
-        if (m_character.tags[persuasion]) { m_character.skill[persuasion] += 2; }
-        else { m_character.skill[persuasion] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##DEC", &m_character.skill[deception], 0);
-    ImGui::SameLine();
-    ImGui::Text("Deception (CHA)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##DECC", &m_character.tags[deception]))
-    {
-        if (m_character.tags[deception]) { m_character.skill[deception] += 2; }
-        else { m_character.skill[deception] -= 2; }
-    }
-    mul++;
-    //
-    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
-    ImGui::SetNextItemWidth(30);
-    ImGui::InputInt("##ITM", &m_character.skill[intimidation], 0);
-    ImGui::SameLine();
-    ImGui::Text("Intimidation (STR or CHA)");
-    ImGui::SameLine();
-    if (ImGui::Checkbox("##ITMC", &m_character.tags[intimidation]))
-    {
-        if (m_character.tags[intimidation]) { m_character.skill[intimidation] += 2; }
-        else { m_character.skill[intimidation] -= 2; }
-    }
-    mul++;
+
+    
 
     ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
@@ -2174,6 +2234,450 @@ void App::InventoryWindow()
     }
     ImGui::End();
 }
+
+
+// ---- RUN FUNCTIONS (MANUAL MODIFIER HELPERS) ----
+
+void App::MainParamsMM()
+{
+    // modifiers
+    {
+        ImGui::SetWindowFontScale(1.5f);
+        ImGui::SetCursorPos(ImVec2(50, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##StrhMod", &m_character.special_mods[str], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SetCursorPos(ImVec2(150, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##PerMod", &m_character.special_mods[per], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SetCursorPos(ImVec2(250, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##EndMod", &m_character.special_mods[endu], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SetCursorPos(ImVec2(350, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##ChaMod", &m_character.special_mods[cha], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SetCursorPos(ImVec2(450, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##IntMod", &m_character.special_mods[inte], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SetCursorPos(ImVec2(550, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##AgiMod", &m_character.special_mods[agi], 0, 100, ImGuiInputTextFlags_ReadOnly);
+        ImGui::SetCursorPos(ImVec2(650, 170));
+        ImGui::SetNextItemWidth(30);
+        ImGui::InputInt("##LckMod", &m_character.special_mods[lck], 0, 100, ImGuiInputTextFlags_ReadOnly);
+    }
+
+    // sp and hp
+    {
+        ImGui::SetWindowFontScale(1.5f);
+        ImGui::SetCursorPos(ImVec2(40, 300));
+        string sp_total_str = "SP:" + to_string(m_character.sp);
+        ImGui::Text(sp_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##SPModifier", &m_character.sp_modifier))
+        {
+            util::ClampInt(m_character.sp_modifier, -999, 999);
+        }
+        ImGui::SetCursorPos(ImVec2(40, 350));
+        string hp_total_str = "HP:" + to_string(m_character.hp);
+        ImGui::Text(hp_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##HPModifier", &m_character.hp_modifier))
+        {
+            util::ClampInt(m_character.hp_modifier, -999, 999);
+        }
+        m_character.CalculateHPSP();
+    }
+
+    // ac and dt
+    {
+        ImGui::SetWindowFontScale(1.5f);
+        ImGui::SetCursorPos(ImVec2(280, 300));
+        int total_ac = m_character.ac + m_character.ac_modifier;
+        string ac_total_str = "AC:" + to_string(total_ac);
+        ImGui::Text(ac_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##ACModifier", &m_character.ac_modifier))
+        {
+            util::ClampInt(m_character.ac_modifier, -999, 999);
+
+        }
+        ImGui::SetCursorPos(ImVec2(280, 350));
+        int total_dt = m_character.dt + m_character.dt_modifier;
+        string dt_total_str = "DT:" + to_string(total_dt);
+        ImGui::Text(dt_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##DTModifier", &m_character.dt_modifier))
+        {
+            util::ClampInt(m_character.dt_modifier, -999, 999);
+        }
+    }
+
+    // healing rate and combat sequence
+    {
+        ImGui::SetWindowFontScale(1.5f);
+        ImGui::SetCursorPos(ImVec2(550, 300));
+        int total_healing_rate = m_character.healing_rate + m_character.healing_rate_modifier;
+        string healing_rate_total_str = "HR:" + to_string(total_healing_rate);
+        ImGui::Text(healing_rate_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##HRModifier", &m_character.healing_rate_modifier))
+        {
+            util::ClampInt(m_character.healing_rate_modifier, -999, 999);
+        }
+        ImGui::SetCursorPos(ImVec2(550, 350));
+        int total_combat_seq = m_character.combat_seq + m_character.combat_seq_modifier;
+        string combat_seq_total_str = "CS:" + to_string(total_combat_seq);
+        ImGui::Text(combat_seq_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##CSModifier", &m_character.combat_seq_modifier))
+        {
+            util::ClampInt(m_character.combat_seq_modifier, -999, 999);
+        }
+    }
+
+    // ap
+    {
+        ImGui::SetCursorPos(ImVec2(40, 250));
+        int total_ap = m_character.ap + m_character.ap_modifier;
+        string ap_total_str = "AP:" + to_string(total_ap);
+        ImGui::Text(ap_total_str.c_str());
+        ImGui::SetNextItemWidth(120);
+        ImGui::SameLine();
+        if (ImGui::InputInt("##APModifier", &m_character.ap_modifier))
+        {
+            util::ClampInt(m_character.ap_modifier, -999, 999);
+        }
+    }
+}
+
+void App::SkillsMM()
+{
+    int y_offset = 35;
+    int mul = 0;
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##GUN", &m_character.skill_modifiers[guns]))
+    {
+        util::ClampInt(m_character.skill_modifiers[guns], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_guns = m_character.skill[guns] + m_character.skill_modifiers[guns];
+    string guns_total_str = to_string(total_guns) + " Guns";
+    ImGui::Text(guns_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##GUNC", &m_character.tags[guns]))
+    {
+        if (m_character.tags[guns]) { m_character.skill[guns] += 2; }
+        else { m_character.skill[guns] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##ENW", &m_character.skill_modifiers[energy_weapons]))
+    {
+        util::ClampInt(m_character.skill_modifiers[energy_weapons], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_energy_weapons = m_character.skill[energy_weapons] + m_character.skill_modifiers[energy_weapons];
+    string energy_weapons_total_str = to_string(total_energy_weapons) + " Energy Weapons";
+    ImGui::Text(energy_weapons_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##ENWC", &m_character.tags[energy_weapons]))
+    {
+        if (m_character.tags[energy_weapons]) { m_character.skill[energy_weapons] += 2; }
+        else { m_character.skill[energy_weapons] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##MLW", &m_character.skill_modifiers[melee_weapons]))
+    {
+        util::ClampInt(m_character.skill_modifiers[melee_weapons], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_melee_weapons = m_character.skill[melee_weapons] + m_character.skill_modifiers[melee_weapons];
+    string melee_weapons_total_str = to_string(total_melee_weapons) + " Melee Weapons";
+    ImGui::Text(melee_weapons_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##MLWC", &m_character.tags[melee_weapons]))
+    {
+        if (m_character.tags[melee_weapons]) { m_character.skill[melee_weapons] += 2; }
+        else { m_character.skill[melee_weapons] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##UMD", &m_character.skill_modifiers[unarmed]))
+    {
+        util::ClampInt(m_character.skill_modifiers[unarmed], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_unarmed = m_character.skill[unarmed] + m_character.skill_modifiers[unarmed];
+    string unarmed_total_str = to_string(total_unarmed) + " Unarmed";
+    ImGui::Text(unarmed_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##UMDC", &m_character.tags[unarmed]))
+    {
+        if (m_character.tags[unarmed]) { m_character.skill[unarmed] += 2; }
+        else { m_character.skill[unarmed] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##EXP", &m_character.skill_modifiers[explosives]))
+    {
+        util::ClampInt(m_character.skill_modifiers[explosives], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_explosives = m_character.skill[explosives] + m_character.skill_modifiers[explosives];
+    string explosives_total_str = to_string(total_explosives) + " Explosives";
+    ImGui::Text(explosives_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##EXPC", &m_character.tags[explosives]))
+    {
+        if (m_character.tags[explosives]) { m_character.skill[explosives] += 2; }
+        else { m_character.skill[explosives] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##MED", &m_character.skill_modifiers[medicine]))
+    {
+        util::ClampInt(m_character.skill_modifiers[medicine], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_medicine = m_character.skill[medicine] + m_character.skill_modifiers[medicine];
+    string medicine_total_str = to_string(total_medicine) + " Explosives";
+    ImGui::Text(medicine_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##MEDC", &m_character.tags[medicine]))
+    {
+        if (m_character.tags[medicine]) { m_character.skill[medicine] += 2; }
+        else { m_character.skill[medicine] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##LPK", &m_character.skill_modifiers[lockpick]))
+    {
+        util::ClampInt(m_character.skill_modifiers[lockpick], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_lockpick = m_character.skill[lockpick] + m_character.skill_modifiers[lockpick];
+    string lockpick_total_str = to_string(total_lockpick) + " Lockpick";
+    ImGui::Text(lockpick_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##LPKC", &m_character.tags[lockpick]))
+    {
+        if (m_character.tags[lockpick]) { m_character.skill[lockpick] += 2; }
+        else { m_character.skill[lockpick] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##HCK", &m_character.skill_modifiers[hacking]))
+    {
+        util::ClampInt(m_character.skill_modifiers[hacking], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_hacking = m_character.skill[hacking] + m_character.skill_modifiers[hacking];
+    string hacking_total_str = to_string(total_hacking) + " Hacking";
+    ImGui::Text(hacking_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##HCKC", &m_character.tags[hacking]))
+    {
+        if (m_character.tags[hacking]) { m_character.skill[hacking] += 2; }
+        else { m_character.skill[hacking] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##CFT", &m_character.skill_modifiers[crafting]))
+    {
+        util::ClampInt(m_character.skill_modifiers[crafting], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_crafting = m_character.skill[crafting] + m_character.skill_modifiers[crafting];
+    string crafting_total_str = to_string(total_crafting) + " Crafting";
+    ImGui::Text(crafting_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##CFTC", &m_character.tags[crafting]))
+    {
+        if (m_character.tags[crafting]) { m_character.skill[crafting] += 2; }
+        else { m_character.skill[crafting] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##SCI", &m_character.skill_modifiers[science]))
+    {
+        util::ClampInt(m_character.skill_modifiers[science], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_science = m_character.skill[science] + m_character.skill_modifiers[science];
+    string science_total_str = to_string(total_science) + " Science";
+    ImGui::Text(science_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##SCIC", &m_character.tags[science]))
+    {
+        if (m_character.tags[science]) { m_character.skill[science] += 2; }
+        else { m_character.skill[science] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##SNK", &m_character.skill_modifiers[sneak]))
+    {
+        util::ClampInt(m_character.skill_modifiers[sneak], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_sneak = m_character.skill[sneak] + m_character.skill_modifiers[sneak];
+    string sneak_total_str = to_string(total_sneak) + " Sneak";
+    ImGui::Text(sneak_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##SNKC", &m_character.tags[sneak]))
+    {
+        if (m_character.tags[sneak]) { m_character.skill[sneak] += 2; }
+        else { m_character.skill[sneak] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##SUR", &m_character.skill_modifiers[survival]))
+    {
+        util::ClampInt(m_character.skill_modifiers[survival], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_survival = m_character.skill[survival] + m_character.skill_modifiers[survival];
+    string survival_total_str = to_string(total_survival) + " Survival";
+    ImGui::Text(survival_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##SURC", &m_character.tags[survival]))
+    {
+        if (m_character.tags[survival]) { m_character.skill[survival] += 2; }
+        else { m_character.skill[survival] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##BRT", &m_character.skill_modifiers[barter]))
+    {
+        util::ClampInt(m_character.skill_modifiers[barter], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_barter = m_character.skill[barter] + m_character.skill_modifiers[barter];
+    string barter_total_str = to_string(total_barter) + " Barter";
+    ImGui::Text(barter_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##BRTC", &m_character.tags[barter]))
+    {
+        if (m_character.tags[barter]) { m_character.skill[barter] += 2; }
+        else { m_character.skill[barter] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##PRS", &m_character.skill_modifiers[persuasion]))
+    {
+        util::ClampInt(m_character.skill_modifiers[persuasion], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_persuasion = m_character.skill[persuasion] + m_character.skill_modifiers[persuasion];
+    string persuasion_total_str = to_string(total_persuasion) + " Persuasion";
+    ImGui::Text(persuasion_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##PRSC", &m_character.tags[persuasion]))
+    {
+        if (m_character.tags[persuasion]) { m_character.skill[persuasion] += 2; }
+        else { m_character.skill[persuasion] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if(ImGui::InputInt("##DEC", &m_character.skill_modifiers[deception]))
+    {
+        util::ClampInt(m_character.skill_modifiers[deception], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_deception = m_character.skill[deception] + m_character.skill_modifiers[deception];
+    string deception_total_str = to_string(total_deception) + " Deception";
+    ImGui::Text(deception_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##DECC", &m_character.tags[deception]))
+    {
+        if (m_character.tags[deception]) { m_character.skill[deception] += 2; }
+        else { m_character.skill[deception] -= 2; }
+    }
+    mul++;
+    //
+    ImGui::SetCursorPos(ImVec2(10, 30 + y_offset * mul));
+    ImGui::SetNextItemWidth(120);
+    if (ImGui::InputInt("##ITM", &m_character.skill_modifiers[intimidation]))
+    {
+        util::ClampInt(m_character.skill_modifiers[intimidation], -999, 999);
+    }
+    ImGui::SameLine();
+    int total_intimidation = m_character.skill[intimidation] + m_character.skill_modifiers[intimidation];
+    string intimidation_total_str = to_string(total_intimidation) + " Intimidation";
+    ImGui::Text(intimidation_total_str.c_str());
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##ITMC", &m_character.tags[intimidation]))
+    {
+        if (m_character.tags[intimidation]) { m_character.skill[intimidation] += 2; }
+        else { m_character.skill[intimidation] -= 2; }
+    }
+    mul++;
+}
+
+void App::RadDCMM()
+{
+    ImGui::SetCursorPos(ImVec2(10, 30));
+    string rad_dc_total_str = "Rad DC:" + to_string(m_character.rad_dc);
+    ImGui::Text(rad_dc_total_str.c_str());
+    ImGui::SetNextItemWidth(120);
+    ImGui::SameLine();
+    if (ImGui::InputInt("##RDC", &m_character.rad_dc_modifier))
+    {
+        util::ClampInt(m_character.rad_dc_modifier, -999, 999);
+    }
+    m_character.rad_dc = 12 - m_character.special_mods[endu] + m_character.rad_dc_modifier;
+}
+
+void App::PassiveSenseMM()
+{
+    ImGui::SetCursorPos(ImVec2(10, 30));
+    string passive_sense_total_str = "PS:" + to_string(m_character.passive_sense);
+    ImGui::Text(passive_sense_total_str.c_str());
+    ImGui::SetNextItemWidth(120);
+    ImGui::SameLine();
+    if (ImGui::InputInt("##PSC", &m_character.passive_sense_modifier))
+    {
+        util::ClampInt(m_character.passive_sense_modifier, -999, 999);
+    }
+    m_character.passive_sense = 12 + m_character.special_mods[per] + m_character.passive_sense_modifier;
+}
+
+// ---- RENDER FUNCTIONS ----
 
 void App::Render()
 {

@@ -6,7 +6,7 @@ background: Farmer
 level: 8
 hp: 37
 sp: 25
-ac: 12
+ac: 10
 dt: 2
 ap: 10
 healing_rate: 4
@@ -15,11 +15,11 @@ SPECIAL: 10	9	8	7	6	5	4
 tags: 0	0	0	0	0	0	0	1	1	1	0	0	0	0	0	0	
 skills: 0	4	5	5	4	4	4	3	3	3	0	3	2	2	2	5	
 passive_sense: 16
-party_nerve: 2
+party_nerve: 4
 party_luck: 3
 party_sneak: 1
 hunger: 1
 thirst: 1
 exhaustion: 3
-fatigue: 5
+fatigue: 2
 rads: 2

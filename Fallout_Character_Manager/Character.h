@@ -71,26 +71,36 @@ public:
 	int special[7] = { 0 };
 	int special_mods[7] = { 0 };
 	int hp = 10; // health points
+	int hp_modifier = 0; // manual modifier
 	int sp = 10; // stamina points
+	int sp_modifier = 0; // manual modifier
 	int ac = 10; // armor class
+	int ac_modifier = 0; // manual modifier
 	int dt = 0; // damage threshold
+	int dt_modifier = 0; // manual modifier
 	int healing_rate = 0;
+	int healing_rate_modifier = 0; // manual modifier
 	int ap = 10; // action points
+	int ap_modifier = 0; // manual modifier
 
 	// secondary stats
 	int rad_dc = 0; // radiation difficulty class
+	int rad_dc_modifier = 0; // manual modifier
 	float carry_load = 0;
+	float carry_load_modifier = 0; // manual modifier
 	int combat_seq = 0; // combat sequence bonus
+	int combat_seq_modifier = 0; // manual modifier
 
 	// passives
-	int passive_sense = 0; // passive sense (perception)
+	int passive_sense = 0;
+	int passive_sense_modifier = 0; // manual modifier
 	int party_nerve = 0;
 	int party_luck = 0;
 	int party_sneak = 0;
 
 	// skills
 	int skill[16] = { 0 };
-	int skill_mods[16] = { 0 };
+	int skill_modifiers[16] = { 0 };
 	bool tags[16] = { false };
 
 	// survival stats

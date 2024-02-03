@@ -79,7 +79,7 @@ void Character::CalculateHPSP()
     if (it != tbl::levels.end())
     {
         auto lvl = it->second;
-        hp = lvl.flat_hp + special_mods[endu] * lvl.end_mul;
-        sp = lvl.flat_sp + special_mods[agi] * lvl.agi_mul;
+        hp = lvl.flat_hp + special_mods[endu] * lvl.end_mul + hp_modifier;
+        sp = lvl.flat_sp + special_mods[agi] * lvl.agi_mul + sp_modifier;
     }
 }

@@ -78,6 +78,12 @@ private:
 	void CatalogueWindow();
 	void InfoWindow();
 	void InventoryWindow();
+
+	// Run functions (manual modifiers)
+	void MainParamsMM();
+	void SkillsMM();
+	void RadDCMM();
+	void PassiveSenseMM();
 	
 	// Save/Load
 	void LoadFromTSV();
@@ -134,7 +140,7 @@ private:
 
 	void ReloadCharacterFromBaseStats();
 
-
+	
 
 private:
 	Character m_character;
