@@ -1,5 +1,6 @@
 #pragma once
 #include "Tables.h"
+#include "Utils.h"
 
 enum special
 {
@@ -47,7 +48,10 @@ public:
 	// update the character dir to full dir.
 	void SetCharacterDir();
 
+	// resets the member functions for selected weapon/armor/items.
 	void ResetSelected();
+
+	void CalculateHPSP();
 
 public:
 	string m_filename = ""; // dir + filename to get the full path to the character folder
@@ -60,6 +64,7 @@ public:
 	string name = "none";
 	int level = 0;
 	string race = "...";
+
 	string background = "...";
 
 	// main stats
@@ -124,6 +129,6 @@ public:
 	vector<pair<string, string>> traits_perks;
 
 	// stuff for testing
-	
+
 };
 

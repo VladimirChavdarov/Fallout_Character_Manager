@@ -71,3 +71,15 @@ void Character::ResetSelected()
     item_index = -1;
     item_category = 0;
 }
+
+void Character::CalculateHPSP()
+{
+    string str_level = to_string(level);
+    auto it = tbl::levels.find(str_level);
+    if (it != tbl::levels.end())
+    {
+        auto lvl = it->second;
+        hp = lvl.flat_hp + special_mods[endu] * lvl.end_mul;
+        sp = lvl.flat_sp + special_mods[agi] * lvl.agi_mul;
+    }
+}

@@ -139,7 +139,11 @@ void App::BioWindow()
     ImGui::InputText("##Background", &m_character.background);
     ImGui::Text("Level: ");
     ImGui::SameLine();
-    ImGui::InputInt("##level", &m_character.level, 0);
+    if (ImGui::InputInt("##level", &m_character.level))
+    {
+        util::ClampInt(m_character.level, 1, 30);
+        m_character.CalculateHPSP();
+    }
     ImGui::SetWindowFontScale(1.0f);
     ImGui::End();
 }
@@ -229,6 +233,8 @@ void App::MainParamsWindow()
                 m_character.skill[survival] = m_character.special_mods[endu];
             else
                 m_character.skill[survival] = m_character.special_mods[inte];
+            // hpsp
+            m_character.CalculateHPSP();
         }
         ImGui::SetCursorPos(ImVec2(340, 110));
         ImGui::SetNextItemWidth(50);
@@ -286,6 +292,8 @@ void App::MainParamsWindow()
                 m_character.skill[unarmed] = m_character.special_mods[str];
             // sneak
             m_character.skill[sneak] = m_character.special_mods[agi];
+            // hpsp
+            m_character.CalculateHPSP();
         }
         ImGui::SetCursorPos(ImVec2(640, 110));
         ImGui::SetNextItemWidth(50);
@@ -838,7 +846,10 @@ void App::EquippedWindow()
                 ImGui::Text("Decay:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(90);
-                ImGui::InputInt("##ArmorDecay", &m_character.armors[m_character.armor_index].second.decay_level);
+                if (ImGui::InputInt("##ArmorDecay", &m_character.armors[m_character.armor_index].second.decay_level))
+                {
+                    util::ClampInt(m_character.armors[m_character.armor_index].second.decay_level, 0, 8);
+                }
             }
             ImGui::EndTabItem();
         }
@@ -874,19 +885,22 @@ void App::EquippedWindow()
                 ImGui::Text("Decay:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(90);
-                ImGui::InputInt("##WeaponDecay", &m_character.weapons[m_character.weapon_index].second.decay_level);
+                if (ImGui::InputInt("##WeaponDecay", &m_character.weapons[m_character.weapon_index].second.decay_level))
+                {
+                    util::ClampInt(m_character.weapons[m_character.weapon_index].second.decay_level, 0, 8);
+                }
                 // dmg
                 ImGui::SetCursorPos(ImVec2(10, 170));
                 ImGui::Text("Damage:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(200);
-                ImGui::InputText("##WeaponDamage", &m_character.weapons[m_character.weapon_index].second.dmg);
+                ImGui::InputText("##WeaponDamage", &m_character.weapons[m_character.weapon_index].second.dmg, ImGuiInputTextFlags_ReadOnly);
                 // dmg
                 ImGui::SetCursorPos(ImVec2(350, 170));
                 ImGui::Text("Crit:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(200);
-                ImGui::InputText("##WeaponCrit", &m_character.weapons[m_character.weapon_index].second.crit);
+                ImGui::InputText("##WeaponCrit", &m_character.weapons[m_character.weapon_index].second.crit, ImGuiInputTextFlags_ReadOnly);
                 // upgrades
                 if (DisplayComboBox(ImVec2(600, 60), 180, "Weapon Upgrades", m_character.weapons[m_character.weapon_index].second.upgrades, m_character.selected_item))
                 {
@@ -1045,55 +1059,6 @@ void App::CatalogueWindow()
             {
                 m_selected_list = hunger;
             }
-            /*if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Armor", !(m_selected_list - armor)))
-            {
-                m_selected_list = armor;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Weapons", !(m_selected_list - weapons)))
-            {
-                m_selected_list = weapons;
-            }
-            ImGui::SameLine();
-            if (ImGui::RadioButton("Misc", !(m_selected_list - misc)))
-            {
-                m_selected_list = misc;
-            }*/
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();

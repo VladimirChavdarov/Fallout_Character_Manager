@@ -15,14 +15,14 @@ namespace tbl
 		int agi_mul;
 	};
 	// Note: The key is a string for consistency with everything else. If you want to use it as an int, convert it to int on the spot.
-	static map<string, tbl::level> levels;
+	extern map<string, tbl::level> levels;
 
 	struct armor_upg
 	{
-		int cost;
+		int cost = 0;
 		string rank_description[3] = { "" };
 	};
-	static map<string, tbl::armor_upg> armors_upgrades;
+	extern map<string, tbl::armor_upg> armors_upgrades;
 
 	struct armor
 	{
@@ -37,23 +37,23 @@ namespace tbl
 		bool equipped = false;
 		map<string, tbl::armor_upg> upgrades;
 	};
-	static map<string, tbl::armor> armors;
+	extern map<string, tbl::armor> armors;
 
 
 	struct weapon_prop
 	{
 		string description;
 	};
-	static map<string, tbl::weapon_prop> melee_weapons_props;
-	static map<string, tbl::weapon_prop> ranged_weapons_props;
+	extern map<string, tbl::weapon_prop> melee_weapons_props;
+	extern map<string, tbl::weapon_prop> ranged_weapons_props;
 
 	struct weapon_upg
 	{
 		string description;
 		string req; //which weapons can have this mod
 	};
-	static map<string, tbl::weapon_upg> melee_weapons_upgrades;
-	static map<string, tbl::weapon_upg> ranged_weapons_upgrades;
+	extern map<string, tbl::weapon_upg> melee_weapons_upgrades;
+	extern map<string, tbl::weapon_upg> ranged_weapons_upgrades;
 
 	struct weapon
 	{
@@ -74,14 +74,14 @@ namespace tbl
 		bool equipped = false;
 		map<string, weapon_upg> upgrades;
 	};
-	static map<string, tbl::weapon> weapons;
+	extern map<string, tbl::weapon> weapons;
 
 	struct ammo_prop
 	{
 		string description;
 		string req;
 	};
-	static map<string, tbl::ammo_prop> ammos_props;
+	extern map<string, tbl::ammo_prop> ammos_props;
 
 	struct ammo
 	{
@@ -92,13 +92,13 @@ namespace tbl
 		int quantity = 0; // I honestly forgot what this was for.
 		float load = 1.0f; // load of a pack if pack size isn't 1
 	};
-	static map<string, tbl::ammo> ammos;
+	extern map<string, tbl::ammo> ammos;
 
 	struct explosive_prop
 	{
 		string description;
 	};
-	static map<string, tbl::explosive_prop> explosives_props;
+	extern map<string, tbl::explosive_prop> explosives_props;
 
 	struct explosive
 	{
@@ -112,14 +112,14 @@ namespace tbl
 		map<string, explosive_prop> props;
 		float load;
 	};
-	static map<string, tbl::explosive> explosives_thrown;
-	static map<string, tbl::explosive> explosives_placed;
+	extern map<string, tbl::explosive> explosives_thrown;
+	extern map<string, tbl::explosive> explosives_placed;
 
 	struct food_drink_prop
 	{
 		string description;
 	};
-	static map<string, tbl::food_drink_prop> foods_drinks_props;
+	extern map<string, tbl::food_drink_prop> foods_drinks_props;
 
 	struct food_drink
 	{
@@ -129,7 +129,7 @@ namespace tbl
 		map<string, food_drink_prop> props;
 		float load;
 	};
-	static map<string, tbl::food_drink> foods_drinks;
+	extern map<string, tbl::food_drink> foods_drinks;
 
 	struct misc // gear, medicine, chems, junk
 	{
@@ -139,10 +139,10 @@ namespace tbl
 		string description;
 		float load;
 	};
-	static map<string, tbl::misc> gear;
-	static map<string, tbl::misc> junk; // no table for that yet
-	static map<string, tbl::misc> medicine;
-	static map<string, tbl::misc> chems;
+	extern map<string, tbl::misc> gear;
+	extern map<string, tbl::misc> junk; // no table for that yet
+	extern map<string, tbl::misc> medicine;
+	extern map<string, tbl::misc> chems;
 
 	struct decay
 	{
@@ -151,35 +151,35 @@ namespace tbl
 		string weapon_effect;
 		int cost_reduction_percentage;
 	};
-	static map<string, tbl::decay> decay_levels;
+	extern map<string, tbl::decay> decay_levels;
 
 	struct rads
 	{
 		int level;
 		string event;
 	};
-	static map<string, tbl::rads> rads_levels;
+	extern map<string, tbl::rads> rads_levels;
 
 	struct exhaustion
 	{
 		int level;
 		string event;
 	};
-	static map<string, tbl::exhaustion> exhaustion_levels;
+	extern map<string, tbl::exhaustion> exhaustion_levels;
 
 	struct thirst
 	{
 		int level;
 		string event;
 	};
-	static map<string, tbl::thirst> thirst_levels;
+	extern map<string, tbl::thirst> thirst_levels;
 
 	struct hunger
 	{
 		int level;
 		string event;
 	};
-	static map<string, tbl::hunger> hunger_levels;
+	extern map<string, tbl::hunger> hunger_levels;
 
 	struct limb_condition
 	{
@@ -187,5 +187,5 @@ namespace tbl
 		string effect = "";
 		string condition = "";
 	};
-	static map<string, tbl::limb_condition> limb_conditions;
+	extern map<string, tbl::limb_condition> limb_conditions;
 }

@@ -4,7 +4,6 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_stdlib.h"
 #include "Character.h"
-#include "Utils.h"
 
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
@@ -134,6 +133,8 @@ private:
 
 
 	void ReloadCharacterFromBaseStats();
+
+
 
 private:
 	Character m_character;
