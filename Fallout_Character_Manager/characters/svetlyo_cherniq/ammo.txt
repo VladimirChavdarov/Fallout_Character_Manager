@@ -1,1 +1,1 @@
-name: .44 Magnum	cost: 3	pack_size: 23	quantity: 0	load: 0.043478	amount: 2	
+name: .44 Magnum	cost: 3	pack_size: 23	quantity: 0	load: 0.043478	amount: 9	

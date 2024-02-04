@@ -6,7 +6,7 @@ background: Farmer
 level: 8
 hp: 37
 sp: 25
-ac: 13
+ac: 12
 dt: 2
 ap: 10
 healing_rate: 4

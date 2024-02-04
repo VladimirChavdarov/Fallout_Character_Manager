@@ -2125,6 +2125,7 @@ void App::InventoryWindow()
     ImGui::Separator();
     ImGui::Text("");
 
+    // inventory
     if (ImGui::BeginTabBar("InventoryTabBar"))
     {
         if (ImGui::BeginTabItem("Ammo"))
@@ -2142,6 +2143,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == ammo)
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.ammos[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Ammo Amount", &m_character.ammos[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.ammos[m_character.item_index].second.amount, 0, 999999);
@@ -2180,6 +2183,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && (m_character.item_category == explosives_thrown || m_character.item_category == explosives_placed))
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.explosives[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Explosives Amount", &m_character.explosives[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.explosives[m_character.item_index].second.amount, 0, 999999);
@@ -2203,6 +2208,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == food_drinks)
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.foods_drinks[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Food or Drinks Amount", &m_character.foods_drinks[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.foods_drinks[m_character.item_index].second.amount, 0, 999999);
@@ -2226,6 +2233,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == gear)
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.gear[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Gear Amount", &m_character.gear[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.gear[m_character.item_index].second.amount, 0, 999999);
@@ -2249,6 +2258,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == medicine_items)
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.medicine[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Medicine Amount", &m_character.medicine[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.medicine[m_character.item_index].second.amount, 0, 999999);
@@ -2272,6 +2283,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == chems)
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.chems[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Chems Amount", &m_character.chems[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.chems[m_character.item_index].second.amount, 0, 999999);
@@ -2295,6 +2308,8 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == junk)
             {
+                ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.junk[m_character.item_index].second.amount).c_str());
+                ImGui::SetNextItemWidth(text_size.x + 60.0f);
                 if (ImGui::InputInt("Junk Amount", &m_character.junk[m_character.item_index].second.amount))
                 {
                     util::ClampInt(m_character.junk[m_character.item_index].second.amount, 0, 999999);
