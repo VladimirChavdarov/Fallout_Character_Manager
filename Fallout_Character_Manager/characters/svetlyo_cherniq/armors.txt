@@ -1,2 +1,0 @@
-name: Cloth	cost: 10	ac: 10	dt: 0	upg_slots: 8	load: 5.000000	str_req: 1	equipped: 0	decay_level: 0	current_upg: 0		
-name: Leather	cost: 70	ac: 10	dt: 1	upg_slots: 6	load: 15.000000	str_req: 1	equipped: 1	decay_level: 0	current_upg: 0		

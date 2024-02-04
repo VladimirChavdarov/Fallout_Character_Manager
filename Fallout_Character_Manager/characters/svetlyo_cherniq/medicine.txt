@@ -1,2 +1,0 @@
-name: Cateye	cost: 20	description: 	load: 1.000000	amount: 0	
-name: Rad-X	cost: 40	description: 	load: 1.000000	amount: 0	
