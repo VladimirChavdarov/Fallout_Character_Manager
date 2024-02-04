@@ -4881,12 +4881,14 @@ bool App::DisplayComboBox(
         for (auto& item : list)
         {
             const bool is_selected = (selected_item == item.first);
-            string s = "[ ]" + item.first;
+            string s = item.first;
             if constexpr (std::is_same_v<Container, vector<pair<string, tbl::weapon>>>
                        || std::is_same_v<Container, vector<pair<string, tbl::armor>>>)
             {
                 if (item.second.equipped)
                     s = "[X]" + item.first;
+                else
+                    s = "[ ]" + item.first;
             }
             
             if (ImGui::Selectable(s.c_str(), is_selected))
