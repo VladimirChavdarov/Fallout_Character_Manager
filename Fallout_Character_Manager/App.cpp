@@ -3840,6 +3840,13 @@ void App::SaveToTSV()
         output += to_string(m_character.skill[i]) + '\t';
     }
     output += "\n";
+    // skill modifiers
+    output += "skill_modifiers: ";
+    for (int i = 0; i < 16; i++)
+    {
+        output += to_string(m_character.skill_modifiers[i]) + '\t';
+    }
+    output += "\n";
     // passives
     output += "passive_sense: " + to_string(m_character.passive_sense) + "\n";
     output += "party_nerve: " + to_string(m_character.party_nerve) + "\n";
@@ -4124,6 +4131,7 @@ void App::LoadFromTSV()
             special,
             tags,
             skills,
+            skill_modifiers,
             passive_sense,
             party_nerve,
             party_luck,
@@ -4265,6 +4273,17 @@ void App::LoadFromTSV()
             {
                 m_character.skill[i] = 0;
                 m_character.skill[i] += stoi(skills[i]);
+            }
+            break;
+        }
+        case skill_modifiers:
+        {
+            string skill_modifier = util::GetSubstringBetween(line, "skill_modifiers: ", "");
+            vector<string> skill_modifiers = util::SplitString(skill_modifier, '\t');
+            for (int i = 0; i < 16; i++)
+            {
+                m_character.skill_modifiers[i] = 0;
+                m_character.skill_modifiers[i] += stoi(skill_modifiers[i]);
             }
             break;
         }

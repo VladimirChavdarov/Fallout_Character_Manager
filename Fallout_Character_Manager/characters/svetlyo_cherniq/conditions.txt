@@ -1,5 +1,4 @@
 Head 1
-Head 4
 Head Severe Injury
 Eyes 1
 Eyes 2

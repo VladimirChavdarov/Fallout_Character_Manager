@@ -14,6 +14,7 @@ combat_seq: 4
 SPECIAL: 10	9	8	7	6	5	4	
 tags: 0	0	0	0	0	0	0	1	1	1	0	0	0	0	0	0	
 skills: 0	4	5	5	4	4	4	3	3	3	0	3	2	2	2	5	
+skill_modifiers: 2	0	0	6	0	0	0	1	0	0	3	0	2	0	1	0	
 passive_sense: 16
 party_nerve: 4
 party_luck: 3
