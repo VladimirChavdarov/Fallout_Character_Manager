@@ -63,10 +63,10 @@ void input(GLFWwindow* window)
 
 void render(GLFWwindow* window, App app)
 {
-    // clear back buffer
-    // -----------------
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    //// clear back buffer
+    //// -----------------
+    //glClearColor(0.1f, 0.f, 0.1f, 1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
 
     app.Render();
 
@@ -136,7 +136,8 @@ int main()
 
         // clear back buffer
         // -----------------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        ImVec4 col = app.GetBackgroundColor();
+        glClearColor(col.x, col.y, col.z, col.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // render UI

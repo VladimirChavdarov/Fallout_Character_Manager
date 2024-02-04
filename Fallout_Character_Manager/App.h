@@ -39,6 +39,8 @@ public:
 		m_tex.width = *w;
 		m_tex.height = *h;
 	}
+
+	ImVec4 GetBackgroundColor() { return m_background_color; }
 	
 
 private:
@@ -140,11 +142,20 @@ private:
 
 	void ReloadCharacterFromBaseStats();
 
-	
+	void SetUIStyle();
 
 private:
 	Character m_character;
 	texture m_tex;
+
+	// style stuff
+	enum UIStyle
+	{
+		imgui_style,
+		green_style
+	};
+	int m_selected_style = 0;
+	ImVec4 m_background_color = ImVec4(0.2f, 0.3f, 0.3f, 1.0f);
 
 	// catalogue stuff
 	enum Categories

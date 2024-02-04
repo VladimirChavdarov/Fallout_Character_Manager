@@ -5,7 +5,6 @@ Eyes 2
 Eyes Severe Injury
 Arms 1
 Arms 2
-Arms 3
 Arms 4
 Torso 1
 Torso 4

@@ -8,6 +8,7 @@
 
 void App::Init()
 {
+    // collect all data from the .tsv files
     ExtractLeveling();
     ExtractArmorsUpgrades();
     ExtractArmors();
@@ -116,6 +117,18 @@ void App::MenuBar()
             {
                 
             }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Style"))
+        {
+            if (ImGui::RadioButton("Default (ImGui style)", &m_selected_style, 0))
+                SetUIStyle();
+            if (ImGui::RadioButton("Green (Fallout style)", &m_selected_style, 1))
+                SetUIStyle();
+            /*for (int i = 0; i < sizeof(UIStyle); i++)
+            {
+
+            }*/
             ImGui::EndMenu();
         }
 
@@ -5130,4 +5143,54 @@ bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const stri
 void App::ReloadCharacterFromBaseStats()
 {
 
+}
+
+void App::SetUIStyle()
+{
+    switch (m_selected_style)
+    {
+    case imgui_style:
+    {
+        ImGui::GetStyle() = ImGuiStyle();
+        m_background_color = ImVec4(0.2f, 0.3f, 0.3f, 1.0f);
+        break;
+    }
+    case green_style:
+    {
+        // set UI style (make it fallout-y)
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_Text] = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_Border] = ImVec4(0.0f, 0.3f, 0.f, 0.8f);
+        style.Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.4f, 0.0f, 0.9f);
+        style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.0f, 0.8f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.0f, 0.3f, 0.0f, 1.0f);
+
+        style.Colors[ImGuiCol_CheckMark] = ImVec4(0.0f, 0.9f, 0.0f, 1.0f);
+
+        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.06f, 0.28f, 0.09f, 0.54f);
+        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.1f, 0.4f, 0.1f, 1.0f);
+        style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.4f, 0.4f, 0.4f, 1.0f);
+
+        style.Colors[ImGuiCol_Tab] = ImVec4(0.0f, 0.3f, 0.0f, 0.9f);
+        style.Colors[ImGuiCol_TabHovered] = ImVec4(0.0f, 0.8f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_TabActive] = ImVec4(0.0f, 0.5f, 0.0f, 1.0f);
+
+        style.Colors[ImGuiCol_Header] = ImVec4(0.0f, 0.5f, 0.0f, 0.9f);
+        style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.0f, 0.8f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.0f, 0.4f, 0.0f, 1.0f);
+
+        style.Colors[ImGuiCol_TitleBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);
+        style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.0f, 0.5f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);
+
+        style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.98f, 0.59f, 0.35f);
+        //cout << style.Colors[ImGuiCol_TextSelectedBg].x << " " << style.Colors[ImGuiCol_TextSelectedBg].y << " " << style.Colors[ImGuiCol_TextSelectedBg].z
+        //    << " " << style.Colors[ImGuiCol_TextSelectedBg].w << endl;
+        m_background_color = ImVec4(0.1f, 0.5f, 0.15f, 1.0f);
+        break;
+    }
+    default:
+        break;
+    }
 }
