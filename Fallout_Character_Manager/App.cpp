@@ -145,10 +145,28 @@ void App::BioWindow()
     ImGui::SetWindowFontScale(1.5f);
     ImGui::Text("Name: ");
     ImGui::SameLine();
-    ImGui::InputText("##Name", &m_character.name);
+    if (ImGui::InputText("##Name", &m_character.name))
+    {
+        if (m_character.name == "...")
+        {
+            m_character.name = "none";
+        }
+    }
     ImGui::Text("Race: ");
     ImGui::SameLine();
-    ImGui::InputText("##Race", &m_character.race);
+    if (ImGui::BeginCombo("##Race", m_character.race.c_str()))
+    {
+        for (auto& r : races)
+        {
+            const bool is_selected = (m_character.race == r);
+            if (ImGui::Selectable(r.c_str(), is_selected))
+                m_character.race = r;
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
+    }
     ImGui::Text("Background: ");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(150);
@@ -2203,24 +2221,38 @@ void App::InventoryWindow()
     ImGui::Begin("Inventory");
 
     // load
-    ImGui::Text("Carry Load:");
-    ImGui::SameLine();
-    ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.carry_load).c_str());
-    ImGui::SetNextItemWidth(text_size.x);
-    if (m_character.carry_load > m_character.carry_capacity && m_character.carry_load < m_character.carry_capacity * 2.0f)
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.5f, 0.0f, 1.0f));
-    else if (m_character.carry_load > m_character.carry_capacity * 2.0f)
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-    else
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-    if (ImGui::InputFloat("##CarryLoad", &m_character.carry_load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
+    ImVec2 text_size;
+    if (!show_manual_modifiers)
     {
-        m_character.CalculateCarryLoad();
+        ImGui::Text("Carry Load:");
+        ImGui::SameLine();
+        text_size = ImGui::CalcTextSize(to_string(m_character.carry_load).c_str());
+        ImGui::SetNextItemWidth(text_size.x);
+        if (m_character.carry_load > m_character.carry_capacity && m_character.carry_load < m_character.carry_capacity * 2.0f)
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.5f, 0.0f, 1.0f));
+        else if (m_character.carry_load > m_character.carry_capacity * 2.0f)
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+        else
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        if (ImGui::InputFloat("##CarryLoad", &m_character.carry_load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
+        {
+            m_character.CalculateCarryLoad();
+        }
+        ImGui::PopStyleColor();
+        ImGui::SameLine();
+        ImGui::Text("/");
+        ImGui::SameLine();
+        text_size = ImGui::CalcTextSize(to_string(m_character.carry_capacity).c_str());
+        ImGui::SetNextItemWidth(text_size.x);
+        if (ImGui::InputFloat("##CarryCapacity", &m_character.carry_capacity, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
+        {
+            m_character.CalculateCarryLoad();
+        }
     }
-    ImGui::PopStyleColor();
-    ImGui::SameLine();
-    ImGui::Text("/");
-    ImGui::SameLine();
+    else
+    {
+        CarryCapacityMM();
+    }
     text_size = ImGui::CalcTextSize(to_string(m_character.carry_capacity).c_str());
     ImGui::SetNextItemWidth(text_size.x);
     if (ImGui::InputFloat("##CarryCapacity", &m_character.carry_capacity, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
@@ -2880,6 +2912,21 @@ void App::PassiveSenseMM()
         util::ClampInt(m_character.passive_sense_modifier, -999, 999);
     }
     m_character.passive_sense = 12 + m_character.special_mods[per] + m_character.passive_sense_modifier;
+}
+
+void App::CarryCapacityMM()
+{
+    ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.carry_capacity).c_str());
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(1) << m_character.carry_capacity;
+    string carry_capacity_total_str = "Carrying Capacity: " + oss.str();
+    ImGui::Text(carry_capacity_total_str.c_str());
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(text_size.x + 60.0f);
+    if (ImGui::InputFloat("##CarryCapacity", &m_character.carry_capacity_modifier, 1.0f, 0.0f, "%.1f"))
+    {
+        m_character.CalculateCarryLoad();
+    }
 }
 
 // ---- RENDER FUNCTIONS ----

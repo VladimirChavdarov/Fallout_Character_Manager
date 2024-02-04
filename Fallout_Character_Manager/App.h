@@ -86,6 +86,7 @@ private:
 	void SkillsMM();
 	void RadDCMM();
 	void PassiveSenseMM();
+	void CarryCapacityMM();
 	
 	// Save/Load
 	void LoadFromTSV();
@@ -156,6 +157,28 @@ private:
 	};
 	int m_selected_style = 0;
 	ImVec4 m_background_color = ImVec4(0.2f, 0.3f, 0.3f, 1.0f);
+
+	enum Races
+	{
+		human,
+		ghoul,
+		synth_gen2,
+		synth_gen3,
+		robot_protectron,
+		robot_handy,
+		robot_robobrain,
+		supermutant_defective,
+		supermutant_nightkin
+	};
+	string races[9] = { "Human",
+						"Ghoul",
+						"Gen 2 Synth",
+						"Gen 3 Synth",
+						"Protectron",
+						"Mr/Miss Handy",
+						"Robobrain",
+						"Super Mutant",
+						"Nightkin" };
 
 	// catalogue stuff
 	enum Categories

@@ -96,7 +96,7 @@ public:
 	int rad_dc_modifier = 0; // manual modifier
 	float carry_load = 0;
 	float carry_capacity = 0;
-	float carry_load_modifier = 0; // manual modifier
+	float carry_capacity_modifier = 0; // manual modifier
 	int combat_seq = 0; // combat sequence bonus
 	int combat_seq_modifier = 0; // manual modifier
 
