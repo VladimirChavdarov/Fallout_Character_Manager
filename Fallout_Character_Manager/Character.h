@@ -53,6 +53,9 @@ public:
 
 	void CalculateHPSP();
 
+	// also calculates carry capacity just in case
+	void CalculateCarryLoad();
+
 public:
 	string m_filename = ""; // dir + filename to get the full path to the character folder
 	string m_dir = "../Fallout_Character_Manager/characters/"; // dir + filename to get the full path to the character folder
@@ -87,6 +90,7 @@ public:
 	int rad_dc = 0; // radiation difficulty class
 	int rad_dc_modifier = 0; // manual modifier
 	float carry_load = 0;
+	float carry_capacity = 0;
 	float carry_load_modifier = 0; // manual modifier
 	int combat_seq = 0; // combat sequence bonus
 	int combat_seq_modifier = 0; // manual modifier

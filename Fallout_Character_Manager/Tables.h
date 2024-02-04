@@ -30,7 +30,7 @@ namespace tbl
 		int ac = 0;
 		int dt = 0;
 		int upg_slots = 0;
-		int load = 0;
+		float load = 0.0f;
 		int str_req = 0;
 
 		int decay_level = 0;

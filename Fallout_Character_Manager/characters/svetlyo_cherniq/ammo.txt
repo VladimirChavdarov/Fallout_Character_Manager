@@ -1,4 +1,1 @@
-name: .45-70 Gov't.	cost: 4	pack_size: 15	quantity: 0	load: 1.000000	amount: 8	
-name: 10mm.	cost: 2	pack_size: 30	quantity: 0	load: 1.000000	amount: 999	
-name: Cryo Cell.	cost: 6	pack_size: 12	quantity: 0	load: 1.000000	amount: 1	
-name: 9mm.	cost: 1	pack_size: 34	quantity: 0	load: 1.000000	amount: 60	
+name: .44 Magnum	cost: 3	pack_size: 23	quantity: 0	load: 0.043478	amount: 2	

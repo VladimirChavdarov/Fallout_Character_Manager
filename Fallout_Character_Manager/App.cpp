@@ -187,7 +187,7 @@ void App::MainParamsWindow()
         if (ImGui::DragInt("##Strength", &m_character.special[str], 1, 1, 15, "%d", ImGuiSliderFlags_AlwaysClamp))
         {
             m_character.special_mods[str] = m_character.special[str] - 5;
-            m_character.carry_load = static_cast<float>(m_character.special[str] * 10);
+            m_character.carry_capacity = static_cast<float>(m_character.special[str] * 10);
             // melee
             m_character.skill[melee_weapons] = m_character.special_mods[str];
             // unarmed
@@ -896,13 +896,13 @@ void App::EquippedWindow()
                 m_character.ac = m_character.armors[m_character.armor_index].second.ac;
                 m_character.dt = m_character.armors[m_character.armor_index].second.dt;
                 // cost
-                ImGui::SetCursorPos(ImVec2(450, 100));
+                ImGui::SetCursorPos(ImVec2(350, 100));
                 ImGui::Text("Cost:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(40);
                 ImGui::InputInt("##ArmorCost", &m_character.armors[m_character.armor_index].second.cost, 0, 100, ImGuiInputTextFlags_ReadOnly);
                 // decay
-                ImGui::SetCursorPos(ImVec2(450, 135));
+                ImGui::SetCursorPos(ImVec2(350, 135));
                 ImGui::Text("Decay:");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(90);
@@ -910,6 +910,12 @@ void App::EquippedWindow()
                 {
                     util::ClampInt(m_character.armors[m_character.armor_index].second.decay_level, 0, 8);
                 }
+                // load
+                ImGui::SetCursorPos(ImVec2(600, 100));
+                ImGui::Text("Load:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(60);
+                ImGui::InputFloat("##ArmorLoad", &m_character.armors[m_character.armor_index].second.load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
             }
             ImGui::EndTabItem();
         }
@@ -1003,6 +1009,12 @@ void App::EquippedWindow()
                     }
                     m_selected_name = m_character.selected_item;
                 }
+                // load
+                ImGui::SetCursorPos(ImVec2(600, 100));
+                ImGui::Text("Load:");
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(60);
+                ImGui::InputFloat("##WeaponLoad", &m_character.weapons[m_character.weapon_index].second.load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
             }
             ImGui::EndTabItem();
         }
@@ -1401,6 +1413,7 @@ void App::CatalogueWindow()
         if (ImGui::Button("Confirm", ImVec2(120, 0)))
         {
             m_character.junk.push_back(item);
+            m_character.CalculateCarryLoad();
             ImGui::CloseCurrentPopup();
         }
         ImGui::SetItemDefaultFocus();
@@ -2072,11 +2085,51 @@ void App::InventoryWindow()
     ImGui::SetNextWindowPos(ImVec2(1140, 640), ImGuiCond_Once);
     ImGui::SetNextWindowSize(ImVec2(350, 330), ImGuiCond_Once);
     ImGui::Begin("Inventory");
+
+    // load
+    ImGui::Text("Carry Load:");
+    ImGui::SameLine();
+    ImVec2 text_size = ImGui::CalcTextSize(to_string(m_character.carry_load).c_str());
+    ImGui::SetNextItemWidth(text_size.x);
+    if (m_character.carry_load > m_character.carry_capacity && m_character.carry_load < m_character.carry_capacity * 2.0f)
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.5f, 0.0f, 1.0f));
+    else if (m_character.carry_load > m_character.carry_capacity * 2.0f)
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+    else
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+    if (ImGui::InputFloat("##CarryLoad", &m_character.carry_load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
+    {
+        m_character.CalculateCarryLoad();
+    }
+    ImGui::PopStyleColor();
+    ImGui::SameLine();
+    ImGui::Text("/");
+    ImGui::SameLine();
+    text_size = ImGui::CalcTextSize(to_string(m_character.carry_capacity).c_str());
+    ImGui::SetNextItemWidth(text_size.x);
+    if (ImGui::InputFloat("##CarryCapacity", &m_character.carry_capacity, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
+    {
+        m_character.CalculateCarryLoad();
+    }
+
+    // caps
+    ImGui::Text("Caps:");
+    ImGui::SameLine();
+    text_size = ImGui::CalcTextSize(to_string(m_character.caps).c_str());
+    ImGui::SetNextItemWidth(text_size.x + 60.0f);
+    if (ImGui::InputInt("##Caps", &m_character.caps))
+    {
+        util::ClampInt(m_character.caps, 0, 999999999);
+    }
+
+    ImGui::Separator();
+    ImGui::Text("");
+
     if (ImGui::BeginTabBar("InventoryTabBar"))
     {
         if (ImGui::BeginTabItem("Ammo"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Ammo", m_character.ammos, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Ammo", m_character.ammos, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.ammos.size(); i++)
@@ -2089,15 +2142,18 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == ammo)
             {
-                ImGui::InputInt("Ammo Amount", &m_character.ammos[m_character.item_index].second.amount);
-                util::ClampInt(m_character.ammos[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Ammo Amount", &m_character.ammos[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.ammos[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
 
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Explosives"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Explosives", m_character.explosives, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Explosives", m_character.explosives, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.explosives.size(); i++)
@@ -2124,14 +2180,17 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && (m_character.item_category == explosives_thrown || m_character.item_category == explosives_placed))
             {
-                ImGui::InputInt("Explosives Amount", &m_character.explosives[m_character.item_index].second.amount);
-                util::ClampInt(m_character.explosives[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Explosives Amount", &m_character.explosives[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.explosives[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Food/Drinks"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Food or Drinks", m_character.foods_drinks, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Food or Drinks", m_character.foods_drinks, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.foods_drinks.size(); i++)
@@ -2144,14 +2203,17 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == food_drinks)
             {
-                ImGui::InputInt("Food or Drinks Amount", &m_character.foods_drinks[m_character.item_index].second.amount);
-                util::ClampInt(m_character.foods_drinks[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Food or Drinks Amount", &m_character.foods_drinks[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.foods_drinks[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Gear"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Gear", m_character.gear, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Gear", m_character.gear, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.gear.size(); i++)
@@ -2164,14 +2226,17 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == gear)
             {
-                ImGui::InputInt("Gear Amount", &m_character.gear[m_character.item_index].second.amount);
-                util::ClampInt(m_character.gear[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Gear Amount", &m_character.gear[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.gear[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Medicine"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Medicine", m_character.medicine, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Medicine", m_character.medicine, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.medicine.size(); i++)
@@ -2184,14 +2249,17 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == medicine_items)
             {
-                ImGui::InputInt("Medicine Amount", &m_character.medicine[m_character.item_index].second.amount);
-                util::ClampInt(m_character.medicine[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Medicine Amount", &m_character.medicine[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.medicine[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Chems"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Chems", m_character.chems, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Chems", m_character.chems, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.chems.size(); i++)
@@ -2204,14 +2272,17 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == chems)
             {
-                ImGui::InputInt("Chems Amount", &m_character.chems[m_character.item_index].second.amount);
-                util::ClampInt(m_character.chems[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Chems Amount", &m_character.chems[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.chems[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
             }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Junk"))
         {
-            if (DisplayListInventory(ImVec2(0, 60), ImVec2(360, 220), "Junk", m_character.junk, m_character.selected_item))
+            if (DisplayListInventory(ImVec2(0, 115), ImVec2(360, 180), "Junk", m_character.junk, m_character.selected_item))
             {
                 m_character.item_index = -1;
                 for (int i = 0; i < m_character.junk.size(); i++)
@@ -2224,8 +2295,11 @@ void App::InventoryWindow()
             }
             if (m_character.item_index != -1 && m_character.item_category == junk)
             {
-                ImGui::InputInt("Junk Amount", &m_character.junk[m_character.item_index].second.amount);
-                util::ClampInt(m_character.junk[m_character.item_index].second.amount, 0, 999999);
+                if (ImGui::InputInt("Junk Amount", &m_character.junk[m_character.item_index].second.amount))
+                {
+                    util::ClampInt(m_character.junk[m_character.item_index].second.amount, 0, 999999);
+                    m_character.CalculateCarryLoad();
+                }
             }
             ImGui::EndTabItem();
         }
@@ -3134,13 +3208,12 @@ void App::ExtractAmmo()
         if (pack_size != "")
         {
             value.pack_size = stoi(pack_size);
-            //value.load = static_cast<float>(value.quantity) / static_cast<float>(value.pack_size);
+            value.load = 1.0f / static_cast<float>(value.pack_size);
         }
         else
         {
-            pack_size = util::GetSubstringBetween(row[2], "", "sth.");
+            value.load = stof(util::GetSubstringBetween(row[2], "", "sth."));
             value.pack_size = 1;
-            value.load = stoi(pack_size);
         }
 
         tbl::ammos.emplace(key, value);
@@ -4824,7 +4897,11 @@ bool App::DisplayList(const ImVec2& pos, const ImVec2& size, const string& name,
                     ImGui::SetWindowFontScale(1.0f);
                     ImGui::Separator();
 
-                    if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+                    if (ImGui::Button("OK", ImVec2(120, 0)))
+                    {
+                        m_character.CalculateCarryLoad();
+                        ImGui::CloseCurrentPopup();
+                    }
                     ImGui::SetItemDefaultFocus();
                     ImGui::EndPopup();
                 }

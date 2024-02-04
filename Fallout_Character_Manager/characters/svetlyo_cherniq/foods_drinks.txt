@@ -1,3 +1,4 @@
 name: Atomic Cocktail	cost: 10	props: 4	Caffeinated|Energizing|Irradiated| |	load: 1.000000	amount: 0	
 name: Iguana on a Stick	cost: 10	props: 1	Tasty|	load: 1.000000	amount: 0	
 name: Gecko steak	cost: 20	props: 3	Filling|Tasty| |	load: 2.000000	amount: 0	
+name: Coffee	cost: 2	props: 3	Caffeinated|Tasty| |	load: 1.000000	amount: 2	

@@ -4,6 +4,9 @@
 
 using namespace std;
 
+template <typename Container>
+float GetItemLoadFromCategory(const Container& category);
+
 void Character::FindLimbMap(const string& selected_cond, map<string, tbl::limb_condition>*& character_body_part)
 {
     size_t found = selected_cond.find("Head");
@@ -82,4 +85,40 @@ void Character::CalculateHPSP()
         hp = lvl.flat_hp + special_mods[endu] * lvl.end_mul + hp_modifier;
         sp = lvl.flat_sp + special_mods[agi] * lvl.agi_mul + sp_modifier;
     }
+}
+
+void Character::CalculateCarryLoad()
+{
+    carry_capacity = static_cast<float>(special[str] * 10.0f);
+    carry_load = 0.0f;
+
+    // armor
+    for (auto& a : armors)
+    {
+        carry_load += a.second.load;
+    }
+    // weapons
+    for (auto& w : weapons)
+    {
+        carry_load += w.second.load;
+    }
+    // other items
+    carry_load += GetItemLoadFromCategory(ammos);
+    carry_load += GetItemLoadFromCategory(explosives);
+    carry_load += GetItemLoadFromCategory(foods_drinks);
+    carry_load += GetItemLoadFromCategory(gear);
+    carry_load += GetItemLoadFromCategory(medicine);
+    carry_load += GetItemLoadFromCategory(chems);
+    carry_load += GetItemLoadFromCategory(junk);
+}
+
+template <typename Container>
+float GetItemLoadFromCategory(const Container& category)
+{
+    float load = 0;
+    for (auto& item : category)
+    {
+        load += item.second.load * item.second.amount;
+    }
+    return load;
 }
