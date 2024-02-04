@@ -922,7 +922,12 @@ void App::EquippedWindow()
                 }
                 // equipped
                 ImGui::SetCursorPos(ImVec2(10, 130));
-                ImGui::Checkbox("Equipped##A", &m_character.armors[m_character.armor_index].second.equipped);
+                if (ImGui::Checkbox("Equipped##A", &m_character.armors[m_character.armor_index].second.equipped))
+                {
+                    for (int i = 0; i < m_character.armors.size(); i++)
+                        if (i != m_character.armor_index)
+                            m_character.armors[i].second.equipped = false;
+                }
                 // ac, dt
                 m_character.ac = m_character.armors[m_character.armor_index].second.ac;
                 m_character.dt = m_character.armors[m_character.armor_index].second.dt;
@@ -999,7 +1004,12 @@ void App::EquippedWindow()
                 ImGui::InputText("##WeaponName", &m_character.weapons[m_character.weapon_index].first);
                 // equipped
                 ImGui::SetCursorPos(ImVec2(10, 130));
-                ImGui::Checkbox("Equipped##W", &m_character.weapons[m_character.weapon_index].second.equipped);
+                if (ImGui::Checkbox("Equipped##W", &m_character.weapons[m_character.weapon_index].second.equipped))
+                {
+                    for (int i = 0; i < m_character.weapons.size(); i++)
+                        if (i != m_character.weapon_index)
+                            m_character.weapons[i].second.equipped = false;
+                }
                 // cost
                 ImGui::SetCursorPos(ImVec2(350, 100));
                 ImGui::Text("Cost:");
@@ -4857,7 +4867,15 @@ bool App::DisplayComboBox(
         for (auto& item : list)
         {
             const bool is_selected = (selected_item == item.first);
-            if (ImGui::Selectable(item.first.c_str(), is_selected))
+            string s = "[ ]" + item.first;
+            if constexpr (std::is_same_v<Container, vector<pair<string, tbl::weapon>>>
+                       || std::is_same_v<Container, vector<pair<string, tbl::armor>>>)
+            {
+                if (item.second.equipped)
+                    s = "[X]" + item.first;
+            }
+            
+            if (ImGui::Selectable(s.c_str(), is_selected))
             {
                 new_select = true;
                 selected_item = item.first;
