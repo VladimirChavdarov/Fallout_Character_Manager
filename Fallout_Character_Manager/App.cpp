@@ -2253,12 +2253,6 @@ void App::InventoryWindow()
     {
         CarryCapacityMM();
     }
-    text_size = ImGui::CalcTextSize(to_string(m_character.carry_capacity).c_str());
-    ImGui::SetNextItemWidth(text_size.x);
-    if (ImGui::InputFloat("##CarryCapacity", &m_character.carry_capacity, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly))
-    {
-        m_character.CalculateCarryLoad();
-    }
 
     // caps
     ImGui::Text("Caps:");
@@ -3997,6 +3991,7 @@ void App::SaveToTSV()
     output += "ap: " + to_string(m_character.ap) + "\n";
     output += "healing_rate: " + to_string(m_character.healing_rate) + "\n";
     output += "combat_seq: " + to_string(m_character.combat_seq) + "\n";
+    output += "carry_capacity_modifier: " + to_string(m_character.carry_capacity_modifier) + "\n";
     // special
     output += "SPECIAL: ";
     for (int i = 0; i < 7; i++)
@@ -4306,6 +4301,7 @@ void App::LoadFromTSV()
             ap,
             healing_rate,
             combat_seq,
+            carry_capacity_modifier,
             special,
             tags,
             skills,
@@ -4420,6 +4416,13 @@ void App::LoadFromTSV()
             string combat_seq = util::GetSubstringBetween(line, "combat_seq: ", "");
             if (combat_seq != "")
                 m_character.combat_seq = stoi(combat_seq);
+            break;
+        }
+        case carry_capacity_modifier:
+        {
+            string carry_capacity_modifier = util::GetSubstringBetween(line, "carry_capacity_modifier: ", "");
+            if (carry_capacity_modifier != "")
+                m_character.carry_capacity_modifier = stoi(carry_capacity_modifier);
             break;
         }
         case special:
