@@ -59,6 +59,8 @@ public:
 	// delete armor/weapon/item marked for delete in this frame.
 	void DeleteItems();
 
+	void DeletePerks();
+
 public:
 	string m_filename = ""; // dir + filename to get the full path to the character folder
 	string m_dir = "../Fallout_Character_Manager/characters/"; // dir + filename to get the full path to the character folder
@@ -147,6 +149,7 @@ public:
 	map<string, tbl::limb_condition> groin_conditions;
 	map<string, tbl::limb_condition> legs_conditions;
 	vector<pair<string, string>> traits_perks;
+	int perk_index_marked_for_delete = -1;
 
 	// stuff for testing
 

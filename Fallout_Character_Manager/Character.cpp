@@ -196,6 +196,16 @@ void Character::DeleteItems()
     CalculateCarryLoad();
 }
 
+void Character::DeletePerks()
+{
+    if (perk_index_marked_for_delete != -1)
+    {
+        auto it = traits_perks.begin() + perk_index_marked_for_delete;
+        traits_perks.erase(it);
+        perk_index_marked_for_delete = -1;
+    }
+}
+
 template <typename Container>
 float GetItemLoadFromCategory(const Container& category)
 {

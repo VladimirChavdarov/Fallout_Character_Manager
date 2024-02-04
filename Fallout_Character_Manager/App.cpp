@@ -56,6 +56,7 @@ void App::Run()
     InventoryWindow();
 
     m_character.DeleteItems();
+    m_character.DeletePerks();
 
 	// Render All Windows
 	//Render();
@@ -853,6 +854,34 @@ void App::PerkWindow()
             string tagD = "##PerkDescription" + to_string(i);
             if(ImGui::InputText(tagD.c_str(), &perk.second)) {}
             ImGui::TextWrapped(perk.second.c_str());
+            ImGui::SetWindowFontScale(0.5f);
+            ImGui::Text("");
+            ImGui::SetWindowFontScale(1.0f);
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.0f, 0.0f, 1.0f));
+            if (ImGui::Button("Delete"))
+            {
+                ImGui::OpenPopup("Delete Perk/Trait");
+            }
+            ImGui::PopStyleColor();
+            ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+            ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+            if (ImGui::BeginPopupModal("Delete Perk/Trait", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+            {
+                ImGui::Text("Are you sure you want to remove this perk/trait:");
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(m_character.traits_perks[i].first.c_str());
+                ImGui::SetWindowFontScale(1.0f);
+                ImGui::Separator();
+                if (ImGui::Button("Confirm", ImVec2(120, 0)))
+                {
+                    m_character.perk_index_marked_for_delete = i;
+
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+                ImGui::EndPopup();
+            }
         }
     }
     ImGui::End();
