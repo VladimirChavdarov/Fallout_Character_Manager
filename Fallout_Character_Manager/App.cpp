@@ -871,7 +871,8 @@ void App::PerkWindow()
             ImGui::Text("");
             ImGui::SetWindowFontScale(1.0f);
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.0f, 0.0f, 1.0f));
-            if (ImGui::Button("Delete"))
+            string s = "Delete##" + perk.first;
+            if (ImGui::Button(s.c_str()))
             {
                 ImGui::OpenPopup("Delete Perk/Trait");
             }
@@ -1509,7 +1510,7 @@ void App::CatalogueWindow()
         //new_item_props.cost = 0;
         //new_item_props.description = "no description";
         //new_item_props.load = 0.0f;
-        static pair<string, tbl::misc> item = { "[new item]", {0, 0, "no description", 0.0f}};
+        static pair<string, tbl::misc> item = { "[new item]", {1, 0, "no description", 0.0f}};
 
         //ImGui::Text("This mod can't be applied to the equipped item.\nPlease equip another item and try again.");
         ImGui::InputText("Name", &item.first);
@@ -5103,24 +5104,30 @@ bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const stri
                 ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.0f, 0.0f, 1.0f));
                 if (ImGui::Button("Delete"))
                 {
-                    m_character.item_index_marked_for_delete = index;
-                    selected_item = "";
-                    ImGui::OpenPopup("Item deleted.");
+                    //m_character.item_index_marked_for_delete = index;
+                    //selected_item = "";
+                    ImGui::OpenPopup("Delete Item");
                 }
                 ImGui::PopStyleColor();
 
                 ImVec2 center = ImGui::GetMainViewport()->GetCenter();
                 ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-                if (ImGui::BeginPopupModal("Item deleted.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                if (ImGui::BeginPopupModal("Delete Item", NULL, ImGuiWindowFlags_AlwaysAutoResize))
                 {
-                    ImGui::Text("Item deleted successfully.");
+                    ImGui::Text("Are you sure you want to remove this item:");
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(item.first.c_str());
+                    ImGui::SetWindowFontScale(1.0f);
                     ImGui::Separator();
-
-                    if (ImGui::Button("OK", ImVec2(120, 0)))
+                    if (ImGui::Button("Confirm", ImVec2(120, 0)))
                     {
+                        m_character.item_index_marked_for_delete = index;
+                        selected_item = "";
+
                         ImGui::CloseCurrentPopup();
                     }
-                    ImGui::SetItemDefaultFocus();
+                    ImGui::SameLine();
+                    if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
                     ImGui::EndPopup();
                 }
 
@@ -5132,9 +5139,10 @@ bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const stri
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected)
                 ImGui::SetItemDefaultFocus();
+
+            index++;
         }
         ImGui::EndListBox();
-        index++;
     }
 
     return new_select;
