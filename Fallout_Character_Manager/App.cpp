@@ -5069,12 +5069,14 @@ bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const stri
             {
                 new_select = true;
                 selected_item = item.first;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.0f, 0.0f, 1.0f));
                 if (ImGui::Button("Delete"))
                 {
                     m_character.item_index_marked_for_delete = index;
                     selected_item = "";
                     ImGui::OpenPopup("Item deleted.");
                 }
+                ImGui::PopStyleColor();
 
                 ImVec2 center = ImGui::GetMainViewport()->GetCenter();
                 ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
