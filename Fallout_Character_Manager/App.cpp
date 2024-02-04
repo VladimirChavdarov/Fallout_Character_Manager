@@ -160,7 +160,10 @@ void App::BioWindow()
         {
             const bool is_selected = (m_character.race == r);
             if (ImGui::Selectable(r.c_str(), is_selected))
+            {
                 m_character.race = r;
+                //m_character.CalculateCarryLoad();
+            }
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected)
                 ImGui::SetItemDefaultFocus();

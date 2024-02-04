@@ -89,7 +89,11 @@ void Character::CalculateHPSP()
 
 void Character::CalculateCarryLoad()
 {
-    carry_capacity = static_cast<float>(special[str] * 10.0f) + carry_capacity_modifier;
+    if (race == "Super Mutant" || race == "Nightkin")
+        carry_capacity = static_cast<float>(special[str] * 10.0f) + carry_capacity_modifier + 40.0f;
+    else
+        carry_capacity = static_cast<float>(special[str] * 10.0f) + carry_capacity_modifier;
+    
     carry_load = 0.0f;
 
     // armor
