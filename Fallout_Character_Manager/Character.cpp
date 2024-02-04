@@ -112,6 +112,90 @@ void Character::CalculateCarryLoad()
     carry_load += GetItemLoadFromCategory(junk);
 }
 
+void Character::DeleteItems()
+{
+    if (armor_index_marked_for_delete != -1)
+    {
+        auto it = armors.begin() + armor_index_marked_for_delete;
+        armors.erase(it);
+        armor_index_marked_for_delete = -1;
+    }
+
+    if (weapon_index_marked_for_delete != -1)
+    {
+        auto it = weapons.begin() + weapon_index_marked_for_delete;
+        weapons.erase(it);
+        weapon_index_marked_for_delete = -1;
+    }
+
+    if (item_index_marked_for_delete != -1)
+    {
+        switch (item_category)
+        {
+        case 9: // ammo
+        {
+            auto it = ammos.begin() + item_index_marked_for_delete;
+            ammos.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 11: // explosives thrown
+        {
+            auto it = explosives.begin() + item_index_marked_for_delete;
+            explosives.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 12: // explosives placed
+        {
+            auto it = explosives.begin() + item_index_marked_for_delete;
+            explosives.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 13: // gear
+        {
+            auto it = gear.begin() + item_index_marked_for_delete;
+            gear.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 15: // foods and drinks
+        {
+            auto it = foods_drinks.begin() + item_index_marked_for_delete;
+            foods_drinks.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 16: // medicine items
+        {
+            auto it = medicine.begin() + item_index_marked_for_delete;
+            medicine.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 17: // chems
+        {
+            auto it = chems.begin() + item_index_marked_for_delete;
+            chems.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        case 23: // junk
+        {
+            auto it = junk.begin() + item_index_marked_for_delete;
+            junk.erase(it);
+            item_index_marked_for_delete = -1;
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+    CalculateCarryLoad();
+}
+
 template <typename Container>
 float GetItemLoadFromCategory(const Container& category)
 {

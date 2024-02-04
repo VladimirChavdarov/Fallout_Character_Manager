@@ -55,6 +55,8 @@ void App::Run()
     InfoWindow();
     InventoryWindow();
 
+    m_character.DeleteItems();
+
 	// Render All Windows
 	//Render();
 }
@@ -916,6 +918,35 @@ void App::EquippedWindow()
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(60);
                 ImGui::InputFloat("##ArmorLoad", &m_character.armors[m_character.armor_index].second.load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
+                // delete
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.0f, 0.0f, 1.0f));
+                ImGui::SetCursorPos(ImVec2(700, 200));
+                if (ImGui::Button("Delete"))
+                {
+                    ImGui::OpenPopup("Delete Armor");
+                }
+                ImGui::PopStyleColor();
+                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                if (ImGui::BeginPopupModal("Delete Armor", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                {
+                    ImGui::Text("Are you sure you want to remove this armor:");
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(m_character.armors[m_character.armor_index].first.c_str());
+                    ImGui::SetWindowFontScale(1.0f);
+                    ImGui::Separator();
+                    if (ImGui::Button("Confirm", ImVec2(120, 0)))
+                    {
+                        m_character.armor_index_marked_for_delete = m_character.armor_index;
+                        m_character.selected_armor = "";
+                        m_character.selected_armor = -1;
+
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SameLine();
+                    if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+                    ImGui::EndPopup();
+                }
             }
             ImGui::EndTabItem();
         }
@@ -1015,6 +1046,35 @@ void App::EquippedWindow()
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(60);
                 ImGui::InputFloat("##WeaponLoad", &m_character.weapons[m_character.weapon_index].second.load, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
+                // delete
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.0f, 0.0f, 1.0f));
+                ImGui::SetCursorPos(ImVec2(700, 200));
+                if (ImGui::Button("Delete"))
+                {
+                    ImGui::OpenPopup("Delete Weapon");
+                }
+                ImGui::PopStyleColor();
+                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                if (ImGui::BeginPopupModal("Delete Weapon", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                {
+                    ImGui::Text("Are you sure you want to remove this weapon:");
+                    ImGui::SetWindowFontScale(1.8f);
+                    ImGui::Text(m_character.weapons[m_character.weapon_index].first.c_str());
+                    ImGui::SetWindowFontScale(1.0f);
+                    ImGui::Separator();
+                    if (ImGui::Button("Confirm", ImVec2(120, 0)))
+                    {
+                        m_character.weapon_index_marked_for_delete = m_character.weapon_index;
+                        m_character.selected_weapon = "";
+                        m_character.selected_weapon = -1;
+
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SameLine();
+                    if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+                    ImGui::EndPopup();
+                }
             }
             ImGui::EndTabItem();
         }
@@ -1917,161 +1977,164 @@ void App::InfoWindow()
     }
     else
     {
-        switch (m_character.item_category)
+        if (m_character.item_index >= 0)
         {
-        case ammo:
-        {
-            pair<string, tbl::ammo> ammo = m_character.ammos[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(ammo.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost per bullet: " + to_string(ammo.second.cost);
-            ImGui::Text(cost.c_str());
-            string pack_size = "Pack Size: " + to_string(ammo.second.pack_size);
-            ImGui::Text(pack_size.c_str());
-            string load = "Load: " + to_string(ammo.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case explosives_thrown:
-        {
-            pair<string, tbl::explosive> explosive = m_character.explosives[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(explosive.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(explosive.second.cost);
-            ImGui::Text(cost.c_str());
-            string ap = "Action Points: " + to_string(explosive.second.ap);
-            ImGui::Text(ap.c_str());
-            string dmg = "Damage: " + explosive.second.dmg;
-            ImGui::Text(dmg.c_str());
-            string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
-            ImGui::Text(range_or_arm_dc.c_str());
-            string aoe = "Area of Effect: " + explosive.second.aoe;
-            ImGui::Text(aoe.c_str());
-            ImGui::Text("--- Props ---");
-            for (auto& prop : explosive.second.props)
+            switch (m_character.item_category)
             {
-                string s = prop.first + ": " + prop.second.description;
-                ImGui::Text(s.c_str());
-            }
-            ImGui::Text("-------------");
-            string load = "Load: " + to_string(explosive.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case explosives_placed:
-        {
-            pair<string, tbl::explosive> explosive = m_character.explosives[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(explosive.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(explosive.second.cost);
-            ImGui::Text(cost.c_str());
-            string ap = "Action Points: " + to_string(explosive.second.ap);
-            ImGui::Text(ap.c_str());
-            string dmg = "Damage: " + explosive.second.dmg;
-            ImGui::Text(dmg.c_str());
-            string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
-            ImGui::Text(range_or_arm_dc.c_str());
-            string aoe = "Area of Effect: " + explosive.second.aoe;
-            ImGui::Text(aoe.c_str());
-            ImGui::Text("--- Props ---");
-            for (auto& prop : explosive.second.props)
+            case ammo:
             {
-                string s = prop.first + ": " + prop.second.description;
-                ImGui::Text(s.c_str());
+                pair<string, tbl::ammo> ammo = m_character.ammos[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(ammo.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost per bullet: " + to_string(ammo.second.cost);
+                ImGui::Text(cost.c_str());
+                string pack_size = "Pack Size: " + to_string(ammo.second.pack_size);
+                ImGui::Text(pack_size.c_str());
+                string load = "Load: " + to_string(ammo.second.load);
+                ImGui::Text(load.c_str());
+                break;
             }
-            ImGui::Text("-------------");
-            string load = "Load: " + to_string(explosive.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case food_drinks:
-        {
-            pair<string, tbl::food_drink> food_drink = m_character.foods_drinks[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(food_drink.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(food_drink.second.cost);
-            ImGui::Text(cost.c_str());
-            ImGui::Text("--- Props ---");
-            for (auto& prop : food_drink.second.props)
+            case explosives_thrown:
             {
-                string s = prop.first + ": " + prop.second.description;
-                ImGui::Text(s.c_str());
+                pair<string, tbl::explosive> explosive = m_character.explosives[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(explosive.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(explosive.second.cost);
+                ImGui::Text(cost.c_str());
+                string ap = "Action Points: " + to_string(explosive.second.ap);
+                ImGui::Text(ap.c_str());
+                string dmg = "Damage: " + explosive.second.dmg;
+                ImGui::Text(dmg.c_str());
+                string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
+                ImGui::Text(range_or_arm_dc.c_str());
+                string aoe = "Area of Effect: " + explosive.second.aoe;
+                ImGui::Text(aoe.c_str());
+                ImGui::Text("--- Props ---");
+                for (auto& prop : explosive.second.props)
+                {
+                    string s = prop.first + ": " + prop.second.description;
+                    ImGui::Text(s.c_str());
+                }
+                ImGui::Text("-------------");
+                string load = "Load: " + to_string(explosive.second.load);
+                ImGui::Text(load.c_str());
+                break;
             }
-            ImGui::Text("-------------");
-            string load = "Load: " + to_string(food_drink.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case gear:
-        {
-            pair<string, tbl::misc> gear = m_character.gear[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(gear.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(gear.second.cost);
-            ImGui::Text(cost.c_str());
-            string description = "Description: " + gear.second.description;
-            ImGui::Text(description.c_str());
-            string load = "Load: " + to_string(gear.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case medicine:
-        {
-            pair<string, tbl::misc> medicine = m_character.medicine[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(medicine.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(medicine.second.cost);
-            ImGui::Text(cost.c_str());
-            string description = "Description: " + medicine.second.description;
-            ImGui::Text(description.c_str());
-            string load = "Load: " + to_string(medicine.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case chems:
-        {
-            pair<string, tbl::misc> chems = m_character.chems[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(chems.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(chems.second.cost);
-            ImGui::Text(cost.c_str());
-            string description = "Description: " + chems.second.description;
-            ImGui::Text(description.c_str());
-            string load = "Load: " + to_string(chems.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        case junk:
-        {
-            pair<string, tbl::misc> junk = m_character.junk[m_character.item_index];
-            ImGui::PushTextWrapPos(780.0f);
-            ImGui::SetWindowFontScale(1.8f);
-            ImGui::Text(junk.first.c_str());
-            ImGui::SetWindowFontScale(1.2f);
-            string cost = "Cost: " + to_string(junk.second.cost);
-            ImGui::Text(cost.c_str());
-            string description = "Description: " + junk.second.description;
-            ImGui::Text(description.c_str());
-            string load = "Load: " + to_string(junk.second.load);
-            ImGui::Text(load.c_str());
-            break;
-        }
-        default:
-            break;
+            case explosives_placed:
+            {
+                pair<string, tbl::explosive> explosive = m_character.explosives[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(explosive.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(explosive.second.cost);
+                ImGui::Text(cost.c_str());
+                string ap = "Action Points: " + to_string(explosive.second.ap);
+                ImGui::Text(ap.c_str());
+                string dmg = "Damage: " + explosive.second.dmg;
+                ImGui::Text(dmg.c_str());
+                string range_or_arm_dc = "Range or Arm DC: " + explosive.second.range_or_arm_dc;
+                ImGui::Text(range_or_arm_dc.c_str());
+                string aoe = "Area of Effect: " + explosive.second.aoe;
+                ImGui::Text(aoe.c_str());
+                ImGui::Text("--- Props ---");
+                for (auto& prop : explosive.second.props)
+                {
+                    string s = prop.first + ": " + prop.second.description;
+                    ImGui::Text(s.c_str());
+                }
+                ImGui::Text("-------------");
+                string load = "Load: " + to_string(explosive.second.load);
+                ImGui::Text(load.c_str());
+                break;
+            }
+            case food_drinks:
+            {
+                pair<string, tbl::food_drink> food_drink = m_character.foods_drinks[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(food_drink.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(food_drink.second.cost);
+                ImGui::Text(cost.c_str());
+                ImGui::Text("--- Props ---");
+                for (auto& prop : food_drink.second.props)
+                {
+                    string s = prop.first + ": " + prop.second.description;
+                    ImGui::Text(s.c_str());
+                }
+                ImGui::Text("-------------");
+                string load = "Load: " + to_string(food_drink.second.load);
+                ImGui::Text(load.c_str());
+                break;
+            }
+            case gear:
+            {
+                pair<string, tbl::misc> gear = m_character.gear[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(gear.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(gear.second.cost);
+                ImGui::Text(cost.c_str());
+                string description = "Description: " + gear.second.description;
+                ImGui::Text(description.c_str());
+                string load = "Load: " + to_string(gear.second.load);
+                ImGui::Text(load.c_str());
+                break;
+            }
+            case medicine:
+            {
+                pair<string, tbl::misc> medicine = m_character.medicine[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(medicine.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(medicine.second.cost);
+                ImGui::Text(cost.c_str());
+                string description = "Description: " + medicine.second.description;
+                ImGui::Text(description.c_str());
+                string load = "Load: " + to_string(medicine.second.load);
+                ImGui::Text(load.c_str());
+                break;
+            }
+            case chems:
+            {
+                pair<string, tbl::misc> chems = m_character.chems[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(chems.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(chems.second.cost);
+                ImGui::Text(cost.c_str());
+                string description = "Description: " + chems.second.description;
+                ImGui::Text(description.c_str());
+                string load = "Load: " + to_string(chems.second.load);
+                ImGui::Text(load.c_str());
+                break;
+            }
+            case junk:
+            {
+                pair<string, tbl::misc> junk = m_character.junk[m_character.item_index];
+                ImGui::PushTextWrapPos(780.0f);
+                ImGui::SetWindowFontScale(1.8f);
+                ImGui::Text(junk.first.c_str());
+                ImGui::SetWindowFontScale(1.2f);
+                string cost = "Cost: " + to_string(junk.second.cost);
+                ImGui::Text(cost.c_str());
+                string description = "Description: " + junk.second.description;
+                ImGui::Text(description.c_str());
+                string load = "Load: " + to_string(junk.second.load);
+                ImGui::Text(load.c_str());
+                break;
+            }
+            default:
+                break;
+            }
         }
     }
 
@@ -4963,6 +5026,7 @@ bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const stri
     if (ImGui::BeginListBox(tag.c_str(), size))
     {
         // Display the items in the ListBox
+        int index = 0;
         for (auto& item : list)
         {
             const bool is_selected = (selected_item == item.first);
@@ -4972,12 +5036,43 @@ bool App::DisplayListInventory(const ImVec2& pos, const ImVec2& size, const stri
                 new_select = true;
                 selected_item = item.first;
             }
+            if (ImGui::BeginPopupContextItem())
+            {
+                new_select = true;
+                selected_item = item.first;
+                if (ImGui::Button("Delete"))
+                {
+                    m_character.item_index_marked_for_delete = index;
+                    selected_item = "";
+                    ImGui::OpenPopup("Item deleted.");
+                }
+
+                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                if (ImGui::BeginPopupModal("Item deleted.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                {
+                    ImGui::Text("Item deleted successfully.");
+                    ImGui::Separator();
+
+                    if (ImGui::Button("OK", ImVec2(120, 0)))
+                    {
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SetItemDefaultFocus();
+                    ImGui::EndPopup();
+                }
+
+                ImGui::EndPopup();
+            }
+            ImGui::SetItemTooltip("Right-click to open popup");
+
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected)
                 ImGui::SetItemDefaultFocus();
         }
         ImGui::EndListBox();
+        index++;
     }
 
     return new_select;

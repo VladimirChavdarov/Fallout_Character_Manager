@@ -1,2 +1,1 @@
-name: Cryo Mine	cost: 140	ap: 6	dmg: 4d6 cold.	range_or_arm_dc: 8	aoe: 10ft radius	props: 2	Freezing|Proximity|	load: 6.000000	amount: 0	
-name: Bottlecap Mine	cost: 250	ap: 6	dmg: 4d6 explosive and 6d6 slashing.	range_or_arm_dc: 2	aoe: 5ft. / 20ft radius	props: 4	Deafening: 10ft|Destructive|Mangle|Proximity|	load: 8.000000	amount: 0	
+name: Bottlecap Mine	cost: 250	ap: 6	dmg: 4d6 explosive and 6d6 slashing.	range_or_arm_dc: 2	aoe: 5ft. / 20ft radius	props: 4	Deafening: 10ft|Destructive|Mangle|Proximity|	load: 8.000000	amount: 1	

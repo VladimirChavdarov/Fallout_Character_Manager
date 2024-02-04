@@ -1,2 +1,2 @@
-name: "Bag, Backpack."	cost: 20	description: 	load: 0.000000	amount: 0	
-name: Binoculars	cost: 90	description: 	load: 2.000000	amount: 0	
+name: "Bag, Backpack."	cost: 20	description: 	load: 0.000000	amount: 1	
+name: Binoculars	cost: 90	description: 	load: 2.000000	amount: 1	

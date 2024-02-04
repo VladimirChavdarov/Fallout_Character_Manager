@@ -1,1 +1,0 @@
-name: steel	cost: 1	description: 	load: 1.000000	amount: 1	

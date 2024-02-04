@@ -56,6 +56,9 @@ public:
 	// also calculates carry capacity just in case
 	void CalculateCarryLoad();
 
+	// delete armor/weapon/item marked for delete in this frame.
+	void DeleteItems();
+
 public:
 	string m_filename = ""; // dir + filename to get the full path to the character folder
 	string m_dir = "../Fallout_Character_Manager/characters/"; // dir + filename to get the full path to the character folder
@@ -119,9 +122,11 @@ public:
 	vector<pair<string, tbl::armor>> armors; //not a map cuz you may have more of the same armor (Askata s 40 kopiq be like)
 	string selected_armor = "";
 	int armor_index = -1;
+	int armor_index_marked_for_delete = -1;
 	vector<pair<string, tbl::weapon>> weapons; //not a map cuz you may have more of the same weapon (Askata s 40 kopiq be like)
 	string selected_weapon = "";
 	int weapon_index = -1;
+	int weapon_index_marked_for_delete = -1;
 	vector<pair<string, tbl::ammo>> ammos;
 	vector<pair<string, tbl::explosive>> explosives;
 	vector<pair<string, tbl::food_drink>> foods_drinks;
@@ -132,6 +137,7 @@ public:
 	string selected_item = "";
 	int item_index = -1;
 	int item_category = 0;
+	int item_index_marked_for_delete = -1;
 
 	// gameplay
 	map<string, tbl::limb_condition> head_conditions;

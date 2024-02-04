@@ -1,3 +1,0 @@
-name: Bufftats	cost: 100	description: 	load: 1.000000	amount: 0	
-name: Berry Mentats	cost: 120	description: 	load: 1.000000	amount: 0	
-name: Daddy-O	cost: 80	description: 	load: 1.000000	amount: 1	
