@@ -1,6 +1,8 @@
 # Fallout_Character_Manager
 A digital character sheet for the [Fallout TTRPG](https://docs.google.com/document/d/1mjhbjCLrqe7kXjxWgTfMIoh_pArHUIKW8HdEWpAv90I/edit?usp=sharing) made by [XP to Level 3](https://www.youtube.com/@XPtoLevel3)
 
+If you just want the application without the source-code, you can download it here: [Fallout Character Manager](https://drive.google.com/drive/folders/1x28QR1BlmR0xQWp1LxEahy2tPybZ5few?usp=sharing)
+
 ![showcase](Fallout_Character_Manager/assets/showcase1.png)
 
 My friends and I started a campaign but I found tracking resources a bit too hard, especially when I tried generating NPCs with interesting equipment and loot. This started as a Random NPC generator but I later saw the potential to turn the application into a tool which can assist players and DMs alike.
