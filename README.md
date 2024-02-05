@@ -23,6 +23,8 @@ This section briefly explains what is the role of each field and what they affec
 
  - **Power Armor** is not included yet.
 
+ - Since version `2.0` of the System doesn't have prices for some items, I took the liberty to write them down based on `1.6`. I also did some balancing changes. If people like the app, I will make a separate release with the original information from `2.0`.
+
 ## Menu Bar
 
 ![menu](Fallout_Character_Manager/assets/menu.png)
