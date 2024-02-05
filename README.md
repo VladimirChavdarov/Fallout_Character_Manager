@@ -19,6 +19,10 @@ This section briefly explains what is the role of each field and what they affec
 
 ## General Remarks
 
+ - The layout is meant to work on **1920x1080** resolution. If your PC is set to lower resolution, some windows might be outside the screen. The app can still be used, it will just be slightly more inconvenient.
+
+ - The Character Manager works on PC only.
+
  - The Character Manager doesn't play nice with things that have the same name. For example two perks named both `"Pain Train"` or two weapons both named `"Commie Whacker"`. It shouldn't lead to any crashes but it is a bit annoying to deal with and you can lose information. Keep names unique in order to avoid headaches.
 
  - **Power Armor** is not included yet.
